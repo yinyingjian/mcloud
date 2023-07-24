@@ -1,0 +1,25 @@
+import "./assets/main.css";
+
+import { createApp } from "vue";
+import { createPinia } from "pinia";
+
+import App from "./App.vue";
+import router from "./router";
+
+const app = createApp(App);
+
+app.use(createPinia());
+app.use(router);
+
+// 加载UI组件
+import ArcoVue from '@arco-design/web-vue'
+// 引入UI组件的样式库
+import '@arco-design/web-vue/dist/arco.css'
+// 配置Vue实例使用 ArcoVue UI组件库
+app.use(ArcoVue)
+
+// 额外引入图标库
+import ArcoVueIcon from '@arco-design/web-vue/es/icon'
+app.use(ArcoVueIcon)
+
+app.mount("#app");
