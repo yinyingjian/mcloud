@@ -50,7 +50,7 @@ const handleSubmit = async (data) => {
             Message.error(`登录失败: ${error}`)
         }
 
-        let to = 'BackendBlogList'
+        let to = 'HomePage'
         // 获取当前url的query参数, 可以通过获取当前路由 /login?to=TagList
         // useRoute vue-router 来提供获取当前页面的路由对象, Route对象
         // {to: 'TagList'}
