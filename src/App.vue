@@ -5,10 +5,16 @@ import { useRouter } from 'vue-router'
 const router = useRouter()
 const Logout = () => {
   app.value.isLogin = false
-  router.push({name: "LoginPage"})
+  router.push({ name: "LoginPage" })
 }
 const Login = () => {
-  router.push({name: "LoginPage"})
+  router.push({ name: "LoginPage" })
+}
+const JumpToAdmin = () => {
+  router.push({ name: "AdminPage" })
+}
+const menuItemClickHandler = (routeName) => {
+  router.push({ name: routeName })
 }
 </script>
 
@@ -17,16 +23,24 @@ const Login = () => {
   <div class="nav">
     <!-- logo显示区 -->
     <div>mcloud</div>
+    <!-- 空间选择区 -->
+    <div class="namespace-choice" v-if="app.isLogin">
+      <a-select placeholder="请选择工作空间" :bordered="false">
+        <a-option>Default</a-option>
+      </a-select>
+    </div>
+
     <!-- 系统菜单 -->
     <div v-if="app.isLogin" class="nav-menu">
-      <a-menu mode="horizontal" :default-selected-keys="['1']">
+      <a-menu mode="horizontal" :default-selected-keys="['HomePage']" @menu-item-click="menuItemClickHandler">
         <a-menu-item key="HomePage">仪表盘</a-menu-item>
-        <a-menu-item key="2">研发交付</a-menu-item>
+        <a-menu-item key="ResourcePage">资源管理</a-menu-item>
+        <a-menu-item key="DevelopPage">研发交付</a-menu-item>
       </a-menu>
     </div>
     <!-- 登录操作区 -->
     <div class="nav-right">
-      <a-button type="text" @click="JumpToBackend">管理后台</a-button>
+      <a-button type="text" @click="JumpToAdmin">管理后台</a-button>
       <a-button v-if="app.isLogin" type="text" @click="Logout">退出</a-button>
       <a-button v-else type="text" @click="Login">登录</a-button>
     </div>
@@ -63,10 +77,14 @@ const Login = () => {
 }
 
 .nav :deep() .arco-menu-inner {
-  padding: -7px; 
+  padding: -7px;
 }
 
 .nav :deep() .arco-menu-selected-label {
   bottom: -7px;
+}
+
+.namespace-choice {
+  width: 180px;
 }
 </style>

@@ -2,7 +2,9 @@
 </script>
 
 <template>
-    <div></div>
+    <div>
+        ServiceList
+    </div>
 </template>
 
 <style scoped>

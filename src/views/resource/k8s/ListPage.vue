@@ -3,7 +3,7 @@
 
 <template>
     <div>
-        User List
+        K8s
     </div>
 </template>
 

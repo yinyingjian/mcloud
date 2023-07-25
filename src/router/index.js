@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from "vue-router";
-import HomePage from '../views/home/HomePage.vue'
+import LoginPage from '../views/login/LoginPage.vue'
 import { beforeEachHanler } from './permission'
 
 const router = createRouter({
@@ -9,52 +9,68 @@ const router = createRouter({
     {
       path: "/login",
       name: "LoginPage",
-      component: () => import("@/views/login/LoginPage.vue"),
+      component: () => LoginPage,
     },
     // 个人主页
     {
       path: '/',
       name: 'HomePage',
-      component: HomePage
+      component: import("@/views/home/HomePage.vue")
     },
     // 后台管理
     {
       path: "/admin",
-      name: "DomainPage",
+      name: "AdminPage",
       component: () => import("@/views/admin/LayoutPage.vue"),
+      redirect: { name: 'UserList' },
       children: [
         {
           path: "user/list",
           name: "UserList",
-          component: () => import("@/views/admin/user/ListPage.vue"), 
+          component: () => import("@/views/admin/user/ListPage.vue"),
         },
         {
           path: "namespace/list",
           name: "NamespaceList",
-          component: () => import("@/views/admin/namespace/ListPage.vue"), 
+          component: () => import("@/views/admin/namespace/ListPage.vue"),
         },
         {
           path: "role/list",
           name: "RoleList",
-          component: () => import("@/views/admin/role/ListPage.vue"), 
+          component: () => import("@/views/admin/role/ListPage.vue"),
         },
         {
           path: "label/list",
           name: "LabelList",
-          component: () => import("@/views/admin/label/ListPage.vue"), 
+          component: () => import("@/views/admin/label/ListPage.vue"),
         }
       ]
     },
     // 空间设置
     {
       path: "/setting",
-      name: "NamespaceSetting",
+      name: "SettingPage",
       component: () => import("@/views/setting/LayoutPage.vue"),
+      redirect: { name: 'PolicyList' },
       children: [
         {
           path: "policy/list",
           name: "PolicyList",
-          component: () => import("@/views/setting/policy/ListPage.vue"), 
+          component: () => import("@/views/setting/policy/ListPage.vue"),
+        }
+      ]
+    },
+    // 资源管理
+    {
+      path: "/resource",
+      name: "ResourcePage",
+      component: () => import("@/views/resource/LayoutPage.vue"),
+      redirect: { name: 'K8sList' },
+      children: [
+        {
+          path: "k8s/list",
+          name: "K8sList",
+          component: () => import("@/views/resource/k8s/ListPage.vue"),
         }
       ]
     },
@@ -63,11 +79,12 @@ const router = createRouter({
       path: "/develop",
       name: "DevelopPage",
       component: () => import("@/views/develop/LayoutPage.vue"),
+      redirect: { name: 'ServiceList' },
       children: [
         {
           path: "service/list",
           name: "ServiceList",
-          component: () => import("@/views/develop/service/ListPage.vue"), 
+          component: () => import("@/views/develop/service/ListPage.vue"),
         }
       ]
     },
