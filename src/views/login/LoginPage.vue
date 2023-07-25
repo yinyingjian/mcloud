@@ -2,7 +2,7 @@
     <div class="login-form">
         <a-form :model="form" :style="{ width: '480px' }" @submit="handleSubmit">
             <a-form-item>
-                <div class="login-title">欢迎登录Go11博客系统</div>
+                <div class="login-title">欢迎登录研发管理平台</div>
             </a-form-item>
             <!-- 补充规则校验条件, 校验规则和field的设置联合一起生效 -->
             <a-form-item field="username" :rules="[{ required: true, message: '请输入用户名' }]"
