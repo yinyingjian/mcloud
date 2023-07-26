@@ -8,9 +8,9 @@ const menuItemClickHandler = (routeName) => {
 </script>
 
 <template>
-  <div class="backend">
+  <div class="top-bar">
     <!-- 菜单导航区 -->
-    <div class="menu">
+    <div class="top-menu">
       <a-menu
         :style="{ width: '200px', height: '100%' }"
         :default-open-keys="['DevelopPage']"
@@ -43,18 +43,3 @@ const menuItemClickHandler = (routeName) => {
     </div>
   </div>
 </template>
-<style scoped>
-.backend {
-  display: flex;
-  height: calc(100vh - 47px);
-}
-
-.menu {
-  border-right: 1px solid rgb(229, 230, 235);
-}
-
-.main {
-  padding: 8px;
-  width: 100%;
-}
-</style>

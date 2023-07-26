@@ -4,3 +4,17 @@
   margin: 0 auto;
   font-weight: normal;
 }
+
+.top-bar {
+  display: flex;
+  height: calc(100vh - 47px);
+}
+
+.top-menu {
+  border-right: 1px solid rgb(229, 230, 235);
+}
+
+.main {
+  padding: 8px;
+  width: 100%;
+}

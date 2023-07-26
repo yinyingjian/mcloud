@@ -75,25 +75,30 @@ onBeforeMount(() => {
       <a-menu
         mode="horizontal"
         :default-selected-keys="['HomePage']"
+        :selected-keys="app.system"
         @menu-item-click="menuItemClickHandler"
       >
-        <a-menu-item key="HomePage">仪表盘</a-menu-item>
+        <a-menu-item key="HomePage">工作台</a-menu-item>
+        <a-menu-item key="SettingPage">空间管理</a-menu-item>
         <a-menu-item key="ResourcePage">资源管理</a-menu-item>
         <a-menu-item key="DevelopPage">研发交付</a-menu-item>
       </a-menu>
     </div>
     <!-- 登录操作区 -->
     <div class="nav-right">
-      <a-button
-        v-if="app.token.user_type === 'SUPPER' || app.token.user_type === 'PRIMARY'"
-        type="text"
-        @click="JumpToAdmin"
-      >
-        <template #icon>
-          <icon-tool />
-        </template>
-        管理后台
-      </a-button>
+      <div class="user-op">
+        <a-button
+          v-if="app.token.user_type === 'SUPPER' || app.token.user_type === 'PRIMARY'"
+          type="text"
+          @click="JumpToAdmin"
+        >
+          <template #icon>
+            <icon-tool />
+          </template>
+          管理后台
+        </a-button>
+      </div>
+
       <div class="user-info">
         <a-button v-if="app.isLogin" type="text" @click="Logout">退出</a-button>
         <a-button v-else type="text" @click="Login">登录</a-button>
@@ -171,5 +176,11 @@ onBeforeMount(() => {
   align-items: center;
   height: 100%;
   border-left: 1px solid rgb(229, 230, 235);
+}
+
+.user-op {
+  display: flex;
+  align-items: center;
+  height: 100%;
 }
 </style>

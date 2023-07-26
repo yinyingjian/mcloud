@@ -77,12 +77,20 @@ const router = createRouter({
       path: '/setting',
       name: 'SettingPage',
       component: () => import('@/views/setting/LayoutPage.vue'),
-      redirect: { name: 'PolicyList' },
+      redirect: { name: 'NamespacePermission' },
       children: [
         {
-          path: 'policy/list',
-          name: 'PolicyList',
-          component: () => import('@/views/setting/policy/ListPage.vue')
+          path: 'permission',
+          name: 'NamespacePermission',
+          component: () => import('@/components/RedirectPage.vue'),
+          redirect: { name: 'NamespacePolicyList' },
+          children: [
+            {
+              path: 'policy/list',
+              name: 'NamespacePolicyList',
+              component: () => import('@/views/setting/policy/ListPage.vue')
+            }
+          ]
         }
       ]
     },

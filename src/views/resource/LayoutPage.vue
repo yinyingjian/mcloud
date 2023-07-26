@@ -8,9 +8,9 @@ const menuItemClickHandler = (routeName) => {
 </script>
 
 <template>
-  <div class="backend">
+  <div class="top-bar">
     <!-- 菜单导航区 -->
-    <div class="menu">
+    <div class="top-menu">
       <a-menu
         :style="{ width: '200px', height: '100%' }"
         :default-open-keys="['ResourceList']"
@@ -18,6 +18,7 @@ const menuItemClickHandler = (routeName) => {
         show-collapse-button
         breakpoint="xl"
         auto-open
+        auto-open-selected
         @menu-item-click="menuItemClickHandler"
       >
         <a-sub-menu key="ResourceList">
@@ -43,19 +44,3 @@ const menuItemClickHandler = (routeName) => {
     </div>
   </div>
 </template>
-
-<style scoped>
-.backend {
-  display: flex;
-  height: calc(100vh - 47px);
-}
-
-.menu {
-  border-right: 1px solid rgb(229, 230, 235);
-}
-
-.main {
-  padding: 8px;
-  width: 100%;
-}
-</style>
