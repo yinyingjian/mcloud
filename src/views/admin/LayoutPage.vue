@@ -13,14 +13,14 @@ const menuItemClickHandler = (routeName) => {
     <div class="menu">
       <a-menu
         :style="{ width: '200px', height: '100%' }"
-        :default-open-keys="['AdminPage']"
-        :default-selected-keys="['AdminPage_UserList']"
+        :default-open-keys="['PermissionManage']"
+        :default-selected-keys="['PermissionManage_UserList']"
         show-collapse-button
         auto-open
         breakpoint="xl"
         @menu-item-click="menuItemClickHandler"
       >
-        <a-sub-menu key="AdminPage">
+        <a-sub-menu key="PermissionManage">
           <template #icon><icon-lock /></template>
           <template #title>权限管理</template>
           <a-menu-item key="UserList">用户列表</a-menu-item>
@@ -28,11 +28,11 @@ const menuItemClickHandler = (routeName) => {
           <a-menu-item key="RoleList">角色列表</a-menu-item>
           <a-menu-item key="LabelList">标签列表</a-menu-item>
         </a-sub-menu>
-        <a-sub-menu key="AdminPage">
-          <template #icon><icon-common /></template>
-          <template #title>研发工具</template>
-          <a-menu-item key="UserList">Job管理</a-menu-item>
-          <a-menu-item key="NamespaceList">Pipeline模版</a-menu-item>
+        <a-sub-menu key="AuditManage">
+          <template #icon><icon-eye /></template>
+          <template #title>审计管理</template>
+          <a-menu-item key="AuditLoginLog">登录日志</a-menu-item>
+          <a-menu-item key="AuditOperateLog">操作日志</a-menu-item>
         </a-sub-menu>
       </a-menu>
     </div>

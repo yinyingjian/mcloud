@@ -25,8 +25,14 @@ const menuItemClickHandler = (routeName) => {
           <template #title>服务管理</template>
           <a-menu-item key="ServiceList">服务列表</a-menu-item>
           <a-menu-item key="DeployList">部署列表</a-menu-item>
-          <a-menu-item key="TriggerList">触发列表</a-menu-item>
+          <a-menu-item key="TriggerList">触发配置</a-menu-item>
           <a-menu-item key="ApprovalList">上线申请</a-menu-item>
+        </a-sub-menu>
+        <a-sub-menu key="DevToolManage">
+          <template #icon><icon-common /></template>
+          <template #title>研发工具</template>
+          <a-menu-item key="DomainPipelineList">Pipeline模版</a-menu-item>
+          <a-menu-item key="DomainJobList">Job管理</a-menu-item>
         </a-sub-menu>
       </a-menu>
     </div>

@@ -3,7 +3,7 @@ import { app } from '@/stores/localstorage'
 import { useRouter } from 'vue-router'
 import { LIST_NAMESPACE } from '@/api/mcenter/namespace'
 import { CHANGE_NAMESPACE } from '@/api/mcenter/token'
-import { onBeforeMount, reactive, ref } from 'vue'
+import { onBeforeMount, reactive, ref, watch } from 'vue'
 
 const router = useRouter()
 const Logout = () => {
@@ -14,11 +14,19 @@ const Login = () => {
   router.push({ name: 'LoginPage' })
 }
 const JumpToAdmin = () => {
+  app.value.system = 'AdminPage'
   router.push({ name: 'AdminPage' })
 }
 const menuItemClickHandler = (routeName) => {
+  app.value.system = routeName
   router.push({ name: routeName })
 }
+
+// 监听URL变化
+const isAdminPage = ref(app.value.system === 'AdminPage')
+watch(router.currentRoute, (value) => {
+  isAdminPage.value = value.fullPath.indexOf('/admin') === 0
+})
 
 // 查询空间列表
 const currentNamespace = ref(app.value.token.namespace)
@@ -46,7 +54,7 @@ onBeforeMount(() => {
     <!-- logo显示区 -->
     <div class="logo">mcloud</div>
     <!-- 空间选择区 -->
-    <div class="namespace-choice" v-if="app.isLogin">
+    <div v-if="!isAdminPage" class="namespace-choice">
       <a-select
         placeholder="请选择工作空间"
         :bordered="false"
@@ -63,7 +71,7 @@ onBeforeMount(() => {
     </div>
 
     <!-- 系统菜单 -->
-    <div v-if="app.isLogin" class="nav-menu">
+    <div v-if="!isAdminPage" class="nav-menu">
       <a-menu
         mode="horizontal"
         :default-selected-keys="['HomePage']"
@@ -81,6 +89,9 @@ onBeforeMount(() => {
         type="text"
         @click="JumpToAdmin"
       >
+        <template #icon>
+          <icon-tool />
+        </template>
         管理后台
       </a-button>
       <div class="user-info">
@@ -117,6 +128,10 @@ onBeforeMount(() => {
   height: 100%;
   display: flex;
   align-items: center;
+}
+
+.nav-right :deep(.arco-btn-size-medium) {
+  height: 100%;
 }
 
 .nav :deep(.arco-menu) {
@@ -156,9 +171,5 @@ onBeforeMount(() => {
   align-items: center;
   height: 100%;
   border-left: 1px solid rgb(229, 230, 235);
-}
-
-.nav-right :deep(.arco-btn-size-medium) {
-  height: 100%;
 }
 </style>

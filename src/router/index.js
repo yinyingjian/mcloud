@@ -22,27 +22,53 @@ const router = createRouter({
       path: '/admin',
       name: 'AdminPage',
       component: () => import('@/views/admin/LayoutPage.vue'),
-      redirect: { name: 'UserList' },
+      redirect: { name: 'PermissionManage' },
       children: [
         {
-          path: 'user/list',
-          name: 'UserList',
-          component: () => import('@/views/admin/user/ListPage.vue')
+          path: 'permission',
+          name: 'PermissionManage',
+          component: () => import('@/components/RedirectPage.vue'),
+          redirect: { name: 'UserList' },
+          children: [
+            {
+              path: 'user/list',
+              name: 'UserList',
+              component: () => import('@/views/admin/user/ListPage.vue')
+            },
+            {
+              path: 'namespace/list',
+              name: 'NamespaceList',
+              component: () => import('@/views/admin/namespace/ListPage.vue')
+            },
+            {
+              path: 'role/list',
+              name: 'RoleList',
+              component: () => import('@/views/admin/role/ListPage.vue')
+            },
+            {
+              path: 'label/list',
+              name: 'LabelList',
+              component: () => import('@/views/admin/label/ListPage.vue')
+            }
+          ]
         },
         {
-          path: 'namespace/list',
-          name: 'NamespaceList',
-          component: () => import('@/views/admin/namespace/ListPage.vue')
-        },
-        {
-          path: 'role/list',
-          name: 'RoleList',
-          component: () => import('@/views/admin/role/ListPage.vue')
-        },
-        {
-          path: 'label/list',
-          name: 'LabelList',
-          component: () => import('@/views/admin/label/ListPage.vue')
+          path: 'audit',
+          name: 'AuditManage',
+          component: () => import('@/components/RedirectPage.vue'),
+          redirect: { name: 'LoginLog' },
+          children: [
+            {
+              path: 'log/login',
+              name: 'AuditLoginLog',
+              component: () => import('@/views/admin/audit/LoginLog.vue')
+            },
+            {
+              path: 'log/operate',
+              name: 'AuditOperateLog',
+              component: () => import('@/views/admin/audit/OperateLog.vue')
+            }
+          ]
         }
       ]
     },
@@ -122,6 +148,24 @@ const router = createRouter({
       component: () => import('@/views/develop/LayoutPage.vue'),
       redirect: { name: 'ServiceList' },
       children: [
+        {
+          path: 'tool',
+          name: 'DevToolManage',
+          component: () => import('@/components/RedirectPage.vue'),
+          redirect: { name: 'DomainPipelineList' },
+          children: [
+            {
+              path: 'pipeline/list',
+              name: 'DomainPipelineList',
+              component: () => import('@/views/develop/pipeline/ListPage.vue')
+            },
+            {
+              path: 'job/list',
+              name: 'DomainJobList',
+              component: () => import('@/views/develop/job/ListPage.vue')
+            }
+          ]
+        },
         {
           path: 'service/list',
           name: 'ServiceList',
