@@ -15,7 +15,7 @@ const router = createRouter({
     {
       path: '/',
       name: 'HomePage',
-      component: import('@/views/home/HomePage.vue')
+      component: () =>  import('@/views/home/HomePage.vue')
     },
     // 后台管理
     {
