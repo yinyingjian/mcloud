@@ -1,28 +1,39 @@
 <template>
-    <div class="login-form">
-        <a-form :model="form" :style="{ width: '480px' }" @submit="handleSubmit">
-            <a-form-item>
-                <div class="login-title">欢迎登录研发管理平台</div>
-            </a-form-item>
-            <!-- 补充规则校验条件, 校验规则和field的设置联合一起生效 -->
-            <a-form-item field="username" :rules="[{ required: true, message: '请输入用户名' }]"
-                :validate-trigger="['change', 'input']" tooltip="请输入用户名" label="用户名">
-                <!-- 为什么使用v-model 这是一个输入组件, 把用户输入的值 绑定到 form的username属性, -->
-                <a-input v-model="form.username" placeholder="请输入用户名..." />
-            </a-form-item>
-            <a-form-item field="password" :rules="[
-                { required: true, message: '请输入密码' },
-                { minLength: 6, message: '密码至少6位' }
-            ]" :validate-trigger="['change', 'input']" tooltip="请输入密码" label="密码">
-                <a-input-password v-model="form.password" placeholder="请输入密码..." allow-clear />
-            </a-form-item>
-            <a-form-item>
-                <a-button style="width: 100%" html-type="submit">登录</a-button>
-            </a-form-item>
-        </a-form>
-    </div>
+  <div class="login-form">
+    <a-form :model="form" :style="{ width: '480px' }" @submit="handleSubmit">
+      <a-form-item>
+        <div class="login-title">欢迎登录研发管理平台</div>
+      </a-form-item>
+      <!-- 补充规则校验条件, 校验规则和field的设置联合一起生效 -->
+      <a-form-item
+        field="username"
+        :rules="[{ required: true, message: '请输入用户名' }]"
+        :validate-trigger="['change', 'input']"
+        tooltip="请输入用户名"
+        label="用户名"
+      >
+        <!-- 为什么使用v-model 这是一个输入组件, 把用户输入的值 绑定到 form的username属性, -->
+        <a-input v-model="form.username" placeholder="请输入用户名..." />
+      </a-form-item>
+      <a-form-item
+        field="password"
+        :rules="[
+          { required: true, message: '请输入密码' },
+          { minLength: 6, message: '密码至少6位' }
+        ]"
+        :validate-trigger="['change', 'input']"
+        tooltip="请输入密码"
+        label="密码"
+      >
+        <a-input-password v-model="form.password" placeholder="请输入密码..." allow-clear />
+      </a-form-item>
+      <a-form-item>
+        <a-button style="width: 100%" html-type="submit">登录</a-button>
+      </a-form-item>
+    </a-form>
+  </div>
 </template>
-  
+
 <script setup>
 import { reactive } from 'vue'
 import { Message } from '@arco-design/web-vue'
@@ -32,8 +43,8 @@ import { ISSUE_TOKEN } from '@/api/mcenter/token'
 
 // 用户登录数据
 const form = reactive({
-    username: '',
-    password: ''
+  username: '',
+  password: ''
 })
 
 const router = useRouter()
@@ -41,47 +52,45 @@ const route = useRoute()
 
 // 提交处理
 const handleSubmit = async (data) => {
-    if (!data.errors) {
-        try {
-            let resp = await ISSUE_TOKEN(data.values)
-            app.value.isLogin = true
-            app.value.token = resp
-        } catch (error) {
-            Message.error(`登录失败: ${error}`)
-        }
-
-        let to = 'HomePage'
-        // 获取当前url的query参数, 可以通过获取当前路由 /login?to=TagList
-        // useRoute vue-router 来提供获取当前页面的路由对象, Route对象
-        // {to: 'TagList'}
-        if (route.query.to) {
-            to = route.query.to
-        }
-        router.push({ name: to })
+  if (!data.errors) {
+    try {
+      let resp = await ISSUE_TOKEN(data.values)
+      app.value.isLogin = true
+      app.value.token = resp
+    } catch (error) {
+      Message.error(`登录失败: ${error}`)
     }
+
+    let to = 'HomePage'
+    // 获取当前url的query参数, 可以通过获取当前路由 /login?to=TagList
+    // useRoute vue-router 来提供获取当前页面的路由对象, Route对象
+    // {to: 'TagList'}
+    if (route.query.to) {
+      to = route.query.to
+    }
+    router.push({ name: to })
+  }
 }
 </script>
-  
+
 <style scoped>
 .login-form {
-    margin-top: 320px;
-    display: flex;
-    justify-content: center;
-    background: #acb6e5;
-    /* fallback for old browsers */
-    background: -webkit-linear-gradient(to right, #86fde8, #acb6e5);
-    /* Chrome 10-25, Safari 5.1-6 */
-    background: linear-gradient(to right,
-            #86fde8,
-            #acb6e5);
-    /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  margin-top: 320px;
+  display: flex;
+  justify-content: center;
+  background: #acb6e5;
+  /* fallback for old browsers */
+  background: -webkit-linear-gradient(to right, #86fde8, #acb6e5);
+  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to right, #86fde8, #acb6e5);
+  /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 }
 
 .login-title {
-    display: flex;
-    justify-content: center;
-    width: 100%;
-    font-size: 24px;
-    color: #555a65;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  font-size: 24px;
+  color: #555a65;
 }
 </style>

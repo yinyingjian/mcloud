@@ -1,11 +1,7 @@
-<script setup>
-</script>
+<script setup></script>
 
 <template>
-    <div>
-        Search Page
-    </div>
+  <div>Search Page</div>
 </template>
 
-<style scoped>
-</style>
+<style scoped></style>

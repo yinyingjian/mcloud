@@ -1,15 +1,15 @@
-import "./assets/main.css";
+import './assets/main.css'
 
-import { createApp } from "vue";
-import { createPinia } from "pinia";
+import { createApp } from 'vue'
+import { createPinia } from 'pinia'
 
-import App from "./App.vue";
-import router from "./router";
+import App from './App.vue'
+import router from './router'
 
-const app = createApp(App);
+const app = createApp(App)
 
-app.use(createPinia());
-app.use(router);
+app.use(createPinia())
+app.use(router)
 
 // 加载UI组件
 import ArcoVue from '@arco-design/web-vue'
@@ -22,4 +22,4 @@ app.use(ArcoVue)
 import ArcoVueIcon from '@arco-design/web-vue/es/icon'
 app.use(ArcoVueIcon)
 
-app.mount("#app");
+app.mount('#app')

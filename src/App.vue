@@ -5,13 +5,13 @@ import { useRouter } from 'vue-router'
 const router = useRouter()
 const Logout = () => {
   app.value.isLogin = false
-  router.push({ name: "LoginPage" })
+  router.push({ name: 'LoginPage' })
 }
 const Login = () => {
-  router.push({ name: "LoginPage" })
+  router.push({ name: 'LoginPage' })
 }
 const JumpToAdmin = () => {
-  router.push({ name: "AdminPage" })
+  router.push({ name: 'AdminPage' })
 }
 const menuItemClickHandler = (routeName) => {
   router.push({ name: routeName })
@@ -32,7 +32,11 @@ const menuItemClickHandler = (routeName) => {
 
     <!-- 系统菜单 -->
     <div v-if="app.isLogin" class="nav-menu">
-      <a-menu mode="horizontal" :default-selected-keys="['HomePage']" @menu-item-click="menuItemClickHandler">
+      <a-menu
+        mode="horizontal"
+        :default-selected-keys="['HomePage']"
+        @menu-item-click="menuItemClickHandler"
+      >
         <a-menu-item key="HomePage">仪表盘</a-menu-item>
         <a-menu-item key="ResourcePage">资源管理</a-menu-item>
         <a-menu-item key="DevelopPage">研发交付</a-menu-item>

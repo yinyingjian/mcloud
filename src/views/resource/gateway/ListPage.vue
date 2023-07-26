@@ -1,11 +1,7 @@
-<script setup>
-</script>
+<script setup></script>
 
 <template>
-    <div>
-        GatewayList
-    </div>
+  <div>GatewayList</div>
 </template>
 
-<style scoped>
-</style>
+<style scoped></style>
