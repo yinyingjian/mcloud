@@ -44,7 +44,7 @@ const menuItemClickHandler = (routeName) => {
 }
 
 .menu {
-  border-right: 2px solid rgb(229, 230, 235);
+  border-right: 1px solid rgb(229, 230, 235);
 }
 
 .main {

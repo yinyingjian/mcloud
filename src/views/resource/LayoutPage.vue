@@ -32,7 +32,7 @@ const menuItemClickHandler = (routeName) => {
           <template #icon><icon-relation /></template>
           <template #title>资源同步</template>
           <a-menu-item key="ResourceTaskList">任务列表</a-menu-item>
-          <a-menu-item key="ResourceSecretList">账号凭证</a-menu-item>
+          <a-menu-item key="ResourceSecretList">账号管理</a-menu-item>
         </a-sub-menu>
       </a-menu>
     </div>
@@ -51,7 +51,7 @@ const menuItemClickHandler = (routeName) => {
 }
 
 .menu {
-  border-right: 2px solid rgb(229, 230, 235);
+  border-right: 1px solid rgb(229, 230, 235);
 }
 
 .main {
