@@ -20,7 +20,7 @@ const menuItemClickHandler = (routeName) => {
           @menu-item-click="menuItemClickHandler"
         >
           <a-sub-menu key="AdminPage">
-            <template #icon><icon-apps /></template>
+            <template #icon><icon-lock /></template>
             <template #title>权限管理</template>
             <a-menu-item key="UserList">用户列表</a-menu-item>
             <a-menu-item key="NamespaceList">空间列表</a-menu-item>

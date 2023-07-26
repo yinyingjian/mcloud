@@ -65,16 +65,21 @@ const router = createRouter({
       path: "/resource",
       name: "ResourcePage",
       component: () => import("@/views/resource/LayoutPage.vue"),
-      redirect: { name: 'K8sList' },
+      redirect: { name: 'ResourceList' },
       children: [
         {
-          path: "/deploy",
-          name: "DeployResource",
+          path: "list",
+          name: "ResourceList",
           component: () => import("@/components/RedirectPage.vue"),
-          redirect: { name: 'K8sList' },
+          redirect: { name: 'ResourceSearch' },
           children: [
             {
-              path: "k8s/list",
+              path: "search",
+              name: "ResourceSearch",
+              component: () => import("@/views/resource/SearchPage.vue"),
+            },
+            {
+              path: "k8s",
               name: "K8sList",
               component: () => import("@/views/resource/k8s/ListPage.vue"),
             },
@@ -82,15 +87,7 @@ const router = createRouter({
               path: "host/list",
               name: "HostList",
               component: () => import("@/views/resource/host/ListPage.vue"),
-            }
-          ]
-        },
-        {
-          path: "/proxy",
-          name: "ProxyResource",
-          component: () => import("@/components/RedirectPage.vue"),
-          redirect: { name: 'GatewayList' },
-          children: [
+            },
             {
               path: "gateway/list",
               name: "GatewayList",
@@ -98,6 +95,19 @@ const router = createRouter({
             },
           ]
         },
+        {
+          path: "sync",
+          name: "ResourceSync",
+          component: () => import("@/components/RedirectPage.vue"),
+          redirect: { name: 'TaskList' },
+          children: [
+            {
+              path: "task/list",
+              name: "TaskList",
+              component: () => import("@/views/resource/task/ListPage.vue"),
+            }
+          ]
+        }
       ]
     },
     // 研发交付
