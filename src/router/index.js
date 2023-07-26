@@ -68,10 +68,36 @@ const router = createRouter({
       redirect: { name: 'K8sList' },
       children: [
         {
-          path: "k8s/list",
-          name: "K8sList",
-          component: () => import("@/views/resource/k8s/ListPage.vue"),
-        }
+          path: "/deploy",
+          name: "DeployResource",
+          component: () => import("@/components/RedirectPage.vue"),
+          redirect: { name: 'K8sList' },
+          children: [
+            {
+              path: "k8s/list",
+              name: "K8sList",
+              component: () => import("@/views/resource/k8s/ListPage.vue"),
+            },
+            {
+              path: "host/list",
+              name: "HostList",
+              component: () => import("@/views/resource/host/ListPage.vue"),
+            }
+          ]
+        },
+        {
+          path: "/proxy",
+          name: "ProxyResource",
+          component: () => import("@/components/RedirectPage.vue"),
+          redirect: { name: 'GatewayList' },
+          children: [
+            {
+              path: "gateway/list",
+              name: "GatewayList",
+              component: () => import("@/views/resource/gateway/ListPage.vue"),
+            },
+          ]
+        },
       ]
     },
     // 研发交付
@@ -85,6 +111,21 @@ const router = createRouter({
           path: "service/list",
           name: "ServiceList",
           component: () => import("@/views/develop/service/ListPage.vue"),
+        },
+        {
+          path: "approval/list",
+          name: "ApprovalList",
+          component: () => import("@/views/develop/approval/ListPage.vue"),
+        },
+        {
+          path: "deploy/list",
+          name: "DeployList",
+          component: () => import("@/views/develop/deploy/ListPage.vue"),
+        },
+        {
+          path: "trigger/list",
+          name: "TriggerList",
+          component: () => import("@/views/develop/trigger/ListPage.vue"),
         }
       ]
     },

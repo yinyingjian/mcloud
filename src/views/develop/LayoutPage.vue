@@ -23,7 +23,9 @@ const menuItemClickHandler = (routeName) => {
             <template #icon><icon-apps /></template>
             <template #title>服务管理</template>
             <a-menu-item key="ServiceList">服务列表</a-menu-item>
-            <a-menu-item key="ServiceList">上线申请</a-menu-item>
+            <a-menu-item key="ApprovalList">上线申请</a-menu-item>
+            <a-menu-item key="DeployList">部署列表</a-menu-item>
+            <a-menu-item key="TriggerList">触发列表</a-menu-item>
           </a-sub-menu>
         </a-menu>
       </div>

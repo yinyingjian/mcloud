@@ -13,17 +13,22 @@ const menuItemClickHandler = (routeName) => {
       <div class="menu">
         <a-menu
           :style="{ width: '200px', height: '100%' }"
-          :default-open-keys="['DevelopPage']"
-          :default-selected-keys="['DevelopPage_ServiceList']"
+          :default-open-keys="['DeployResource']"
+          :default-selected-keys="['DeployResource_K8sList']"
           show-collapse-button
           breakpoint="xl"
           @menu-item-click="menuItemClickHandler"
         >
-          <a-sub-menu key="ResourcePage">
+          <a-sub-menu key="DeployResource">
             <template #icon><icon-apps /></template>
             <template #title>部署资源</template>
             <a-menu-item key="K8sList">K8s集群</a-menu-item>
             <a-menu-item key="HostList">主机</a-menu-item>
+          </a-sub-menu>
+          <a-sub-menu key="ProxyResource">
+            <template #icon><icon-apps /></template>
+            <template #title>服务代理</template>
+            <a-menu-item key="GatewayList">网关</a-menu-item>
           </a-sub-menu>
         </a-menu>
       </div>
