@@ -27,17 +27,31 @@ instance.interceptors.response.use(
     if (error.response && error.response.data) {
       message = error.response.data.message
 
-      // Token过期
-      if (error.response.data.code === 50015) {
-        Modal.error({
-          title: '确认退出',
-          content: '当前会话已过期，您可以取消以停留在此页面，或者重新登录',
-          okText: '重新登录',
-          async onOk() {
-            app.value.isLogin = false
-            window.location.reload()
-          }
-        })
+      switch (error.response.data.code) {
+        // Token过期
+        case 50015:
+          Modal.error({
+            title: '确认退出',
+            content: '当前会话已过期，您可以取消以停留在此页面，或者重新登录',
+            okText: '重新登录',
+            async onOk() {
+              app.value.isLogin = false
+              window.location.reload()
+            }
+          })
+          break
+        // 异地登录
+        case 50010:
+          Modal.error({
+            title: error.response.data.reason,
+            content: `${message}`,
+            okText: '重新登录',
+            async onOk() {
+              app.value.isLogin = false
+              window.location.reload()
+            }
+          })
+          break
       }
     }
     return Promise.reject(new Error(message))

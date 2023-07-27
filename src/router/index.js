@@ -31,6 +31,11 @@ const router = createRouter({
           redirect: { name: 'UserList' },
           children: [
             {
+              path: 'domain/get',
+              name: 'DomainDetail',
+              component: () => import('@/views/admin/domain/DetailPage.vue')
+            },
+            {
               path: 'user/list',
               name: 'UserList',
               component: () => import('@/views/admin/user/ListPage.vue')
