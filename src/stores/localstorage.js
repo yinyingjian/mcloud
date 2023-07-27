@@ -7,9 +7,9 @@ export var app = useStorage(
   'app',
   {
     isLogin: false,
-    hiddenTopMenu: false,
     token: {},
-    system: ''
+    system: '',
+    size: 'small'
   },
   localStorage,
   { mergeDefaults: true }

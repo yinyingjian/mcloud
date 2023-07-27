@@ -14,12 +14,10 @@ const Login = () => {
   router.push({ name: 'LoginPage' })
 }
 const JumpToAdmin = () => {
-  app.value.system = 'AdminPage'
   router.push({ name: 'AdminPage' })
 }
-const JumpToHome = () => {
-  app.value.system = 'HomePage'
-  router.push({ name: 'HomePage' })
+const JumpToFrontend = () => {
+  router.push({ name: app.value.system })
 }
 const menuItemClickHandler = (routeName) => {
   app.value.system = routeName
@@ -103,11 +101,11 @@ onBeforeMount(() => {
         </a-button>
       </div>
       <div class="user-op" v-else>
-        <a-button type="text" @click="JumpToHome">
+        <a-button type="text" @click="JumpToFrontend">
           <template #icon>
             <icon-home />
           </template>
-          工作台
+          返回前台
         </a-button>
       </div>
 
