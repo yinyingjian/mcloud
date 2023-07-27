@@ -22,4 +22,8 @@ app.use(ArcoVue)
 import ArcoVueIcon from '@arco-design/web-vue/es/icon'
 app.use(ArcoVueIcon)
 
+// 注册全集组件
+import TopMenu from './components/TopMenu.vue'
+app.component('TopMenu', TopMenu)
+
 app.mount('#app')

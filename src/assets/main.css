@@ -5,12 +5,12 @@
   font-weight: normal;
 }
 
-.top-bar {
+.sidebar {
   display: flex;
   height: calc(100vh - 47px);
 }
 
-.top-menu {
+.sidebar-menu {
   border-right: 1px solid rgb(229, 230, 235);
 }
 

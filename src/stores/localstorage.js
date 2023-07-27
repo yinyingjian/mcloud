@@ -7,6 +7,7 @@ export var app = useStorage(
   'app',
   {
     isLogin: false,
+    hiddenTopMenu: false,
     token: {},
     system: ''
   },

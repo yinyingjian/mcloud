@@ -1,5 +1,8 @@
 <script setup></script>
 
 <template>
-  <div>xxx</div>
+  <div>
+    <TopMenu />
+    <div>Home</div>
+  </div>
 </template>

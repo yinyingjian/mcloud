@@ -8,9 +8,10 @@ const menuItemClickHandler = (routeName) => {
 </script>
 
 <template>
-  <div class="top-bar">
+  <TopMenu />
+  <div class="sidebar">
     <!-- 菜单导航区 -->
-    <div class="top-menu">
+    <div class="sidebar-menu">
       <a-menu
         :style="{ width: '200px', height: '100%' }"
         :default-open-keys="['ResourceList']"
