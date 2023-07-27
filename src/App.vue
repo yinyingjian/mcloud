@@ -44,7 +44,9 @@ const ChangeNamespace = async (namespace) => {
 }
 
 onBeforeMount(() => {
-  ListNamespace()
+  if (app.value.isLogin) {
+    ListNamespace()
+  }
 })
 </script>
 
