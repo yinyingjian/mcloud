@@ -2,13 +2,10 @@
 import { useRouter } from 'vue-router'
 import { app } from '@/stores/localstorage'
 
-// 设置默认Menu
-if (app.value.menu === '') {
-  app.value.menu = 'UserList'
-}
-
 const router = useRouter()
+router.push({ name: app.value.menu.admin })
 const menuItemClickHandler = (routeName) => {
+  app.value.menu.admin = routeName
   router.push({ name: routeName })
 }
 </script>
@@ -22,6 +19,7 @@ const menuItemClickHandler = (routeName) => {
         :style="{ width: '200px', height: '100%' }"
         :default-open-keys="['PermissionManage']"
         :default-selected-keys="['UserList']"
+        :selected-keys="[app.menu.admin]"
         show-collapse-button
         auto-open
         breakpoint="xl"
@@ -46,8 +44,11 @@ const menuItemClickHandler = (routeName) => {
     </div>
     <!-- 内容操作区 -->
     <div class="main">
-      <!-- 子路由的视图, 前提是TestView的视图和TestView2的视图的有路由是路由是嵌套的 -->
-      <router-view></router-view>
+      <router-view v-slot="{ Component }">
+        <keep-alive>
+          <component :is="Component" />
+        </keep-alive>
+      </router-view>
     </div>
   </div>
 </template>

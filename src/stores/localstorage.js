@@ -9,7 +9,12 @@ export var app = useStorage(
     isLogin: false,
     token: {},
     system: '',
-    menu: '',
+    menu: {
+      admin: 'UserList',
+      develop: 'ServiceList',
+      resource: 'ResourceSearch',
+      setting: 'NamespacePolicyList'
+    },
     size: 'small',
     pagination: {
       total: 0,
