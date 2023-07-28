@@ -9,6 +9,7 @@ export var app = useStorage(
     isLogin: false,
     token: {},
     system: '',
+    menu: '',
     size: 'small',
     pagination: {
       total: 0,

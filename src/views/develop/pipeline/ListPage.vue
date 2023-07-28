@@ -8,7 +8,8 @@ import { onMounted, reactive, ref } from 'vue'
 const pagination = reactive(app.value.pagination)
 const queryParams = reactive({
   page_number: pagination.current,
-  page_size: pagination.pageSize
+  page_size: pagination.pageSize,
+  is_template: true
 })
 
 const pageChange = (v) => {
@@ -56,8 +57,8 @@ onMounted(() => {
       >
         <template #columns>
           <a-table-column title="名称" data-index="name"></a-table-column>
-          <a-table-column title="类型" data-index="type"></a-table-column>
-          <a-table-column title="仓库" data-index="code_repository.ssh_url"></a-table-column>
+          <a-table-column title="描述" data-index="description"></a-table-column>
+          <a-table-column title="来源" data-index="visiable_mode"></a-table-column>
           <a-table-column title="创建时间" data-index="create_at"></a-table-column>
         </template>
       </a-table>

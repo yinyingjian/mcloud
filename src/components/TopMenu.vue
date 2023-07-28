@@ -46,6 +46,7 @@ const ListNamespace = async () => {
 const ChangeNamespace = async (namespace) => {
   var resp = await CHANGE_NAMESPACE({ namespace })
   app.value.token = resp
+  router.go(0)
 }
 
 onBeforeMount(() => {

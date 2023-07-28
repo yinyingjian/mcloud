@@ -1,8 +1,10 @@
 <script setup>
 import { useRouter } from 'vue-router'
+import { app } from '@/stores/localstorage'
 
 const router = useRouter()
 const menuItemClickHandler = (routeName) => {
+  app.value.menu = routeName
   router.push({ name: routeName })
 }
 </script>
@@ -16,6 +18,7 @@ const menuItemClickHandler = (routeName) => {
         :style="{ width: '200px', height: '100%' }"
         :default-open-keys="['DevelopPage']"
         :default-selected-keys="['DevelopPage_ServiceList']"
+        :selected-keys="[app.menu]"
         show-collapse-button
         auto-open
         breakpoint="xl"
