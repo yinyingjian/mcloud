@@ -28,6 +28,7 @@ const router = createRouter({
           path: 'permission',
           name: 'PermissionManage',
           component: () => import('@/components/RedirectPage.vue'),
+          meta: { label: '权限管理' },
           redirect: { name: 'UserList' },
           children: [
             {
@@ -38,22 +39,26 @@ const router = createRouter({
             {
               path: 'user/list',
               name: 'UserList',
-              component: () => import('@/views/admin/user/ListPage.vue')
+              component: () => import('@/views/admin/user/ListPage.vue'),
+              meta: { label: '用户列表' }
             },
             {
               path: 'namespace/list',
               name: 'NamespaceList',
-              component: () => import('@/views/admin/namespace/ListPage.vue')
+              component: () => import('@/views/admin/namespace/ListPage.vue'),
+              meta: { label: '空间列表' }
             },
             {
               path: 'role/list',
               name: 'RoleList',
-              component: () => import('@/views/admin/role/ListPage.vue')
+              component: () => import('@/views/admin/role/ListPage.vue'),
+              meta: { label: '角色列表' }
             },
             {
               path: 'label/list',
               name: 'LabelList',
-              component: () => import('@/views/admin/label/ListPage.vue')
+              component: () => import('@/views/admin/label/ListPage.vue'),
+              meta: { label: '标签列表' }
             }
           ]
         },
@@ -88,12 +93,14 @@ const router = createRouter({
           path: 'permission',
           name: 'NamespacePermission',
           component: () => import('@/components/RedirectPage.vue'),
+          meta: { label: '权限管理' },
           redirect: { name: 'NamespacePolicyList' },
           children: [
             {
               path: 'policy/list',
               name: 'NamespacePolicyList',
-              component: () => import('@/views/setting/policy/ListPage.vue')
+              component: () => import('@/views/setting/policy/ListPage.vue'),
+              meta: { label: '策略列表' }
             }
           ]
         }
@@ -110,6 +117,7 @@ const router = createRouter({
           path: 'list',
           name: 'ResourceList',
           component: () => import('@/components/RedirectPage.vue'),
+          meta: { label: '资源列表' },
           redirect: { name: 'ResourceSearch' },
           children: [
             {
@@ -120,7 +128,8 @@ const router = createRouter({
             {
               path: 'k8s',
               name: 'K8sList',
-              component: () => import('@/views/resource/k8s/ListPage.vue')
+              component: () => import('@/views/resource/k8s/ListPage.vue'),
+              meta: { label: 'k8s集群' }
             },
             {
               path: 'host/list',
@@ -159,8 +168,41 @@ const router = createRouter({
       path: '/develop',
       name: 'DevelopPage',
       component: () => import('@/views/develop/LayoutPage.vue'),
-      redirect: { name: 'ServiceList' },
+      redirect: { name: 'BaseDevelop' },
       children: [
+        {
+          path: 'base',
+          name: 'BaseDevelop',
+          component: () => import('@/components/RedirectPage.vue'),
+          meta: { label: '服务管理' },
+          redirect: { name: 'ServiceList' },
+          children: [
+            {
+              path: 'service/list',
+              name: 'ServiceList',
+              component: () => import('@/views/develop/service/ListPage.vue'),
+              meta: { label: '服务列表' }
+            },
+            {
+              path: 'approval/list',
+              name: 'ApprovalList',
+              component: () => import('@/views/develop/approval/ListPage.vue'),
+              meta: { label: '上线申请' }
+            },
+            {
+              path: 'deploy/list',
+              name: 'DeployList',
+              component: () => import('@/views/develop/deploy/ListPage.vue'),
+              meta: { label: '服务部署' }
+            },
+            {
+              path: 'trigger/list',
+              name: 'TriggerList',
+              component: () => import('@/views/develop/trigger/ListPage.vue'),
+              meta: { label: '触发配置' }
+            }
+          ]
+        },
         {
           path: 'tool',
           name: 'DevToolManage',
@@ -178,26 +220,6 @@ const router = createRouter({
               component: () => import('@/views/develop/job/ListPage.vue')
             }
           ]
-        },
-        {
-          path: 'service/list',
-          name: 'ServiceList',
-          component: () => import('@/views/develop/service/ListPage.vue')
-        },
-        {
-          path: 'approval/list',
-          name: 'ApprovalList',
-          component: () => import('@/views/develop/approval/ListPage.vue')
-        },
-        {
-          path: 'deploy/list',
-          name: 'DeployList',
-          component: () => import('@/views/develop/deploy/ListPage.vue')
-        },
-        {
-          path: 'trigger/list',
-          name: 'TriggerList',
-          component: () => import('@/views/develop/trigger/ListPage.vue')
         }
       ]
     }

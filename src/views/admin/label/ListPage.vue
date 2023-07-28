@@ -4,37 +4,56 @@ import { LIST_LABEL } from '@/api/mcenter/label'
 import { Message } from '@arco-design/web-vue'
 import { onMounted, reactive, ref } from 'vue'
 
-const breadcrumb_routes = [
-  { name: 'PermissionManage', label: '权限管理' },
-  { name: 'LabelList', label: '标签列表' }
-]
+// 分页参数
+const pagination = reactive(app.value.pagination)
+const queryParams = reactive({
+  page_number: pagination.current,
+  page_size: pagination.pageSize
+})
+
+const pageChange = (v) => {
+  pagination.current = v
+  QueryData()
+}
+const pageSizeChange = (v) => {
+  pagination.pageSize = v
+  pagination.current = 1
+  QueryData()
+}
 
 const queryLoading = ref(false)
 const data = reactive({ items: [], total: 0 })
-onMounted(async () => {
+const QueryData = async () => {
   try {
     queryLoading.value = true
     var resp = await LIST_LABEL()
     data.items = resp.items
-    data.total = resp.total
+    pagination.total = resp.total
   } catch (error) {
     Message.error(`查询角色失败: ${error}`)
   } finally {
     queryLoading.value = false
   }
+}
+onMounted(() => {
+  QueryData(queryParams)
 })
 </script>
 
 <template>
   <div>
-    <div>
-      <a-breadcrumb :routes="breadcrumb_routes" />
-    </div>
-    <div>
+    <BreadcrumbMenu />
+    <div class="table-op">
       <a-button type="primary" :size="app.size"> 创建标签 </a-button>
     </div>
-    <div>
-      <a-table :data="data.items" style="margin-top: 30px" :loading="queryLoading">
+    <div class="table-data">
+      <a-table
+        :data="data.items"
+        :loading="queryLoading"
+        :pagination="pagination"
+        @page-change="pageChange"
+        @page-size-change="pageSizeChange"
+      >
         <template #columns>
           <a-table-column title="名称" data-index="key"></a-table-column>
           <a-table-column title="描述" data-index="value_desc"></a-table-column>

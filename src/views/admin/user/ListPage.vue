@@ -4,37 +4,61 @@ import { LIST_SUB_USER } from '@/api/mcenter/user'
 import { Message } from '@arco-design/web-vue'
 import { onMounted, reactive, ref } from 'vue'
 
-const breadcrumb_routes = [
-  { name: 'PermissionManage', label: '权限管理' },
-  { name: 'UserList', label: '用户列表' }
-]
+// 分页参数
+const pagination = reactive(app.value.pagination)
+const queryParams = reactive({
+  page_number: pagination.current,
+  page_size: pagination.pageSize
+})
+
+const pageChange = (v) => {
+  pagination.current = v
+  QueryData()
+}
+const pageSizeChange = (v) => {
+  pagination.pageSize = v
+  pagination.current = 1
+  QueryData()
+}
 
 const queryLoading = ref(false)
-const data = reactive({ items: [], total: 0 })
-onMounted(async () => {
+const data = reactive({ items: [] })
+const QueryData = async () => {
+  // 补充分页参数
+  queryParams.page_number = pagination.current
+  queryParams.page_size = pagination.pageSize
+
   try {
     queryLoading.value = true
-    var resp = await LIST_SUB_USER()
+    var resp = await LIST_SUB_USER(queryParams)
     data.items = resp.items
-    data.total = resp.total
+    pagination.total = resp.total
   } catch (error) {
     Message.error(`查询用户失败: ${error}`)
   } finally {
     queryLoading.value = false
   }
+}
+
+onMounted(() => {
+  QueryData()
 })
 </script>
 
 <template>
   <div>
-    <div>
-      <a-breadcrumb :routes="breadcrumb_routes" />
-    </div>
-    <div>
+    <BreadcrumbMenu />
+    <div class="table-op">
       <a-button type="primary" :size="app.size"> 创建用户 </a-button>
     </div>
-    <div>
-      <a-table :data="data.items" style="margin-top: 30px" :loading="queryLoading">
+    <div class="table-data">
+      <a-table
+        :data="data.items"
+        :loading="queryLoading"
+        :pagination="pagination"
+        @page-change="pageChange"
+        @page-size-change="pageSizeChange"
+      >
         <template #columns>
           <a-table-column title="用户名" data-index="username"></a-table-column>
           <a-table-column title="类型" data-index="type"></a-table-column>

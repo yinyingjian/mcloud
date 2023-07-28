@@ -17,6 +17,9 @@ const JumpToAdmin = () => {
   router.push({ name: 'AdminPage' })
 }
 const JumpToFrontend = () => {
+  if (app.value.system === '') {
+    app.value.system = 'HomePage'
+  }
   router.push({ name: app.value.system })
 }
 const menuItemClickHandler = (routeName) => {

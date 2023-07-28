@@ -24,6 +24,8 @@ app.use(ArcoVueIcon)
 
 // 注册全集组件
 import TopMenu from './components/TopMenu.vue'
+import BreadcrumbMenu from './components/BreadcrumbMenu.vue'
 app.component('TopMenu', TopMenu)
+app.component('BreadcrumbMenu', BreadcrumbMenu)
 
 app.mount('#app')
