@@ -24,6 +24,8 @@ const JumpToFrontend = () => {
 }
 const menuItemClickHandler = (routeName) => {
   app.value.system = routeName
+  // 系统切换后, menu需要从小调整到默认值
+  app.value.menu = ''
   router.push({ name: routeName })
 }
 

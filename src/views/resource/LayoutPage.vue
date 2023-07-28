@@ -2,6 +2,11 @@
 import { useRouter } from 'vue-router'
 import { app } from '@/stores/localstorage'
 
+// 设置默认Menu
+if (app.value.menu === '') {
+  app.value.menu = 'ResourceSearch'
+}
+
 const router = useRouter()
 const menuItemClickHandler = (routeName) => {
   app.value.menu = routeName
@@ -17,7 +22,7 @@ const menuItemClickHandler = (routeName) => {
       <a-menu
         :style="{ width: '200px', height: '100%' }"
         :default-open-keys="['ResourceList']"
-        :default-selected-keys="['ResourceList_ResourceSearch']"
+        :default-selected-keys="['ResourceSearch']"
         :selected-keys="[app.menu]"
         show-collapse-button
         breakpoint="xl"

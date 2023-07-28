@@ -1,5 +1,11 @@
 <script setup>
 import { useRouter } from 'vue-router'
+import { app } from '@/stores/localstorage'
+
+// 设置默认Menu
+if (app.value.menu === '') {
+  app.value.menu = 'UserList'
+}
 
 const router = useRouter()
 const menuItemClickHandler = (routeName) => {
@@ -15,7 +21,7 @@ const menuItemClickHandler = (routeName) => {
       <a-menu
         :style="{ width: '200px', height: '100%' }"
         :default-open-keys="['PermissionManage']"
-        :default-selected-keys="['PermissionManage_UserList']"
+        :default-selected-keys="['UserList']"
         show-collapse-button
         auto-open
         breakpoint="xl"
