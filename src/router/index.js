@@ -66,17 +66,20 @@ const router = createRouter({
           path: 'audit',
           name: 'AuditManage',
           component: () => import('@/components/RedirectPage.vue'),
+          meta: { label: '审计管理' },
           redirect: { name: 'LoginLog' },
           children: [
             {
               path: 'log/login',
               name: 'AuditLoginLog',
-              component: () => import('@/views/admin/audit/LoginLog.vue')
+              component: () => import('@/views/admin/audit/LoginLog.vue'),
+              meta: { label: '登录日志' }
             },
             {
               path: 'log/operate',
               name: 'AuditOperateLog',
-              component: () => import('@/views/admin/audit/OperateLog.vue')
+              component: () => import('@/views/admin/audit/OperateLog.vue'),
+              meta: { label: '操作日志' }
             }
           ]
         }

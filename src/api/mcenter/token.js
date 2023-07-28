@@ -9,3 +9,8 @@ export var ISSUE_TOKEN = (data) => {
 export var CHANGE_NAMESPACE = (data) => {
   return instance.patch('/mcenter/api/v1/token', data)
 }
+
+// 令牌颁发记录
+export var LIST_TOKEN = (params) => {
+  return instance.get('/mcenter/api/v1/token', { params })
+}

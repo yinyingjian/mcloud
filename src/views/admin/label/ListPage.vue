@@ -24,13 +24,17 @@ const pageSizeChange = (v) => {
 const queryLoading = ref(false)
 const data = reactive({ items: [], total: 0 })
 const QueryData = async () => {
+  // 补充分页参数
+  queryParams.page_number = pagination.current
+  queryParams.page_size = pagination.pageSize
+
   try {
     queryLoading.value = true
     var resp = await LIST_LABEL()
     data.items = resp.items
     pagination.total = resp.total
   } catch (error) {
-    Message.error(`查询角色失败: ${error}`)
+    Message.error(`查询标签失败: ${error}`)
   } finally {
     queryLoading.value = false
   }
