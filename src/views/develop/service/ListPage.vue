@@ -28,7 +28,7 @@ const QueryData = async () => {
     queryLoading.value = true
     var resp = await LIST_SERVICE(queryParams)
     data.items = resp.items
-    data.total = resp.total
+    pagination.total = resp.total
   } catch (error) {
     Message.error(`查询服务失败: ${error}`)
   } finally {

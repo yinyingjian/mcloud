@@ -199,7 +199,7 @@ const router = createRouter({
               path: 'trigger/list',
               name: 'TriggerList',
               component: () => import('@/views/develop/trigger/ListPage.vue'),
-              meta: { label: '触发配置' }
+              meta: { label: '持续构建' }
             }
           ]
         },
@@ -207,17 +207,20 @@ const router = createRouter({
           path: 'tool',
           name: 'DevToolManage',
           component: () => import('@/components/RedirectPage.vue'),
+          meta: { label: '研发工具' },
           redirect: { name: 'DomainPipelineList' },
           children: [
             {
               path: 'pipeline/list',
               name: 'DomainPipelineList',
-              component: () => import('@/views/develop/pipeline/ListPage.vue')
+              component: () => import('@/views/develop/pipeline/ListPage.vue'),
+              meta: { label: 'Pipeline模版' }
             },
             {
               path: 'job/list',
               name: 'DomainJobList',
-              component: () => import('@/views/develop/job/ListPage.vue')
+              component: () => import('@/views/develop/job/ListPage.vue'),
+              meta: { label: 'Job管理' }
             }
           ]
         }
