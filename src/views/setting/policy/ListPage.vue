@@ -47,7 +47,7 @@ onMounted(() => {
     <div class="table-op">
       <a-button type="primary" :size="app.size"> 添加策略 </a-button>
     </div>
-    <div class="table-data">
+    <a-card class="table-data">
       <a-table
         :data="data.items"
         :loading="queryLoading"
@@ -62,7 +62,7 @@ onMounted(() => {
           <a-table-column title="创建时间" data-index="create_at"></a-table-column>
         </template>
       </a-table>
-    </div>
+    </a-card>
   </div>
 </template>
 

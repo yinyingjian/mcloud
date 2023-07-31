@@ -7,7 +7,7 @@
 
 .sidebar {
   display: flex;
-  height: calc(100vh - 47px);
+  height: calc(100vh - 46px);
 }
 
 .sidebar-menu {
@@ -17,6 +17,9 @@
 .main {
   padding: 8px;
   width: 100%;
+  height: calc(100vh - 46px);
+  overflow: scroll;
+  background-color: var(--color-fill-1);
 }
 
 .table-op {
@@ -25,4 +28,11 @@
 
 .table-data {
   margin-top: 4px;
+}
+
+.form-submit {
+  margin-top: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }

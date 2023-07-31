@@ -48,7 +48,7 @@ onMounted(() => {
   <div>
     <BreadcrumbMenu />
     <div class="table-op"></div>
-    <div class="table-data">
+    <a-card class="table-data">
       <a-table
         :data="data.items"
         :loading="queryLoading"
@@ -65,7 +65,7 @@ onMounted(() => {
           <a-table-column title="颁发时间" data-index="issue_at"></a-table-column>
         </template>
       </a-table>
-    </div>
+    </a-card>
   </div>
 </template>
 

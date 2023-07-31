@@ -19,8 +19,6 @@ const form = reactive({
   }
 })
 
-// router.currentRoute.value.query.id
-
 // 提交处理
 const submitLoading = ref(false)
 const handleSubmit = async (data) => {

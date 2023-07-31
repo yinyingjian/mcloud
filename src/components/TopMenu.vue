@@ -16,7 +16,7 @@ const Login = () => {
 const JumpToAdmin = () => {
   router.push({ name: app.value.menu.admin })
 }
-const JumpToFrontend = () => {
+const ChangeSystem = () => {
   if (app.value.system === '') {
     app.value.system = 'HomePage'
   }
@@ -36,9 +36,12 @@ const JumpToFrontend = () => {
       break
   }
 }
+const JumpToFrontend = () => {
+  ChangeSystem()
+}
 const menuItemClickHandler = (routeName) => {
   app.value.system = routeName
-  router.push({ name: routeName })
+  ChangeSystem()
 }
 
 // 监听URL变化
