@@ -5,7 +5,7 @@ export var LIST_SUB_USER = (params) => {
   return instance.get('/mcenter/api/v1/user/sub', { params })
 }
 
-// 查询子用户列表
+// 查询子用户详情
 export var GET_SUB_USER = (id) => {
   return instance.get(`/mcenter/api/v1/user/sub/${id}`)
 }

@@ -16,7 +16,9 @@ const form = ref({
     address: '',
     gender: 'UNKNOWN',
     avatar: ''
-  }
+  },
+  locked: undefined,
+  locked_reason: ''
 })
 
 // 判断更新模式
@@ -70,7 +72,7 @@ const handleSubmit = async (data) => {
 
     <div>
       <a-form :model="form" @submit="handleSubmit" auto-label-width>
-        <a-collapse :default-active-key="['1', '2']">
+        <a-collapse :default-active-key="['1', '2', '3']">
           <a-collapse-item header="账号信息" key="1">
             <a-form-item field="username" label="用户名" v-if="isCreate" required>
               <a-input v-model="form.username" placeholder="请输入用户名" />
@@ -107,6 +109,14 @@ const handleSubmit = async (data) => {
             </a-form-item>
             <a-form-item field="profile.avatar" label="头像">
               <a-input v-model="form.profile.avatar" />
+            </a-form-item>
+          </a-collapse-item>
+          <a-collapse-item header="账号状态" v-if="!isCreate" key="3">
+            <a-form-item field="locked" label="冻结账号" v-if="!isCreate">
+              <a-switch type="round" v-model="form.locked" />
+            </a-form-item>
+            <a-form-item v-show="form.locked" field="locked_reason" label="冻结原因">
+              <a-input v-model="form.locked_reason" />
             </a-form-item>
           </a-collapse-item>
         </a-collapse>
