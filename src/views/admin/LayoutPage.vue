@@ -18,7 +18,7 @@ const menuItemClickHandler = (routeName) => {
       <a-menu
         :style="{ width: '200px', height: '100%' }"
         :default-open-keys="['PermissionManage']"
-        :default-selected-keys="['UserList']"
+        :default-selected-keys="['SubUserList']"
         :selected-keys="[app.menu.admin]"
         show-collapse-button
         auto-open
@@ -29,7 +29,7 @@ const menuItemClickHandler = (routeName) => {
           <template #icon><icon-lock /></template>
           <template #title>权限管理</template>
           <a-menu-item key="DomainDetail">登录管理</a-menu-item>
-          <a-menu-item key="UserList">用户列表</a-menu-item>
+          <a-menu-item key="SubUserList">用户列表</a-menu-item>
           <a-menu-item key="NamespaceList">空间列表</a-menu-item>
           <a-menu-item key="RoleList">角色列表</a-menu-item>
           <a-menu-item key="LabelList">标签列表</a-menu-item>

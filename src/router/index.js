@@ -29,7 +29,7 @@ const router = createRouter({
           name: 'PermissionManage',
           component: () => import('@/components/RedirectPage.vue'),
           meta: { label: '权限管理' },
-          redirect: { name: 'UserList' },
+          redirect: { name: 'SubUserList' },
           children: [
             {
               path: 'domain/get',
@@ -37,9 +37,15 @@ const router = createRouter({
               component: () => import('@/views/admin/domain/DetailPage.vue')
             },
             {
-              path: 'user/list',
-              name: 'UserList',
+              path: 'sub_user/list',
+              name: 'SubUserList',
               component: () => import('@/views/admin/user/ListPage.vue'),
+              meta: { label: '用户列表' }
+            },
+            {
+              path: 'user/create',
+              name: 'CreateSubUser',
+              component: () => import('@/views/admin/user/CreateUser.vue'),
               meta: { label: '用户列表' }
             },
             {

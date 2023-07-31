@@ -3,6 +3,9 @@ import { app } from '@/stores/localstorage'
 import { LIST_SUB_USER } from '@/api/mcenter/user'
 import { Message } from '@arco-design/web-vue'
 import { onMounted, reactive, ref } from 'vue'
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
 
 // 分页参数
 const pagination = reactive(app.value.pagination)
@@ -49,7 +52,9 @@ onMounted(() => {
   <div>
     <BreadcrumbMenu />
     <div class="table-op">
-      <a-button type="primary" :size="app.size"> 创建用户 </a-button>
+      <a-button type="primary" :size="app.size" @click="router.push({ name: 'CreateSubUser' })">
+        创建用户
+      </a-button>
     </div>
     <div class="table-data">
       <a-table

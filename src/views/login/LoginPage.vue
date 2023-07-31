@@ -9,11 +9,15 @@
         field="username"
         :rules="[{ required: true, message: '请输入用户名' }]"
         :validate-trigger="['change', 'input']"
-        tooltip="请输入用户名"
-        label="用户名"
+        hide-asterisk
+        label=""
       >
         <!-- 为什么使用v-model 这是一个输入组件, 把用户输入的值 绑定到 form的username属性, -->
-        <a-input v-model="form.username" placeholder="请输入用户名..." />
+        <a-input v-model="form.username" placeholder="请输入用户名...">
+          <template #prefix>
+            <icon-user />
+          </template>
+        </a-input>
       </a-form-item>
       <a-form-item
         field="password"
@@ -22,10 +26,14 @@
           { minLength: 6, message: '密码至少6位' }
         ]"
         :validate-trigger="['change', 'input']"
-        tooltip="请输入密码"
-        label="密码"
+        hide-asterisk
+        label=""
       >
-        <a-input-password v-model="form.password" placeholder="请输入密码..." allow-clear />
+        <a-input-password v-model="form.password" placeholder="请输入密码..." allow-clear>
+          <template #prefix>
+            <icon-lock />
+          </template>
+        </a-input-password>
       </a-form-item>
       <a-form-item>
         <a-button style="width: 100%" html-type="submit">登录</a-button>
@@ -61,7 +69,7 @@ const handleSubmit = async (data) => {
       Message.error(`登录失败: ${error}`)
     }
 
-    let to = 'HomePage'
+    let to = app.value.system
     // 获取当前url的query参数, 可以通过获取当前路由 /login?to=TagList
     // useRoute vue-router 来提供获取当前页面的路由对象, Route对象
     // {to: 'TagList'}

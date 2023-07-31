@@ -8,9 +8,9 @@ export var app = useStorage(
   {
     isLogin: false,
     token: {},
-    system: '',
+    system: 'HomePage',
     menu: {
-      admin: 'UserList',
+      admin: 'SubUserList',
       develop: 'ServiceList',
       resource: 'ResourceSearch',
       setting: 'NamespacePolicyList'
