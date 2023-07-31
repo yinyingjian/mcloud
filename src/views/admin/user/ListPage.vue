@@ -68,6 +68,19 @@ onMounted(() => {
           <a-table-column title="用户名" data-index="username"></a-table-column>
           <a-table-column title="类型" data-index="type"></a-table-column>
           <a-table-column title="创建时间" data-index="create_at"></a-table-column>
+          <a-table-column align="center" title="操作" :width="200">
+            <template #cell="{ record }">
+              <a-space>
+                <a-button
+                  type="text"
+                  :size="app.size"
+                  @click="router.push({ name: 'CreateSubUser', query: { id: record.id } })"
+                >
+                  修改
+                </a-button>
+              </a-space>
+            </template>
+          </a-table-column>
         </template>
       </a-table>
     </a-card>

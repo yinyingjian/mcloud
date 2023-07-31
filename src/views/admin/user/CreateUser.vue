@@ -1,11 +1,11 @@
 <script setup>
-import { reactive, ref } from 'vue'
+import { onBeforeMount, ref } from 'vue'
 import { useRouter } from 'vue-router'
-import { CREATE_SUB_USER } from '@/api/mcenter/user'
+import { CREATE_SUB_USER, GET_SUB_USER, UPDATE_SUB_USER } from '@/api/mcenter/user'
 import { Message } from '@arco-design/web-vue'
 
 const router = useRouter()
-const form = reactive({
+const form = ref({
   username: '',
   password: '',
   profile: {
@@ -19,21 +19,45 @@ const form = reactive({
   }
 })
 
-// router.currentRoute.value.query.id
+// 判断更新模式
+const uid = router.currentRoute.value.query.id
+const isCreate = uid === undefined
+onBeforeMount(async () => {
+  if (!isCreate) {
+    try {
+      let resp = await GET_SUB_USER(uid)
+      resp.password = ''
+      form.value = resp
+    } catch (error) {
+      Message.error(`查询用户失败: ${error}`)
+    }
+  }
+})
 
 // 提交处理
 const submitLoading = ref(false)
 const handleSubmit = async (data) => {
   if (!data.errors) {
-    try {
-      submitLoading.value = true
-      let resp = await CREATE_SUB_USER(data.values)
-      console.log(resp)
-      router.push({ name: 'SubUserList' })
-    } catch (error) {
-      Message.error(`保存失败: ${error}`)
-    } finally {
-      submitLoading.value = false
+    if (isCreate) {
+      try {
+        submitLoading.value = true
+        await CREATE_SUB_USER(data.values)
+        router.push({ name: 'SubUserList' })
+      } catch (error) {
+        Message.error(`保存失败: ${error}`)
+      } finally {
+        submitLoading.value = false
+      }
+    } else {
+      try {
+        submitLoading.value = true
+        await UPDATE_SUB_USER(uid, data.values)
+        router.push({ name: 'SubUserList' })
+      } catch (error) {
+        Message.error(`更新失败: ${error}`)
+      } finally {
+        submitLoading.value = false
+      }
     }
   }
 }
@@ -48,10 +72,10 @@ const handleSubmit = async (data) => {
       <a-form :model="form" @submit="handleSubmit" auto-label-width>
         <a-collapse :default-active-key="['1', '2']">
           <a-collapse-item header="账号信息" key="1">
-            <a-form-item field="username" label="用户名" required>
+            <a-form-item field="username" label="用户名" v-if="isCreate" required>
               <a-input v-model="form.username" placeholder="请输入用户名" />
             </a-form-item>
-            <a-form-item field="password" label="密码" required>
+            <a-form-item field="password" label="密码" v-if="isCreate" required>
               <a-input-password v-model="form.password" placeholder="请输入密码" />
             </a-form-item>
             <a-form-item field="description" label="描述">
