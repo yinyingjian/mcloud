@@ -67,10 +67,10 @@ onMounted(() => {
         <template #columns>
           <a-table-column title="用户名" data-index="username"></a-table-column>
           <a-table-column title="类型" data-index="type"></a-table-column>
+          <a-table-column title="状态" data-index="status.locked"></a-table-column>
           <a-table-column title="创建时间" data-index="create_at"></a-table-column>
           <a-table-column align="center" title="操作" :width="200">
             <template #cell="{ record }">
-              <a-space>
                 <a-button
                   type="text"
                   :size="app.size"
@@ -78,7 +78,13 @@ onMounted(() => {
                 >
                   修改
                 </a-button>
-              </a-space>
+                <a-divider direction="vertical" />
+                <a-dropdown>
+                  <a-button type="text"><icon-more-vertical /></a-button>
+                  <template #content>
+                    <a-doption>重置密码</a-doption>
+                  </template>
+                </a-dropdown>
             </template>
           </a-table-column>
         </template>
