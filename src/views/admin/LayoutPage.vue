@@ -3,7 +3,6 @@ import { useRouter } from 'vue-router'
 import { app } from '@/stores/localstorage'
 
 const router = useRouter()
-router.push({ name: app.value.menu.admin })
 const menuItemClickHandler = (routeName) => {
   app.value.menu.admin = routeName
   router.push({ name: routeName })

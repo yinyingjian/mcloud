@@ -28,4 +28,7 @@ import BreadcrumbMenu from './components/BreadcrumbMenu.vue'
 app.component('TopMenu', TopMenu)
 app.component('BreadcrumbMenu', BreadcrumbMenu)
 
+// 重写arco 样式
+import './assets/arco.css'
+
 app.mount('#app')

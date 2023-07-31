@@ -14,13 +14,27 @@ const Login = () => {
   router.push({ name: 'LoginPage' })
 }
 const JumpToAdmin = () => {
-  router.push({ name: 'AdminPage' })
+  router.push({ name: app.value.menu.admin })
 }
 const JumpToFrontend = () => {
   if (app.value.system === '') {
     app.value.system = 'HomePage'
   }
-  router.push({ name: app.value.system })
+
+  switch (app.value.system) {
+    case 'SettingPage':
+      router.push({ name: app.value.menu.setting })
+      break
+    case 'ResourcePage':
+      router.push({ name: app.value.menu.resource })
+      break
+    case 'DevelopPage':
+      router.push({ name: app.value.menu.develop })
+      break
+    default:
+      router.push({ name: app.value.system })
+      break
+  }
 }
 const menuItemClickHandler = (routeName) => {
   app.value.system = routeName
