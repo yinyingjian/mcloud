@@ -3,6 +3,9 @@ import { app } from '@/stores/localstorage'
 import { LIST_NAMESPACE } from '@/api/mcenter/namespace'
 import { Message } from '@arco-design/web-vue'
 import { onMounted, reactive, ref } from 'vue'
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
 
 // 分页参数
 const pagination = reactive(app.value.pagination)
@@ -48,7 +51,9 @@ onMounted(async () => {
   <div>
     <BreadcrumbMenu />
     <div class="table-op">
-      <a-button type="primary" :size="app.size"> 创建空间 </a-button>
+      <a-button type="primary" :size="app.size" @click="router.push({ name: 'CreateNamespace' })">
+        创建空间
+      </a-button>
     </div>
     <a-card class="table-data">
       <a-table

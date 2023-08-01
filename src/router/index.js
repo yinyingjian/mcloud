@@ -46,13 +46,19 @@ const router = createRouter({
               path: 'user/create',
               name: 'CreateSubUser',
               component: () => import('@/views/admin/user/CreateUser.vue'),
-              meta: { label: '用户列表' }
+              meta: { label: '创建用户' }
             },
             {
               path: 'namespace/list',
               name: 'NamespaceList',
               component: () => import('@/views/admin/namespace/ListPage.vue'),
               meta: { label: '空间列表' }
+            },
+            {
+              path: 'namespace/create',
+              name: 'CreateNamespace',
+              component: () => import('@/views/admin/namespace/CreateNamespace.vue'),
+              meta: { label: '创建空间' }
             },
             {
               path: 'role/list',

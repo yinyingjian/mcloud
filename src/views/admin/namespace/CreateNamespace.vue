@@ -40,7 +40,7 @@ const handleSubmit = async (data) => {
 <template>
   <div>
     <!-- 页头 -->
-    <a-page-header title="创建用户" @back="router.go(-1)"> </a-page-header>
+    <a-page-header title="创建空间" @back="router.go(-1)"> </a-page-header>
 
     <div>
       <a-form :model="form" @submit="handleSubmit" auto-label-width>
