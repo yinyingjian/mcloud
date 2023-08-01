@@ -56,6 +56,9 @@ const selectAction = (record, title) => {
   currentAction.title = title
   currentAction.record = record
 }
+const closeDrawer = () => {
+  currentAction.title = ''
+}
 
 onMounted(() => {
   QueryData()
@@ -110,12 +113,16 @@ onMounted(() => {
       :visible="currentAction.title !== ''"
       unmountOnClose
       :footer="false"
-      @cancel="currentAction.title = ''"
+      @cancel="closeDrawer"
     >
       <template #title>
         {{ currentAction.title }}
       </template>
-      <component :is="actionMap[currentAction.title]" v-bind="{ record: currentAction.record }" />
+      <component
+        :is="actionMap[currentAction.title]"
+        v-bind="{ record: currentAction.record }"
+        v-on="{ changed: closeDrawer }"
+      />
     </a-drawer>
   </div>
 </template>
