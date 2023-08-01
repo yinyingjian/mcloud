@@ -4,6 +4,7 @@ import { LIST_SUB_USER } from '@/api/mcenter/user'
 import { Message } from '@arco-design/web-vue'
 import { onMounted, reactive, ref } from 'vue'
 import { useRouter } from 'vue-router'
+import ResetPassword from './components/ResetPassword.vue'
 
 const router = useRouter()
 
@@ -43,6 +44,19 @@ const QueryData = async () => {
   }
 }
 
+// 更多操作
+const currentAction = reactive({
+  title: '',
+  record: {}
+})
+const actionMap = {
+  重置密码: ResetPassword
+}
+const selectAction = (record, title) => {
+  currentAction.title = title
+  currentAction.record = record
+}
+
 onMounted(() => {
   QueryData()
 })
@@ -71,25 +85,38 @@ onMounted(() => {
           <a-table-column title="创建时间" data-index="create_at"></a-table-column>
           <a-table-column align="center" title="操作" :width="200">
             <template #cell="{ record }">
-                <a-button
-                  type="text"
-                  :size="app.size"
-                  @click="router.push({ name: 'CreateSubUser', query: { id: record.id } })"
-                >
-                  修改
-                </a-button>
-                <a-divider direction="vertical" />
-                <a-dropdown>
-                  <a-button type="text"><icon-more-vertical /></a-button>
-                  <template #content>
-                    <a-doption>重置密码</a-doption>
-                  </template>
-                </a-dropdown>
+              <a-button
+                type="text"
+                :size="app.size"
+                @click="router.push({ name: 'CreateSubUser', query: { id: record.id } })"
+              >
+                修改
+              </a-button>
+              <a-divider direction="vertical" />
+              <a-dropdown>
+                <a-button type="text"><icon-more-vertical /></a-button>
+                <template #content>
+                  <a-doption @click="selectAction(record, '重置密码')">重置密码</a-doption>
+                </template>
+              </a-dropdown>
             </template>
           </a-table-column>
         </template>
       </a-table>
     </a-card>
+
+    <a-drawer
+      :width="340"
+      :visible="currentAction.title !== ''"
+      unmountOnClose
+      :footer="false"
+      @cancel="currentAction.title = ''"
+    >
+      <template #title>
+        {{ currentAction.title }}
+      </template>
+      <component :is="actionMap[currentAction.title]" v-bind="{ record: currentAction.record }" />
+    </a-drawer>
   </div>
 </template>
 

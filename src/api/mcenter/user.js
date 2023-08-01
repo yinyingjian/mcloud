@@ -19,3 +19,8 @@ export var CREATE_SUB_USER = (data) => {
 export var UPDATE_SUB_USER = (id, data) => {
   return instance.put(`/mcenter/api/v1/user/sub/${id}`, data)
 }
+
+// 重置用户密码
+export var RESET_SUB_USER_PASS = (id, data) => {
+  return instance.post(`/mcenter/api/v1/user/sub/${id}/password`, data)
+}
