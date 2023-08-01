@@ -49,6 +49,13 @@ const handleSubmit = () => {
     <a-card>
       <a-form :model="form" @submit="handleSubmit" auto-label-width>
         <a-form-item field="enabled" label="启动">
+          <template #help>
+            <span
+              >开启时, 请到前往<a class="link" href="https://open.feishu.cn/app" target="_blank"
+                >飞书后台</a
+              >获得应用相关信息</span
+            >
+          </template>
           <a-switch type="round" v-model="form.enabled" @change="checkIsEdit" />
         </a-form-item>
         <a-form-item field="app_id" label="App ID" :required="form.enabled">

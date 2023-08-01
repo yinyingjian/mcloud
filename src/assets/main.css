@@ -39,3 +39,10 @@
   align-items: center;
   justify-content: center;
 }
+
+.link {
+  padding: 1px 4px;
+  color: rgb(var(--link-6));
+  text-decoration: none;
+  cursor: pointer;
+}
