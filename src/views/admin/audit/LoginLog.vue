@@ -45,7 +45,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div>
+  <div class="page">
     <BreadcrumbMenu />
     <div class="table-op"></div>
     <a-card class="table-data">

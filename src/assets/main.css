@@ -15,11 +15,14 @@
 }
 
 .main {
-  padding: 8px;
   width: 100%;
   height: calc(100vh - 46px);
   overflow: scroll;
   background-color: var(--color-fill-1);
+}
+
+.page {
+  padding: 8px;
 }
 
 .table-op {

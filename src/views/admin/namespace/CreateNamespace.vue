@@ -38,7 +38,7 @@ const handleSubmit = async (data) => {
 </script>
 
 <template>
-  <div>
+  <div class="page">
     <!-- 页头 -->
     <a-page-header title="创建空间" @back="router.go(-1)"> </a-page-header>
 

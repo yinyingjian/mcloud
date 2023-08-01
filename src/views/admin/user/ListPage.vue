@@ -66,7 +66,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div>
+  <div class="page">
     <BreadcrumbMenu />
     <div class="table-op">
       <a-button type="primary" :size="app.size" @click="router.push({ name: 'CreateSubUser' })">
