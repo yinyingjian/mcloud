@@ -21,3 +21,7 @@
 .arco-tabs-nav {
   background-color: #fff;
 }
+
+.arco-tabs-content {
+  padding-top: 0px;
+}
