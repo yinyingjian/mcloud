@@ -45,7 +45,7 @@ const handleSubmit = () => {
   <div class="page">
     <a-card>
       <a-form :model="form" @submit="handleSubmit" auto-label-width>
-        <a-form-item field="enabled" label="启动" class="enable-line">
+        <a-form-item field="enabled" label="启用" class="enable-line">
           <template #help>
             <span
               >开启时, 请到前往<a class="link" href="https://open.feishu.cn/app" target="_blank"

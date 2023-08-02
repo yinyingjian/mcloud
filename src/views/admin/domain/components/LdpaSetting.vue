@@ -54,7 +54,7 @@ const handleSubmit = () => {
   <div class="page">
     <a-card>
       <a-form :model="form" @submit="handleSubmit" auto-label-width>
-        <a-form-item field="enabled" label="启动" style="margin-bottom: 0px">
+        <a-form-item field="enabled" label="启用" style="margin-bottom: 0px">
           <a-switch type="round" v-model="form.enabled" @change="checkIsEdit" />
         </a-form-item>
         <a-divider orientation="center" type="dotted">服务端配置</a-divider>
