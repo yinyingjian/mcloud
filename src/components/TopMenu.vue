@@ -194,6 +194,7 @@ onBeforeMount(() => {
 .logo {
   display: flex;
   align-items: center;
+  justify-content: center;
   height: 100%;
   width: 193px !important;
   border-right: 1px solid rgb(229, 230, 235);
