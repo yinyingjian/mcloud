@@ -45,7 +45,7 @@ const handleSubmit = () => {
   <div class="page">
     <a-card>
       <a-form :model="form" @submit="handleSubmit" auto-label-width>
-        <a-form-item field="enabled" label="启动">
+        <a-form-item field="enabled" label="启动" class="enable-line">
           <template #help>
             <span
               >开启时, 请到前往<a class="link" href="https://open.feishu.cn/app" target="_blank"
@@ -55,6 +55,7 @@ const handleSubmit = () => {
           </template>
           <a-switch type="round" v-model="form.enabled" @change="checkIsEdit" />
         </a-form-item>
+        <a-divider orientation="center" type="dotted">飞书应用配置</a-divider>
         <a-form-item field="app_id" label="App ID" :required="form.enabled">
           <a-input v-model="form.app_id" @change="checkIsEdit"> </a-input>
         </a-form-item>
@@ -76,3 +77,13 @@ const handleSubmit = () => {
     </a-card>
   </div>
 </template>
+
+<style scoped>
+.enable-line {
+  margin-bottom: 0px;
+}
+
+.enable-line :deep(.arco-form-item-message) {
+  margin-bottom: 0px;
+}
+</style>
