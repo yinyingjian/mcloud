@@ -54,7 +54,17 @@ const handleSubmit = () => {
   <div class="page">
     <a-card>
       <a-form :model="form" @submit="handleSubmit" auto-label-width>
-        <a-form-item field="enabled" label="启用" style="margin-bottom: 0px">
+        <a-form-item field="enabled" label="启用" class="enable-line">
+          <template #help>
+            <span
+              >如对LDAP不熟，请参考<a
+                class="link"
+                href="https://www.jianshu.com/p/4b3c89ce6ac3"
+                target="_blank"
+                >LDAP简介</a
+              ></span
+            >
+          </template>
           <a-switch type="round" v-model="form.enabled" @change="checkIsEdit" />
         </a-form-item>
         <a-divider orientation="center" type="dotted">服务端配置</a-divider>
@@ -140,3 +150,13 @@ const handleSubmit = () => {
     </a-card>
   </div>
 </template>
+
+<style scoped>
+.enable-line {
+  margin-bottom: 0px;
+}
+
+.enable-line :deep(.arco-form-item-message) {
+  margin-bottom: 0px;
+}
+</style>

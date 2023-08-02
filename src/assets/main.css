@@ -46,3 +46,7 @@
   text-decoration: none;
   cursor: pointer;
 }
+
+.form-item-append-text {
+  margin-left: 8px;
+}

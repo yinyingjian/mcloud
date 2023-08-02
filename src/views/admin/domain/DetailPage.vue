@@ -34,8 +34,8 @@ onBeforeMount(async () => {
 <template>
   <div>
     <a-tabs :size="app.size" :active-key="tab" @change="ChangeTab">
-      <a-tab-pane key="PASSWORD" title="本地用户">
-        <LocalUser :security-setting="settings.security_setting" />
+      <a-tab-pane key="PASSWORD" title="本地认证">
+        <LocalUser :password-config="settings.password_config" v-if="settings.password_config" />
       </a-tab-pane>
       <a-tab-pane key="LDAP" title="LDAP">
         <LdpaSetting :ldap-setting="settings.ldap_setting" v-if="settings.ldap_setting" />
