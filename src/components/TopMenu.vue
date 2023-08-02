@@ -75,7 +75,9 @@ onBeforeMount(() => {
   <!-- 顶部导航 -->
   <div class="nav">
     <!-- logo显示区 -->
-    <div class="logo">mcloud</div>
+    <div class="logo">
+      <span>{{ app.token.meta.domain_description }}</span>
+    </div>
     <!-- 空间选择区 -->
     <div v-if="!isAdminPage" class="namespace-choice">
       <a-select
@@ -193,8 +195,8 @@ onBeforeMount(() => {
   display: flex;
   align-items: center;
   height: 100%;
+  width: 193px !important;
   border-right: 1px solid rgb(229, 230, 235);
-  padding-right: 20px;
 }
 
 .user-info {
