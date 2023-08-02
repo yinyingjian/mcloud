@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted, reactive, ref } from 'vue'
+import { onMounted, ref } from 'vue'
 
 // 声明属性
 const props = defineProps({
@@ -7,17 +7,14 @@ const props = defineProps({
 })
 
 // 表单
-const form = reactive({
+const form = ref({
   enabled: false,
   app_id: '',
   app_secret: '',
   redirect_uri: ''
 })
 const initForm = () => {
-  form.enabled = props.feishuSetting.enabled
-  form.app_id = props.feishuSetting.app_id
-  form.app_secret = props.feishuSetting.app_secret
-  form.redirect_uri = props.feishuSetting.redirect_uri
+  form.value = JSON.parse(JSON.stringify(props.feishuSetting))
   checkIsEdit()
 }
 onMounted(() => {
@@ -28,14 +25,14 @@ onMounted(() => {
 const isEdit = ref(false)
 const checkIsEdit = () => {
   const ov = JSON.stringify(props.feishuSetting)
-  const nv = JSON.stringify(form)
+  const nv = JSON.stringify(form.value)
   isEdit.value = ov !== nv
 }
 
 // 提交表单
 const submitLoading = ref(false)
 const handleSubmit = () => {
-  const payload = JSON.parse(JSON.stringify(form))
+  const payload = JSON.parse(JSON.stringify(form.value))
   // 密码未修改时 不提交
   if (props.feishuSetting.app_secret === payload.app_secret) {
     payload.app_secret = ''

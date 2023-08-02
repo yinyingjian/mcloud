@@ -93,7 +93,7 @@ onMounted(() => {
                 :size="app.size"
                 @click="router.push({ name: 'CreateSubUser', query: { id: record.id } })"
               >
-                修改
+                编辑
               </a-button>
               <a-divider direction="vertical" />
               <a-dropdown>
