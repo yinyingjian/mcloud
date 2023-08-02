@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted, ref } from 'vue'
+import { onBeforeMount, ref } from 'vue'
 
 // 声明属性
 const props = defineProps({
@@ -26,7 +26,7 @@ const initForm = () => {
   form.value = JSON.parse(JSON.stringify(props.ldapSetting))
   checkIsEdit()
 }
-onMounted(() => {
+onBeforeMount(() => {
   initForm()
 })
 
@@ -141,7 +141,7 @@ const handleSubmit = () => {
       </a-form>
       <div class="form-submit">
         <a-space>
-          <a-button @click="initForm" :disabled="!isEdit">取消</a-button>
+          <a-button @click="initForm" :disabled="!isEdit">重置</a-button>
           <a-button type="primary" html-type="submit" :disabled="!isEdit" :loading="submitLoading"
             >保存</a-button
           >
