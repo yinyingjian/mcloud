@@ -2,8 +2,21 @@
 import { onBeforeMount, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { CREATE_SUB_USER, GET_SUB_USER, UPDATE_SUB_USER } from '@/api/mcenter/user'
+import { LIST_LABEL } from '@/api/mcenter/label'
 import { Message } from '@arco-design/web-vue'
 
+// 选项数据准备
+var groupLabels = ref([])
+const ListUserGroup = async () => {
+  try {
+    const resp = await LIST_LABEL({ keys: 'UserGroup' })
+    groupLabels.value = resp.items[0].enum_options
+  } catch (error) {
+    Message.error(`查询用户组失败: ${error}`)
+  }
+}
+
+// 表单
 const router = useRouter()
 const form = ref({
   username: '',
@@ -27,7 +40,7 @@ const form = ref({
 let pageHeader = '创建用户'
 const uid = router.currentRoute.value.query.id
 const isCreate = uid === undefined
-onBeforeMount(async () => {
+const GetUser = async () => {
   if (!isCreate) {
     pageHeader = '编辑用户'
     try {
@@ -38,6 +51,10 @@ onBeforeMount(async () => {
       Message.error(`查询用户失败: ${error}`)
     }
   }
+}
+onBeforeMount(async () => {
+  GetUser()
+  ListUserGroup()
 })
 
 // 提交处理
@@ -83,8 +100,13 @@ const handleSubmit = async (data) => {
         <a-form-item field="password" label="密码" v-if="isCreate" required>
           <a-input-password v-model="form.password" placeholder="请输入密码" />
         </a-form-item>
-        <a-form-item field="labels.UserGroup" label="用户组">
-          <a-input v-model="form.labels.UserGroup" />
+        <a-form-item field="labels.UserGroup" label="用户组" required>
+          <a-cascader
+            :options="groupLabels"
+            allow-search
+            laceholder="选择用户组"
+            v-model="form.labels.UserGroup"
+          />
         </a-form-item>
         <a-form-item field="description" label="描述">
           <a-input v-model="form.description" />
