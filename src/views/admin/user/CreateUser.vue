@@ -8,6 +8,8 @@ const router = useRouter()
 const form = ref({
   username: '',
   password: '',
+  description: '',
+  labels: { UserGroup: '' },
   profile: {
     real_name: '',
     nick_name: '',
@@ -80,6 +82,9 @@ const handleSubmit = async (data) => {
         </a-form-item>
         <a-form-item field="password" label="密码" v-if="isCreate" required>
           <a-input-password v-model="form.password" placeholder="请输入密码" />
+        </a-form-item>
+        <a-form-item field="labels.UserGroup" label="用户组">
+          <a-input v-model="form.labels.UserGroup" />
         </a-form-item>
         <a-form-item field="description" label="描述">
           <a-input v-model="form.description" />
