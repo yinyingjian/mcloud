@@ -65,7 +65,10 @@ const handleSubmit = () => {
               ></span
             >
           </template>
-          <a-switch type="round" v-model="form.enabled" @change="checkIsEdit" />
+          <a-switch type="round" v-model="form.enabled" @change="checkIsEdit">
+            <template #checked> ON </template>
+            <template #unchecked> OFF </template>
+          </a-switch>
         </a-form-item>
         <a-divider orientation="center" type="dotted">服务端配置</a-divider>
         <a-form-item

@@ -4,6 +4,8 @@ import { useRouter } from 'vue-router'
 import { GET_POLICY, CREATE_POLICY } from '@/api/mcenter/policy'
 import { Message } from '@arco-design/web-vue'
 import SearchUser from '@/components/SearchUser.vue'
+import SearchRole from '@/components/SearchRole.vue'
+import dayjs from 'dayjs'
 
 const router = useRouter()
 const form = ref({
@@ -13,16 +15,19 @@ const form = ref({
   scope: [],
   expired_time: 0
 })
+const isExpired = ref(false)
+const expiredTime = ref(0)
 
 // 提交处理
 const submitLoading = ref(false)
 const handleSubmit = async (data) => {
   if (!data.errors) {
+    form.value.expired_time = dayjs(expiredTime.value).hour(23).minute(59).second(59).unix()
     try {
       submitLoading.value = true
-      let resp = await CREATE_POLICY(data.values)
-      console.log(resp)
-      router.push({ name: 'NamespaceList' })
+      await CREATE_POLICY(data.values)
+      Message.success(`保存成功`)
+      router.push({ name: 'NamespacePolicyList' })
     } catch (error) {
       Message.error(`保存失败: ${error}`)
     } finally {
@@ -35,18 +40,25 @@ const handleSubmit = async (data) => {
 let pageHeader = '创建策略'
 const id = router.currentRoute.value.query.id
 const isCreate = id === undefined
-const GetNamespace = async () => {
+const GetPolicy = async () => {
   if (!isCreate) {
     pageHeader = '编辑策略'
     try {
-      form.value = await GET_POLICY(id)
+      const resp = await GET_POLICY(id)
+      form.value = resp
+
+      // 补充界面的过期选项
+      isExpired.value = resp.expired_time > 0
+      if (isExpired.value) {
+        expiredTime.value = dayjs.unix(resp.expired_time)
+      }
     } catch (error) {
-      Message.error(`查询空间失败: ${error}`)
+      Message.error(`查询策略失败: ${error}`)
     }
   }
 }
 onBeforeMount(async () => {
-  GetNamespace()
+  GetPolicy()
 })
 </script>
 
@@ -58,21 +70,33 @@ onBeforeMount(async () => {
     <a-card>
       <a-form :model="form" @submit="handleSubmit" auto-label-width>
         <a-form-item field="enabled" label="启用" class="enable-line" help="启用后该策略才会生效">
-          <a-switch type="round" v-model="form.enabled" />
+          <a-switch type="round" v-model="form.enabled">
+            <template #checked> ON </template>
+            <template #unchecked> OFF </template>
+          </a-switch>
         </a-form-item>
 
         <a-form-item field="user_id" label="用户" help="请输入用户名进行模糊搜索" required>
           <SearchUser v-model="form.user_id"></SearchUser>
         </a-form-item>
         <a-form-item field="role_id" label="角色" required>
-          <a-input v-model="form.role_id" placeholder="请输入空间名称" />
+          <SearchRole v-model="form.role_id"></SearchRole>
         </a-form-item>
-        <a-form-item field="expired_time" label="过期时间" required>
-          <a-input v-model="form.expired_time" placeholder="请输入空间名称" />
+        <a-form-item label="是否过期" help="">
+          <a-switch type="round" v-model="isExpired">
+            <template #checked> ON </template>
+            <template #unchecked> OFF </template>
+          </a-switch>
+        </a-form-item>
+        <a-form-item v-if="isExpired" field="expired_time" label="过期时间">
+          <a-date-picker
+            :disabled-date="(current) => dayjs(current).add(1, 'day').isBefore(dayjs())"
+            v-model="expiredTime"
+          />
         </a-form-item>
         <div class="form-submit">
           <a-space>
-            <a-button @click="router.push({ name: 'NamespaceList' })">取消</a-button>
+            <a-button @click="router.push({ name: 'NamespacePolicyList' })">取消</a-button>
             <a-button type="primary" html-type="submit" :loading="submitLoading">保存</a-button>
           </a-space>
         </div>

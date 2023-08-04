@@ -55,7 +55,10 @@ onBeforeMount(async () => {
     <a-card>
       <a-form :model="form" @submit="handleSubmit" auto-label-width>
         <a-form-item field="enabled" label="启用" class="enable-line">
-          <a-switch type="round" v-model="form.enabled" />
+          <a-switch type="round" v-model="form.enabled">
+            <template #checked> ON </template>
+            <template #unchecked> OFF </template>
+          </a-switch>
         </a-form-item>
         <a-form-item
           field="name"

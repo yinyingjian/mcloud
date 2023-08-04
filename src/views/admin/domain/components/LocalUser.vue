@@ -56,7 +56,10 @@ const handleSubmit = () => {
           class="enable-line"
           help="开启后, 允许用户通过本地用户名密码登录"
         >
-          <a-switch type="round" v-model="form.enabled" @change="checkIsEdit" />
+          <a-switch type="round" v-model="form.enabled" @change="checkIsEdit">
+            <template #checked> ON </template>
+            <template #unchecked> OFF </template>
+          </a-switch>
         </a-form-item>
       </a-form>
       <a-divider orientation="center" type="dotted">密码规则</a-divider>

@@ -53,7 +53,10 @@ const handleSubmit = () => {
               >获得应用相关信息</span
             >
           </template>
-          <a-switch type="round" v-model="form.enabled" @change="checkIsEdit" />
+          <a-switch type="round" v-model="form.enabled" @change="checkIsEdit">
+            <template #checked> ON </template>
+            <template #unchecked> OFF </template>
+          </a-switch>
         </a-form-item>
         <a-divider orientation="center" type="dotted">飞书应用配置</a-divider>
         <a-form-item field="app_id" label="App ID" :required="form.enabled">

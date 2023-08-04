@@ -31,7 +31,6 @@ const GetRole = async () => {
         attr.push({ label, value })
       }
     })
-    console.log(attr)
     roleAttr.value = attr
   } catch (error) {
     Message.error(`查询角色详情失败: ${error}`)
