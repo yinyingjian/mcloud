@@ -33,3 +33,21 @@
 .arco-divider-text {
   color: var(--color-text-3);
 }
+
+.arco-card-header {
+  border-bottom: 0px;
+}
+
+.arco-card-header-title {
+  color: var(--color-text-2);
+}
+
+/* 修改详情页Title字体大小 */
+.arco-descriptions-title {
+  font-size: 12px;
+  color: var(--color-text-2);
+}
+
+.arco-card-size-medium .arco-card-header-title {
+  font-size: 12px;
+}

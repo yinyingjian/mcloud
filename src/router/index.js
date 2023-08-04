@@ -67,6 +67,12 @@ const router = createRouter({
               meta: { label: '角色列表' }
             },
             {
+              path: 'role/detail',
+              name: 'RoleDetail',
+              component: () => import('@/views/admin/role/DetailPage.vue'),
+              meta: { label: '角色详情' }
+            },
+            {
               path: 'label/list',
               name: 'LabelList',
               component: () => import('@/views/admin/label/ListPage.vue'),
