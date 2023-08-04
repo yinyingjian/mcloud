@@ -48,7 +48,13 @@ onMounted(() => {
   <div class="page">
     <BreadcrumbMenu />
     <div class="table-op">
-      <a-button type="primary" :size="app.size"> 添加策略 </a-button>
+      <a-button
+        type="primary"
+        :size="app.size"
+        @click="router.push({ name: 'NamespacePolicyCreate' })"
+      >
+        添加策略
+      </a-button>
     </div>
     <a-card class="table-data">
       <a-table

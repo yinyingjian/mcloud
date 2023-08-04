@@ -81,24 +81,3 @@ onBeforeMount(async () => {
 </template>
 
 <style scoped></style>
-
-<!-- {
-  "id": "5fecb49ae23804e7",
-  "create_at": 1688438807,
-  "update_at": 0,
-  "update_by": "",
-  "domain": "default",
-  "parent_id": "",
-  "name": "default",
-  "owner": "",
-  "assistants": [],
-  "enabled": true,
-  "picture": "",
-  "description": "默认空间",
-  "visible": "PUBLIC",
-  "resource_quota": {
-   "items": []
-  },
-  "extension": {},
-  "labels": {}
- }, -->

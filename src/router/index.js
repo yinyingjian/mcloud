@@ -122,6 +122,12 @@ const router = createRouter({
               name: 'NamespacePolicyList',
               component: () => import('@/views/setting/policy/ListPage.vue'),
               meta: { label: '策略列表' }
+            },
+            {
+              path: 'policy/create',
+              name: 'NamespacePolicyCreate',
+              component: () => import('@/views/setting/policy/CreatePolicy.vue'),
+              meta: { label: '创建策略' }
             }
           ]
         }
