@@ -44,7 +44,15 @@ onMounted(() => {
   <div class="page">
     <BreadcrumbMenu />
     <div class="table-op">
-      <a-button type="primary" :size="app.size"> 创建服务 </a-button>
+      <a-space>
+        <a-button type="primary" :size="app.size"> 创建服务 </a-button>
+        <a-button type="primary" :size="app.size" style="background-color: #f96424">
+          <template #icon>
+            <icon-gitlab />
+          </template>
+          Gitlab导入
+        </a-button>
+      </a-space>
     </div>
     <a-card class="table-data">
       <a-table
@@ -56,9 +64,24 @@ onMounted(() => {
       >
         <template #columns>
           <a-table-column title="名称" data-index="name"></a-table-column>
+          <a-table-column title="描述" data-index="description"></a-table-column>
+          <a-table-column title="负责人" data-index="owner"></a-table-column>
           <a-table-column title="类型" data-index="type"></a-table-column>
-          <a-table-column title="仓库" data-index="code_repository.ssh_url"></a-table-column>
-          <a-table-column title="创建时间" data-index="create_at"></a-table-column>
+          <a-table-column title="仓库">
+            <template #cell="{ record }">
+              <span v-if="record.type === 'SOURCE_CODE'">
+                {{ record.code_repository.ssh_url }}
+              </span>
+              <span v-else>
+                {{ record.image_repository.address }}:{{ record.image_repository.version }}
+              </span>
+            </template>
+          </a-table-column>
+          <a-table-column title="创建时间">
+            <template #cell="{ record }">
+              <ShowTime :timestamp="record.create_at"></ShowTime>
+            </template>
+          </a-table-column>
         </template>
       </a-table>
     </a-card>
