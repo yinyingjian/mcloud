@@ -111,8 +111,15 @@ const onNext = async () => {
           <a-button type="secondary" :disabled="current <= 1" @click="onPrev">
             <IconLeft /> 上一步
           </a-button>
-          <a-button type="primary" :loading="nextLoading" :disabled="current >= 2" @click="onNext">
+          <a-button type="primary" :loading="nextLoading" v-show="current < 2" @click="onNext">
             下一步 <IconRight />
+          </a-button>
+          <a-button
+            type="primary"
+            v-show="current >= 2"
+            @click="router.push({ name: 'ServiceList' })"
+          >
+            完成 <IconRight />
           </a-button>
         </a-space>
       </div>

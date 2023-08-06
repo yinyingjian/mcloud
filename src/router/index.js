@@ -214,7 +214,7 @@ const router = createRouter({
               path: 'service/import/gitlab',
               name: 'GitlabImport',
               component: () => import('@/views/develop/service/GitlabImport.vue'),
-              meta: { label: 'Gitlab服务导入' }
+              meta: { label: 'Gitlab项目导入' }
             },
             {
               path: 'approval/list',
