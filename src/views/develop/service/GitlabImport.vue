@@ -90,7 +90,6 @@ const onNext = async () => {
         <div v-show="current === 2">
           <a-table :data="projects.items">
             <template #columns>
-              <a-table-column title="名称" data-index="id"></a-table-column>
               <a-table-column title="名称" data-index="name"></a-table-column>
               <a-table-column title="描述" data-index="description"></a-table-column>
               <a-table-column title="负责人" data-index="owner"></a-table-column>
@@ -112,7 +111,7 @@ const onNext = async () => {
           <a-button type="secondary" :disabled="current <= 1" @click="onPrev">
             <IconLeft /> 上一步
           </a-button>
-          <a-button type="primary" :loading="nextLoading" :disabled="current >= 3" @click="onNext">
+          <a-button type="primary" :loading="nextLoading" :disabled="current >= 2" @click="onNext">
             下一步 <IconRight />
           </a-button>
         </a-space>
