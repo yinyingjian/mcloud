@@ -1,8 +1,8 @@
 <script setup>
 import { app } from '@/stores/localstorage'
 import { useRouter } from 'vue-router'
-import { LIST_GITLAB_PROJECT } from '@/api/mcenter/service'
-import { Message } from '@arco-design/web-vue'
+import { LIST_GITLAB_PROJECT, CREATE_SERVICE, DELETE_SERVICE } from '@/api/mcenter/service'
+import { Notification } from '@arco-design/web-vue'
 import { reactive, ref } from 'vue'
 
 const router = useRouter()
@@ -14,9 +14,18 @@ const gitlabForm = ref(null)
 const listProject = async () => {
   try {
     nextLoading.value = true
-    projects.value = await LIST_GITLAB_PROJECT(queryParams)
+    let resp = await LIST_GITLAB_PROJECT(queryParams)
+    // 动态计算项目是否已经同步
+    resp.items.forEach((item) => {
+      if (item.id !== '') {
+        item.synced = true
+      } else {
+        item.synced = false
+      }
+    })
+    projects.value = resp
   } catch (error) {
-    Message.error(`查询项目失败: ${error}`)
+    Notification.error(`查询项目失败: ${error}`)
   } finally {
     nextLoading.value = false
   }
@@ -44,6 +53,33 @@ const onNext = async () => {
   }
 
   current.value = Math.max(2, current.value + 1)
+}
+
+// 同步
+const syncLoading = ref(null)
+const syncChanged = async (v, record) => {
+  syncLoading.value = record.name
+  if (v) {
+    // 创建服务
+    try {
+      await CREATE_SERVICE(record)
+      listProject()
+    } catch (error) {
+      Notification.error(`创建服务失败: ${error}`)
+    } finally {
+      syncLoading.value = null
+    }
+  } else {
+    // 删除服务
+    try {
+      await DELETE_SERVICE(record.id)
+      listProject()
+    } catch (error) {
+      Notification.error(`删除服务失败: ${error}`)
+    } finally {
+      syncLoading.value = null
+    }
+  }
 }
 </script>
 
@@ -97,7 +133,12 @@ const onNext = async () => {
 
               <a-table-column align="center" title="导入" :width="200">
                 <template #cell="{ record }">
-                  <a-switch type="round" :default-checked="record.id !== ''">
+                  <a-switch
+                    type="round"
+                    :loading="syncLoading === record.name"
+                    :model-value="record.synced"
+                    @change="syncChanged($event, record)"
+                  >
                     <template #checked> ON </template>
                     <template #unchecked> OFF </template>
                   </a-switch>

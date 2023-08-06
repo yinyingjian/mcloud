@@ -2,7 +2,7 @@
 import { onBeforeMount, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { GET_POLICY, CREATE_POLICY } from '@/api/mcenter/policy'
-import { Message } from '@arco-design/web-vue'
+import { Notification } from '@arco-design/web-vue'
 import SearchUser from '@/components/SearchUser.vue'
 import SearchRole from '@/components/SearchRole.vue'
 import dayjs from 'dayjs'
@@ -26,10 +26,10 @@ const handleSubmit = async (data) => {
     try {
       submitLoading.value = true
       await CREATE_POLICY(data.values)
-      Message.success(`保存成功`)
+      Notification.success(`保存成功`)
       router.push({ name: 'NamespacePolicyList' })
     } catch (error) {
-      Message.error(`保存失败: ${error}`)
+      Notification.error(`保存失败: ${error}`)
     } finally {
       submitLoading.value = false
     }
@@ -53,7 +53,7 @@ const GetPolicy = async () => {
         expiredTime.value = dayjs.unix(resp.expired_time)
       }
     } catch (error) {
-      Message.error(`查询策略失败: ${error}`)
+      Notification.error(`查询策略失败: ${error}`)
     }
   }
 }

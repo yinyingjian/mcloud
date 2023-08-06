@@ -9,3 +9,13 @@ export var LIST_SERVICE = (params) => {
 export var LIST_GITLAB_PROJECT = (params) => {
   return instance.get('/mcenter/api/v1/providers/gitlab/projects', { params })
 }
+
+// 创建服务
+export var CREATE_SERVICE = (data) => {
+  return instance.post('/mcenter/api/v1/service', data)
+}
+
+// 删除服务
+export var DELETE_SERVICE = (id) => {
+  return instance.delete(`/mcenter/api/v1/service/${id}`)
+}

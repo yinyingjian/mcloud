@@ -3,7 +3,7 @@ import { onBeforeMount, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { CREATE_SUB_USER, GET_SUB_USER, UPDATE_SUB_USER } from '@/api/mcenter/user'
 import { LIST_LABEL } from '@/api/mcenter/label'
-import { Message } from '@arco-design/web-vue'
+import { Notification } from '@arco-design/web-vue'
 
 // 选项数据准备
 var groupLabels = ref([])
@@ -12,7 +12,7 @@ const ListUserGroup = async () => {
     const resp = await LIST_LABEL({ keys: 'UserGroup' })
     groupLabels.value = resp.items[0].enum_options
   } catch (error) {
-    Message.error(`查询用户组失败: ${error}`)
+    Notification.error(`查询用户组失败: ${error}`)
   }
 }
 
@@ -48,7 +48,7 @@ const GetUser = async () => {
       resp.password = ''
       form.value = resp
     } catch (error) {
-      Message.error(`查询用户失败: ${error}`)
+      Notification.error(`查询用户失败: ${error}`)
     }
   }
 }
@@ -67,7 +67,7 @@ const handleSubmit = async (data) => {
         await CREATE_SUB_USER(data.values)
         router.push({ name: 'SubUserList' })
       } catch (error) {
-        Message.error(`保存失败: ${error}`)
+        Notification.error(`保存失败: ${error}`)
       } finally {
         submitLoading.value = false
       }
@@ -77,7 +77,7 @@ const handleSubmit = async (data) => {
         await UPDATE_SUB_USER(uid, data.values)
         router.push({ name: 'SubUserList' })
       } catch (error) {
-        Message.error(`更新失败: ${error}`)
+        Notification.error(`更新失败: ${error}`)
       } finally {
         submitLoading.value = false
       }

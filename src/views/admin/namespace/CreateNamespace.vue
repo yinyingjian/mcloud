@@ -2,7 +2,7 @@
 import { onBeforeMount, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { GET_NAMESPACE, CREATE_NAMESPACE } from '@/api/mcenter/namespace'
-import { Message } from '@arco-design/web-vue'
+import { Notification } from '@arco-design/web-vue'
 
 const router = useRouter()
 const form = ref({
@@ -21,7 +21,7 @@ const handleSubmit = async (data) => {
       console.log(resp)
       router.push({ name: 'NamespaceList' })
     } catch (error) {
-      Message.error(`保存失败: ${error}`)
+      Notification.error(`保存失败: ${error}`)
     } finally {
       submitLoading.value = false
     }
@@ -38,7 +38,7 @@ const GetNamespace = async () => {
     try {
       form.value = await GET_NAMESPACE(id)
     } catch (error) {
-      Message.error(`查询空间失败: ${error}`)
+      Notification.error(`查询空间失败: ${error}`)
     }
   }
 }

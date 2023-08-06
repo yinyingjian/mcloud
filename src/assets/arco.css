@@ -51,3 +51,11 @@
 .arco-card-size-medium .arco-card-header-title {
   font-size: 12px;
 }
+
+.arco-switch-loading .arco-switch-handle {
+  color: var(--color-neutral-7);
+}
+
+.arco-switch-loading {
+  background-color: var(--color-fill-4);
+}
