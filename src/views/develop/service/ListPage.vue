@@ -3,6 +3,9 @@ import { app } from '@/stores/localstorage'
 import { LIST_SERVICE } from '@/api/mcenter/service'
 import { Message } from '@arco-design/web-vue'
 import { onMounted, reactive, ref } from 'vue'
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
 
 // 分页参数
 const pagination = reactive(app.value.pagination)
@@ -46,7 +49,12 @@ onMounted(() => {
     <div class="table-op">
       <a-space>
         <a-button type="primary" :size="app.size"> 创建服务 </a-button>
-        <a-button type="primary" :size="app.size" style="background-color: #f96424">
+        <a-button
+          type="primary"
+          :size="app.size"
+          @click="router.push({ name: 'GitlabImport' })"
+          style="background-color: #f96424"
+        >
           <template #icon>
             <icon-gitlab />
           </template>
