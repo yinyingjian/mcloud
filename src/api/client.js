@@ -5,7 +5,7 @@ import { Modal } from '@arco-design/web-vue'
 import { app } from '@/stores/localstorage'
 
 var instance = axios.create({
-  baseURL: '',
+  baseURL: import.meta.env.VITE_BASE_URL,
   timeout: 5000,
   headers: { 'Content-Type': 'application/json' }
 })

@@ -26,9 +26,11 @@ app.use(ArcoVueIcon)
 import TopMenu from './components/TopMenu.vue'
 import BreadcrumbMenu from './components/BreadcrumbMenu.vue'
 import ShowTime from './components/ShowTime.vue'
+import CodeEditor from './components/CodeEditor.vue'
 app.component('TopMenu', TopMenu)
 app.component('BreadcrumbMenu', BreadcrumbMenu)
 app.component('ShowTime', ShowTime)
+app.component('CodeEditor', CodeEditor)
 
 // 重写arco 样式
 import './assets/arco.css'

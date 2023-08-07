@@ -9,7 +9,7 @@ const router = createRouter({
     {
       path: '/login',
       name: 'LoginPage',
-      component: () => LoginPage
+      component: LoginPage
     },
     // 个人主页
     {
@@ -194,13 +194,13 @@ const router = createRouter({
     {
       path: '/develop',
       name: 'DevelopPage',
-      component: () => import('@/views/develop/LayoutPage.vue'),
+      component: () => import('@/components/RedirectPage.vue'),
       redirect: { name: 'BaseDevelop' },
       children: [
         {
           path: 'base',
           name: 'BaseDevelop',
-          component: () => import('@/components/RedirectPage.vue'),
+          component: () => import('@/views/develop/LayoutPage.vue'),
           meta: { label: '服务管理' },
           redirect: { name: 'ServiceList' },
           children: [
@@ -239,7 +239,7 @@ const router = createRouter({
         {
           path: 'tool',
           name: 'DevToolManage',
-          component: () => import('@/components/RedirectPage.vue'),
+          component: () => import('@/views/develop/LayoutPage.vue'),
           meta: { label: '研发工具' },
           redirect: { name: 'DomainPipelineList' },
           children: [
@@ -254,6 +254,18 @@ const router = createRouter({
               name: 'DomainJobList',
               component: () => import('@/views/develop/job/ListPage.vue'),
               meta: { label: 'Job管理' }
+            },
+            {
+              path: 'job/create',
+              name: 'DomainJobCreate',
+              component: () => import('@/views/develop/job/CreateJob.vue'),
+              meta: { label: '创建Job' }
+            },
+            {
+              path: 'job/detail',
+              name: 'DomainJobDetail',
+              component: () => import('@/views/develop/job/DetailPage.vue'),
+              meta: { label: 'Job详情' }
             }
           ]
         }

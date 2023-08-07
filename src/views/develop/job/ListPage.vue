@@ -3,6 +3,9 @@ import { app } from '@/stores/localstorage'
 import { LIST_JOB } from '@/api/mpaas/job'
 import { Message } from '@arco-design/web-vue'
 import { onMounted, reactive, ref } from 'vue'
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
 
 // 分页参数
 const pagination = reactive(app.value.pagination)
@@ -44,7 +47,9 @@ onMounted(() => {
   <div class="page">
     <BreadcrumbMenu />
     <div class="table-op">
-      <a-button type="primary" :size="app.size"> 创建Job </a-button>
+      <a-button type="primary" :size="app.size" @click="router.push({ name: 'DomainJobCreate' })">
+        创建Job
+      </a-button>
     </div>
     <a-card class="table-data">
       <a-table
@@ -55,10 +60,21 @@ onMounted(() => {
         @page-size-change="pageSizeChange"
       >
         <template #columns>
-          <a-table-column title="名称" data-index="name"></a-table-column>
-          <a-table-column title="类型" data-index="type"></a-table-column>
-          <a-table-column title="仓库" data-index="code_repository.ssh_url"></a-table-column>
-          <a-table-column title="创建时间" data-index="create_at"></a-table-column>
+          <a-table-column title="名称">
+            <template #cell="{ record }">
+              <a-link @click="router.push({ name: 'DomainJobDetail', query: { id: record.id } })">{{
+                record.name
+              }}</a-link>
+            </template>
+          </a-table-column>
+          <a-table-column title="执行方式" data-index="runner_type"></a-table-column>
+          <a-table-column title="状态" data-index="stage"></a-table-column>
+          <a-table-column title="创建人" data-index="create_by"></a-table-column>
+          <a-table-column title="创建时间">
+            <template #cell="{ record }">
+              <ShowTime :timestamp="record.create_at"></ShowTime>
+            </template>
+          </a-table-column>
         </template>
       </a-table>
     </a-card>
