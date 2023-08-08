@@ -11,11 +11,26 @@ const router = createRouter({
       name: 'LoginPage',
       component: LoginPage
     },
-    // 个人主页
+    // 工作台
     {
       path: '/',
-      name: 'HomePage',
-      component: () => import('@/views/home/HomePage.vue')
+      name: 'UserWorkspace',
+      redirect: { name: 'HomePage' },
+      component: () => import('@/views/workspace/LayoutPage.vue'),
+      children: [
+        {
+          path: 'dashboard',
+          name: 'HomePage',
+          component: () => import('@/views/workspace/dashboard/HomePage.vue'),
+          meta: { label: '个人看版' }
+        },
+        {
+          path: 'job/run',
+          name: 'DomainJobRun',
+          component: () => import('@/views/develop/job/RunJob.vue'),
+          meta: { label: '运行Job' }
+        }
+      ]
     },
     // 后台管理
     {
