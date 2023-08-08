@@ -43,9 +43,7 @@ const menuItemClickHandler = (routeName) => {
     <!-- 内容操作区 -->
     <div class="main">
       <router-view v-slot="{ Component }">
-        <keep-alive>
-          <component :is="Component" />
-        </keep-alive>
+        <component :is="Component" />
       </router-view>
     </div>
   </div>

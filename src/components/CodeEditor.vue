@@ -1,6 +1,6 @@
 <script setup>
 import * as monaco from 'monaco-editor'
-import { onMounted, ref } from 'vue'
+import { onMounted, ref, watch } from 'vue'
 import jsonWorker from 'monaco-editor/esm/vs/language/json/json.worker?worker'
 import cssWorker from 'monaco-editor/esm/vs/language/css/css.worker?worker'
 import htmlWorker from 'monaco-editor/esm/vs/language/html/html.worker?worker'
@@ -10,7 +10,7 @@ import EditorWorker from 'monaco-editor/esm/vs/editor/editor.worker?worker'
 // 定义事件
 const props = defineProps({
   width: { type: String, default: '100%' },
-  height: { type: String, default: '460px' },
+  height: { type: String, default: 'calc(100vh - 46px)' },
   language: { type: String, default: 'json' },
   readOnly: { type: Boolean, default: false },
   modelValue: { type: String, default: '{}' }
@@ -39,17 +39,31 @@ window.MonacoEnvironment = {
 }
 
 onMounted(() => {
-  // 更多属性请参考: https://microsoft.github.io/monaco-editor/docs.html#interfaces/editor.IEditorOptions.html#automaticLayout
+  // 使用样例参考: https://microsoft.github.io/monaco-editor/playground.html
+  // 更多属性请参考: https://microsoft.github.io/monaco-editor/docs.html#interfaces/editor.IEditorOptions.html
   const editor = monaco.editor.create(codeRef.value, {
     value: props.modelValue,
     readOnly: props.readOnly,
     language: props.language,
     theme: 'vs-dark',
+    scrollBeyondLastLine: false,
     automaticLayout: true,
     minimap: {
       enabled: false
     }
   })
+
+  // 更新数据
+  watch(
+    () => props.modelValue,
+    (newV) => {
+      const v = editor.getValue()
+      if (newV !== v) {
+        editor.setValue(newV)
+      }
+    }
+  )
+
   // 监听值的变化
   editor.onDidChangeModelContent(() => {
     const value = editor.getValue()

@@ -268,19 +268,20 @@ const router = createRouter({
               meta: { label: 'Job详情' }
             }
           ]
-        },
-        {
-          path: '/errors/403',
-          name: 'PermissionDeny',
-          component: () => import('@/views/common/PermissionDeny.vue')
-        },
-        // 匹配前面所有没有被名字的路由, 都指向404页面
-        {
-          path: '/:pathMatch(.*)*',
-          name: 'NotFound',
-          component: () => import('@/views/common/NotFound.vue')
         }
       ]
+    },
+    // 其他通用页面
+    {
+      path: '/errors/403',
+      name: 'PermissionDeny',
+      component: () => import('@/views/common/PermissionDeny.vue')
+    },
+    // 匹配前面所有没有被名字的路由, 都指向404页面
+    {
+      path: '/:pathMatch(.*)*',
+      name: 'NotFound',
+      component: () => import('@/views/common/NotFound.vue')
     }
   ]
 })

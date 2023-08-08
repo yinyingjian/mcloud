@@ -1,16 +1,19 @@
 <script setup>
+import { app } from '@/stores/localstorage'
 import { onBeforeMount, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { GET_JOB, CREATE_JOB } from '@/api/mpaas/job'
 import { Notification } from '@arco-design/web-vue'
 
 const router = useRouter()
+const runner_attr = ref('runner_spec')
 const form = ref({
   name: '',
   display_name: '',
   description: '',
   runner_type: 'K8S_JOB',
-  runner_spec: ''
+  runner_spec: '',
+  run_param: []
 })
 
 // 提交处理
@@ -34,7 +37,7 @@ const handleSubmit = async (data) => {
 let pageHeader = '创建Job'
 const id = router.currentRoute.value.query.id
 const isCreate = id === undefined
-const GetNamespace = async () => {
+const GetJob = async () => {
   if (!isCreate) {
     pageHeader = '编辑Job'
     try {
@@ -44,8 +47,9 @@ const GetNamespace = async () => {
     }
   }
 }
+
 onBeforeMount(async () => {
-  GetNamespace()
+  await GetJob()
 })
 </script>
 
@@ -71,12 +75,47 @@ onBeforeMount(async () => {
         <a-form-item field="description" label="描述" required>
           <a-input v-model="form.description" placeholder="请输入空间名称" />
         </a-form-item>
-        <a-form-item field="runner_spec" label="定义" required>
+        <a-form-item label="定义" required>
+          <a-radio-group v-model="runner_attr" type="button">
+            <a-radio value="runner_spec">Job定义</a-radio>
+            <a-radio value="run_param">Job参数</a-radio>
+          </a-radio-group>
+        </a-form-item>
+        <a-form-item
+          v-show="runner_attr === 'runner_spec'"
+          field="runner_spec"
+          label="Job定义"
+          required
+        >
           <CodeEditor v-model="form.runner_spec" language="yaml"></CodeEditor>
+        </a-form-item>
+        <a-form-item
+          v-show="runner_attr === 'run_param'"
+          field="run_param"
+          label="Job参数"
+          required
+        >
+          <a-space direction="vertical" fill style="width: 100%">
+            <a-list :size="app.size" style="width: 100%">
+              <a-list-item v-for="item in form.run_param.params" :key="item.name">
+                {{ item.name }} {{ item.name_desc }}
+                <template #actions>
+                  <icon-edit />
+                  <icon-delete />
+                </template>
+              </a-list-item>
+            </a-list>
+            <a-button type="outline">
+              <template #icon>
+                <icon-plus />
+              </template>
+              添加参数
+            </a-button>
+          </a-space>
         </a-form-item>
         <div class="form-submit">
           <a-space>
-            <a-button @click="router.push({ name: 'NamespaceList' })">取消</a-button>
+            <a-button @click="router.push({ name: 'DomainJobList' })">取消</a-button>
             <a-button type="primary" html-type="submit" :loading="submitLoading">保存</a-button>
           </a-space>
         </div>

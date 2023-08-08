@@ -75,6 +75,32 @@ onMounted(() => {
               <ShowTime :timestamp="record.create_at"></ShowTime>
             </template>
           </a-table-column>
+          <a-table-column align="center" title="操作" :width="200">
+            <template #cell="{ record }">
+              <a-button
+                type="text"
+                :size="app.size"
+                @click="router.push({ name: 'DomainJobCreate', query: { id: record.id } })"
+              >
+                编辑
+              </a-button>
+              <a-divider direction="vertical" />
+              <a-button
+                type="text"
+                :size="app.size"
+                @click="router.push({ name: 'DomainJobCreate', query: { id: record.id } })"
+              >
+                调试
+              </a-button>
+              <a-divider direction="vertical" />
+              <a-dropdown>
+                <a-button type="text"><icon-more-vertical /></a-button>
+                <template #content>
+                  <a-doption>归档</a-doption>
+                </template>
+              </a-dropdown>
+            </template>
+          </a-table-column>
         </template>
       </a-table>
     </a-card>
