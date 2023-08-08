@@ -98,7 +98,23 @@ onBeforeMount(async () => {
           <a-space direction="vertical" fill style="width: 100%">
             <a-list :size="app.size" style="width: 100%">
               <a-list-item v-for="item in form.run_param.params" :key="item.name">
-                {{ item.name }} {{ item.name_desc }}
+                <a-row class="grid-demo" :gutter="{ md: 8, lg: 24, xl: 32 }">
+                  <a-col :span="4">
+                    <div style="display: flex">
+                      <span style="width: 12px">
+                        <span v-if="item.required" class="arco-form-item-label-required-symbol"
+                          >*</span
+                        >
+                        <span v-else></span>
+                      </span>
+                      <span>{{ item.name }}</span>
+                    </div>
+                  </a-col>
+                  <a-col :span="20">
+                    <div>{{ item.name_desc }}</div>
+                  </a-col>
+                </a-row>
+
                 <template #actions>
                   <icon-edit />
                   <icon-delete />
