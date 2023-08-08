@@ -1,8 +1,5 @@
 <script setup></script>
 
-
 <template>
-    <div>
-        Job Params
-    </div>
+  <div>Job Params</div>
 </template>

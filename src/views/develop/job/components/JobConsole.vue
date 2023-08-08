@@ -1,8 +1,5 @@
 <script setup></script>
 
-
 <template>
-    <div>
-        Run Job Console
-    </div>
+  <div>Run Job Console</div>
 </template>
