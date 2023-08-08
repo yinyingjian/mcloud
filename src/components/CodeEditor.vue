@@ -9,6 +9,7 @@ import EditorWorker from 'monaco-editor/esm/vs/editor/editor.worker?worker'
 
 // 定义事件
 const props = defineProps({
+  theme: { type: String, default: 'vs' },
   width: { type: String, default: '100%' },
   height: { type: String, default: 'calc(100vh - 46px)' },
   language: { type: String, default: 'json' },
@@ -45,7 +46,8 @@ onMounted(() => {
     value: props.modelValue,
     readOnly: props.readOnly,
     language: props.language,
-    theme: 'vs-dark',
+    // 'vs' (default), 'vs-dark', 'hc-black', 'hc-light
+    theme: props.theme,
     scrollBeyondLastLine: false,
     automaticLayout: true,
     minimap: {
@@ -73,7 +75,16 @@ onMounted(() => {
 </script>
 
 <template>
-  <div ref="codeRef" :style="{ width, height }"></div>
+  <div class="view" ref="codeRef" :style="{ width, height }"></div>
 </template>
 
-<style scoped></style>
+<style scoped>
+.view {
+  height: 100%;
+  box-sizing: border-box;
+  border: 1px solid var(--color-neutral-3);
+  border-radius: var(--border-radius-medium);
+  margin: 0;
+  padding: 0;
+}
+</style>
