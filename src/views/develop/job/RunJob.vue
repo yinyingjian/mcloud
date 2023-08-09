@@ -15,6 +15,7 @@ import { GitHub } from '@/tools/term'
         <JobTaskConsole height="calc(100vh - 46px - 45px)" :theme="GitHub"></JobTaskConsole>
       </a-layout-content>
     </a-layout>
+
     <a-layout-sider class="sider" collapsible reverse-arrow>
       <JobTaskDetail></JobTaskDetail>
     </a-layout-sider>
@@ -29,5 +30,6 @@ import { GitHub } from '@/tools/term'
 .sider {
   display: flex;
   flex-direction: column-reverse;
+  border-left: 1px solid rgb(229, 230, 235);
 }
 </style>

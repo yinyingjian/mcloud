@@ -26,7 +26,6 @@ const QueryData = async () => {
 // 选中的Job
 const selectJob = ref('')
 
-
 // 加载选项
 onBeforeMount(() => {
   QueryData()

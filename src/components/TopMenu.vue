@@ -72,76 +72,79 @@ onBeforeMount(() => {
 </script>
 
 <template>
-  <!-- 顶部导航 -->
-  <div class="nav">
-    <!-- logo显示区 -->
-    <div class="logo">
-      <span>{{ app.token.meta.domain_description }}</span>
-    </div>
-    <!-- 空间选择区 -->
-    <div v-if="!isAdminPage" class="namespace-choice">
-      <a-select
-        placeholder="请选择工作空间"
-        :bordered="false"
-        v-model="currentNamespace"
-        @change="ChangeNamespace"
-      >
-        <a-option
-          v-for="item in namespaces.items"
-          :key="item.id"
-          :label="item.description"
-          :value="item.name"
-        ></a-option>
-      </a-select>
-    </div>
-
-    <!-- 系统菜单 -->
-    <div v-if="!isAdminPage" class="nav-menu">
-      <a-menu
-        mode="horizontal"
-        :default-selected-keys="['HomePage']"
-        :selected-keys="[app.system]"
-        @menu-item-click="menuItemClickHandler"
-      >
-        <a-menu-item key="HomePage">工作台</a-menu-item>
-        <a-menu-item key="SettingPage">空间管理</a-menu-item>
-        <a-menu-item key="ResourcePage">资源管理</a-menu-item>
-        <a-menu-item key="DevelopPage">研发交付</a-menu-item>
-      </a-menu>
-    </div>
-    <!-- 登录操作区 -->
-    <div class="nav-right">
-      <div class="user-op" v-if="!isAdminPage">
-        <a-button
-          v-if="app.token.user_type === 'SUPPER' || app.token.user_type === 'PRIMARY'"
-          type="text"
-          @click="JumpToAdmin"
+  <a-affix :offsetTop="1">
+    <!-- 顶部导航 -->
+    <div class="nav">
+      <!-- logo显示区 -->
+      <div class="logo">
+        <span>{{ app.token.meta.domain_description }}</span>
+      </div>
+      <!-- 空间选择区 -->
+      <div v-if="!isAdminPage" class="namespace-choice">
+        <a-select
+          placeholder="请选择工作空间"
+          :bordered="false"
+          v-model="currentNamespace"
+          @change="ChangeNamespace"
         >
-          <template #icon>
-            <icon-tool />
-          </template>
-          管理后台
-        </a-button>
-      </div>
-      <div class="user-op" v-else>
-        <a-button type="text" @click="JumpToFrontend">
-          <template #icon>
-            <icon-home />
-          </template>
-          返回前台
-        </a-button>
+          <a-option
+            v-for="item in namespaces.items"
+            :key="item.id"
+            :label="item.description"
+            :value="item.name"
+          ></a-option>
+        </a-select>
       </div>
 
-      <div class="user-info">
-        <a-button v-if="app.isLogin" type="text" @click="Logout">退出</a-button>
-        <a-button v-else type="text" @click="Login">登录</a-button>
+      <!-- 系统菜单 -->
+      <div v-if="!isAdminPage" class="nav-menu">
+        <a-menu
+          mode="horizontal"
+          :default-selected-keys="['HomePage']"
+          :selected-keys="[app.system]"
+          @menu-item-click="menuItemClickHandler"
+        >
+          <a-menu-item key="HomePage">工作台</a-menu-item>
+          <a-menu-item key="SettingPage">空间管理</a-menu-item>
+          <a-menu-item key="ResourcePage">资源管理</a-menu-item>
+          <a-menu-item key="DevelopPage">研发交付</a-menu-item>
+        </a-menu>
+      </div>
+      <!-- 登录操作区 -->
+      <div class="nav-right">
+        <div class="user-op" v-if="!isAdminPage">
+          <a-button
+            v-if="app.token.user_type === 'SUPPER' || app.token.user_type === 'PRIMARY'"
+            type="text"
+            @click="JumpToAdmin"
+          >
+            <template #icon>
+              <icon-tool />
+            </template>
+            管理后台
+          </a-button>
+        </div>
+        <div class="user-op" v-else>
+          <a-button type="text" @click="JumpToFrontend">
+            <template #icon>
+              <icon-home />
+            </template>
+            返回前台
+          </a-button>
+        </div>
+
+        <div class="user-info">
+          <a-button v-if="app.isLogin" type="text" @click="Logout">退出</a-button>
+          <a-button v-else type="text" @click="Login">登录</a-button>
+        </div>
       </div>
     </div>
-  </div>
+  </a-affix>
 </template>
 
 <style scoped>
 .nav {
+  /* margin-top: 46px; */
   padding: 0 8px;
   height: 45px;
   width: 100vw;
