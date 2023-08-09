@@ -1,5 +1,6 @@
 <script setup>
 import 'xterm/css/xterm.css'
+import { app } from '@/stores/localstorage'
 import { Terminal } from 'xterm'
 import { Solarized_Darcula, GetTermSize } from '@/tools/term'
 import { onMounted } from 'vue'
@@ -8,7 +9,6 @@ import { onMounted } from 'vue'
 const props = defineProps({
   taskId: { type: String, default: '', required: true },
   containerName: { type: String, default: '', required: true },
-  token: { type: String, default: '', required: true },
   height: { type: String, default: '750px' },
   width: { type: String, default: '100%' },
   theme: {
@@ -29,7 +29,7 @@ var term = new Terminal({
 
 const connect = () => {
   let socket = new WebSocket(
-    `ws://127.0.0.1:8090/mpaas/api/v1/tasks/${props.taskId}/log?mcenter_access_token=${props.token}`
+    `ws://127.0.0.1:8090/mpaas/api/v1/tasks/${props.taskId}/log?mcenter_access_token=${app.value.token.access_token}`
   )
   socket.onopen = function (e) {
     console.log(e)

@@ -1,7 +1,7 @@
 <script setup>
 import { app } from '@/stores/localstorage'
 import { LIST_JOB } from '@/api/mpaas/job'
-import { Message } from '@arco-design/web-vue'
+import { Notification } from '@arco-design/web-vue'
 import { onMounted, reactive, ref } from 'vue'
 import { useRouter } from 'vue-router'
 
@@ -33,7 +33,7 @@ const QueryData = async () => {
     data.items = resp.items
     pagination.total = resp.total
   } catch (error) {
-    Message.error(`查询Job失败: ${error}`)
+    Notification.error(`查询Job失败: ${error}`)
   } finally {
     queryLoading.value = false
   }

@@ -75,7 +75,6 @@ export var GetTermSize = (term) => {
   const parentElementHeight = parseInt(parentElementStyle.getPropertyValue('height'))
   const parentElementWidth = Math.max(0, parseInt(parentElementStyle.getPropertyValue('width')))
   const elementStyle = window.getComputedStyle(term.element)
-  console.log(term.element)
   const elementPadding = {
     top: parseInt(elementStyle.getPropertyValue('padding-top')),
     bottom: parseInt(elementStyle.getPropertyValue('padding-bottom')),
