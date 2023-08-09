@@ -1,21 +1,28 @@
 <script setup>
 import RunJob from './components/RunJob.vue'
-import JobConsole from './components/JobConsole.vue'
-import JobParams from './components/JobParams.vue'
+import JobTaskConsole from './components/JobTaskConsole.vue'
+import JobTaskDetail from './components/JobTaskDetail.vue'
+import { GitHub } from '@/tools/term'
 </script>
 
 <template>
-  <a-layout>
+  <a-layout class="main">
     <a-layout>
-      <a-layout-header>
+      <a-layout-header class="header">
         <RunJob></RunJob>
       </a-layout-header>
-      <a-layout-content theme="dark">
-        <JobConsole></JobConsole>
+      <a-layout-content>
+        <JobTaskConsole height="calc(100vh - 46px - 45px)" :theme="GitHub"></JobTaskConsole>
       </a-layout-content>
     </a-layout>
     <a-layout-sider>
-      <JobParams></JobParams>
+      <JobTaskDetail></JobTaskDetail>
     </a-layout-sider>
   </a-layout>
 </template>
+
+<style scoped>
+.header {
+  height: 45px;
+}
+</style>
