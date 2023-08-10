@@ -62,9 +62,10 @@ onMounted(() => {
         <template #columns>
           <a-table-column title="名称">
             <template #cell="{ record }">
-              <a-link @click="router.push({ name: 'DomainJobDetail', query: { id: record.id } })">{{
-                record.name
-              }}</a-link>
+              <a-link
+                @click="router.push({ name: 'DomainJobDetail', params: { id: record.id } })"
+                >{{ record.name }}</a-link
+              >
             </template>
           </a-table-column>
           <a-table-column title="执行方式" data-index="runner_type"></a-table-column>

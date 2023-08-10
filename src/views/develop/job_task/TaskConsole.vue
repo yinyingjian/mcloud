@@ -3,16 +3,25 @@ import { app } from '@/stores/localstorage'
 import JobTaskConsole from './components/TaskConsole.vue'
 import JobTaskDetail from './components/TaskDetail.vue'
 import { ref } from 'vue'
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
 
 const theme = ref('Solarized_Darcula')
 const collapsed = ref(true)
+
+// 查询详情
 </script>
 
 <template>
   <a-layout class="main">
     <a-layout>
       <a-layout-header class="header">
-        <a-button :size="app.size" type="text">
+        <a-button
+          :size="app.size"
+          type="text"
+          @click="router.push({ name: 'DomainJobDetail', params: { id: 'xxx' } })"
+        >
           <template #icon><icon-double-left /></template>
           执行记录
         </a-button>
@@ -21,7 +30,7 @@ const collapsed = ref(true)
             <a-radio value="Solarized_Darcula"><icon-moon-fill /></a-radio>
             <a-radio value="GitHub"><icon-sun-fill /></a-radio>
           </a-radio-group>
-          <a-space class="collapsed">
+          <div class="collapsed">
             <a-button
               class="collapsed-button-on"
               v-show="collapsed"
@@ -38,7 +47,7 @@ const collapsed = ref(true)
             >
               <icon-right />
             </a-button>
-          </a-space>
+          </div>
         </div>
       </a-layout-header>
       <a-layout-content>
@@ -86,7 +95,7 @@ const collapsed = ref(true)
 }
 
 .collapsed-button-on {
-  left: 22px;
+  left: 15px;
   background-color: rgb(255 255 255);
 }
 

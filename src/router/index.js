@@ -277,7 +277,7 @@ const router = createRouter({
               meta: { label: '创建Job' }
             },
             {
-              path: 'job/detail',
+              path: 'job/detail/:id',
               name: 'DomainJobDetail',
               component: () => import('@/views/develop/job/DetailPage.vue'),
               meta: { label: 'Job详情' }
