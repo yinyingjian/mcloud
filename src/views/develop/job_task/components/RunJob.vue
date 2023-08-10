@@ -3,6 +3,9 @@ import { app } from '@/stores/localstorage'
 import { LIST_JOB } from '@/api/mpaas/job'
 import { onBeforeMount, reactive, ref } from 'vue'
 import { Notification } from '@arco-design/web-vue'
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
 
 // job搜索
 const queryParams = reactive({
@@ -24,7 +27,7 @@ const QueryData = async () => {
 }
 
 // 选中的Job
-const selectJob = ref('')
+const selectJob = ref(router.currentRoute.value.query.job_id)
 
 // 加载选项
 onBeforeMount(() => {
@@ -45,7 +48,9 @@ onBeforeMount(() => {
         placeholder="如果没有 请输入Job名称进行搜索"
         @search="QueryData"
       >
-        <a-option v-for="item in data.items" :key="item.id"> {{ item.name }}</a-option>
+        <a-option v-for="item in data.items" :key="item.id" :value="item.id">
+          {{ item.name }}</a-option
+        >
       </a-select>
       <a-button :size="app.size" type="outline">
         <template #icon>
@@ -54,7 +59,6 @@ onBeforeMount(() => {
         运行
       </a-button>
     </a-space>
-    <div class="content-left">状态</div>
   </div>
 </template>
 
@@ -63,11 +67,5 @@ onBeforeMount(() => {
   display: flex;
   height: 100%;
   padding: 0 4px;
-}
-
-.content-left {
-  margin-left: auto;
-  display: flex;
-  align-items: center;
 }
 </style>

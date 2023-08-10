@@ -23,12 +23,6 @@ const router = createRouter({
           name: 'HomePage',
           component: () => import('@/views/workspace/dashboard/HomePage.vue'),
           meta: { label: '个人看版' }
-        },
-        {
-          path: 'job/run',
-          name: 'DomainJobRun',
-          component: () => import('@/views/develop/job/RunJob.vue'),
-          meta: { label: '运行Job' }
         }
       ]
     },
@@ -269,6 +263,12 @@ const router = createRouter({
               name: 'DomainJobList',
               component: () => import('@/views/develop/job/ListPage.vue'),
               meta: { label: 'Job管理' }
+            },
+            {
+              path: 'job_task/console',
+              name: 'JobTaskConsole',
+              component: () => import('@/views/develop/job_task/TaskConsole.vue'),
+              meta: { label: 'JobTask 日志控制台' }
             },
             {
               path: 'job/create',

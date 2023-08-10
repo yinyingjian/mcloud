@@ -88,9 +88,9 @@ onMounted(() => {
               <a-button
                 type="text"
                 :size="app.size"
-                @click="router.push({ name: 'DomainJobCreate', query: { id: record.id } })"
+                @click="router.push({ name: 'JobTaskConsole', query: { id: record.id } })"
               >
-                调试
+                运行
               </a-button>
               <a-divider direction="vertical" />
               <a-dropdown>

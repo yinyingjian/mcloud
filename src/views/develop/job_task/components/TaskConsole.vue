@@ -2,8 +2,8 @@
 import 'xterm/css/xterm.css'
 import { app } from '@/stores/localstorage'
 import { Terminal } from 'xterm'
-import { Solarized_Darcula, GetTermSize } from '@/tools/term'
-import { onMounted } from 'vue'
+import { GitHub, Solarized_Darcula, GetTermSize } from '@/tools/term'
+import { onMounted, watch } from 'vue'
 
 // 声明属性
 const props = defineProps({
@@ -11,17 +11,30 @@ const props = defineProps({
   containerName: { type: String, default: '', required: true },
   height: { type: String, default: '750px' },
   width: { type: String, default: '100%' },
-  theme: {
-    type: Object,
-    default: () => {
-      return Solarized_Darcula
-    }
-  }
+  // 'GitHub' Solarized_Darcula
+  theme: { type: String, default: 'Solarized_Darcula' }
 })
+
+// 计算属性
+const getTheme = (theme) => {
+  switch (theme) {
+    case 'GitHub':
+      return GitHub
+    default:
+      return Solarized_Darcula
+  }
+}
+
+watch(
+  () => props.theme,
+  (newV) => {
+    term.options.theme = getTheme(newV)
+  }
+)
 
 // 终端对象
 var term = new Terminal({
-  theme: props.theme,
+  theme: getTheme(props.theme),
   fontSize: 13,
   convertEol: true,
   disableStdin: false
@@ -82,6 +95,10 @@ onMounted(() => {
   init()
   // 连接终端
   connect()
+})
+
+watch(props.theme, (newV) => {
+  console.log(newV)
 })
 </script>
 
