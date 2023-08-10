@@ -54,6 +54,7 @@ const collapsed = ref(true)
       default-collapsed
       reverse-arrow
       hide-trigger
+      :width="280"
       :collapsed-width="0"
       :collapsed="collapsed"
     >
