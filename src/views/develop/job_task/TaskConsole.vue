@@ -1,5 +1,5 @@
 <script setup>
-import RunJob from './components/RunJob.vue'
+import { app } from '@/stores/localstorage'
 import JobTaskConsole from './components/TaskConsole.vue'
 import JobTaskDetail from './components/TaskDetail.vue'
 import { ref } from 'vue'
@@ -12,7 +12,10 @@ const collapsed = ref(true)
   <a-layout class="main">
     <a-layout>
       <a-layout-header class="header">
-        <RunJob></RunJob>
+        <a-button :size="app.size" type="text">
+          <template #icon><icon-double-left /></template>
+          执行记录
+        </a-button>
         <div class="header-right">
           <a-radio-group type="button" v-model="theme" default-value="GitHub">
             <a-radio value="Solarized_Darcula"><icon-moon-fill /></a-radio>
