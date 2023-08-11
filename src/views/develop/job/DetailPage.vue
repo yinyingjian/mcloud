@@ -17,9 +17,14 @@ const ChangeTab = (v) => {
 <template>
   <div>
     <!-- 页头 -->
-    <a-page-header title="Job详情" class="detail-header" @back="router.go(-1)"> </a-page-header>
+    <a-page-header
+      title="Job详情"
+      class="detail-header"
+      @back="router.push({ name: 'DomainJobList' })"
+    >
+    </a-page-header>
     <!-- 详情标签页 -->
-    <a-tabs :active-key="tab" @change="ChangeTab">
+    <a-tabs :active-key="tab" @change="ChangeTab" lazy-load>
       <a-tab-pane key="BaseInfo" title="基础信息"> </a-tab-pane>
       <a-tab-pane key="Pipeline" title="关联流水线"> </a-tab-pane>
       <a-tab-pane key="History" title="执行记录">

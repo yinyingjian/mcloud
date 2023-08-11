@@ -265,7 +265,7 @@ const router = createRouter({
               meta: { label: 'Job管理' }
             },
             {
-              path: 'job_task/console',
+              path: 'job_task/console/:id',
               name: 'JobTaskConsole',
               component: () => import('@/views/develop/job_task/TaskConsole.vue'),
               meta: { label: 'JobTask 日志控制台' }

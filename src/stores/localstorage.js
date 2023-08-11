@@ -25,6 +25,9 @@ export var app = useStorage(
       showJumper: true,
       showPageSize: true,
       pageSizeOptions: [10, 20, 50, 100]
+    },
+    xterm: {
+      theme: 'Solarized_Darcula'
     }
   },
   localStorage,

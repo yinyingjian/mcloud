@@ -25,13 +25,6 @@ const getTheme = (theme) => {
   }
 }
 
-watch(
-  () => props.theme,
-  (newV) => {
-    term.options.theme = getTheme(newV)
-  }
-)
-
 // 终端对象
 var term = new Terminal({
   theme: getTheme(props.theme),
@@ -40,15 +33,36 @@ var term = new Terminal({
   disableStdin: false
 })
 
+var socket = undefined
 const connect = () => {
-  let socket = new WebSocket(
-    `ws://127.0.0.1:8090/mpaas/api/v1/tasks/${props.taskId}/log?mcenter_access_token=${app.value.token.access_token}`
+  socket = new WebSocket(
+    `ws://127.0.0.1:8090/mpaas/api/v1/job_tasks/${props.taskId}/debug?mcenter_access_token=${app.value.token.access_token}`
   )
+  //心跳检测
+  var heartCheck = {
+    timeout: 10000, //10秒发一次心跳
+    timeoutObj: null,
+    reset: function () {
+      clearTimeout(this.timeoutObj)
+      return this
+    },
+    start: function () {
+      this.timeoutObj = setTimeout(function () {
+        //这里发送一个心跳，后端收到后，返回一个心跳消息，
+        //onmessage拿到返回的心跳就说明连接正常
+        socket.send(JSON.stringify({ command: 'ping', params: {} }))
+      }, this.timeout)
+    }
+  }
+
   socket.onopen = function (e) {
     console.log(e)
     socket.send(JSON.stringify({ task_id: props.taskId, container_name: props.containerName }))
   }
   socket.onmessage = function (event) {
+    //如果获取到消息，心跳检测重置, 拿到任何消息都说明当前连接是正常的
+    heartCheck.reset().start()
+
     if (event.data instanceof Blob) {
       // 数据
       let reader = new FileReader()
@@ -62,6 +76,7 @@ const connect = () => {
     }
   }
   socket.onclose = function (event) {
+    heartCheck.reset()
     if (event.wasClean) {
       term.write(`[close] Connection closed cleanly, code=${event.code} reason=${event.reason}`)
     } else {
@@ -73,16 +88,30 @@ const connect = () => {
   socket.onerror = function () {
     term.write(`error, `)
   }
+
+  // 终端设置
+  term.onData((send) => {
+    // 数据都使用bytes
+    const encoder = new TextEncoder()
+    const arrayBuffer = encoder.encode(send).buffer
+    socket.send(arrayBuffer)
+  })
 }
 
 // 调整窗口
 const fitSize = () => {
   var geometry = GetTermSize(term)
   term.resize(geometry.cols, geometry.rows)
+  if (socket && socket.readyState === 1) {
+    socket.send(
+      JSON.stringify({ command: 'resize', params: { width: geometry.cols, heigh: geometry.rows } })
+    )
+  }
 }
+
 // 初始化终端
 const init = () => {
-  term.open(document.getElementById('terminal'))
+  term.open(document.getElementById('task-debug-terminal'))
 
   // 及时适配窗口
   fitSize()
@@ -93,15 +122,29 @@ const init = () => {
 onMounted(() => {
   // 初始化终端
   init()
-  // 连接终端
-  connect()
 })
 
-watch(props.theme, (newV) => {
-  console.log(newV)
-})
+// 终端修改
+watch(
+  () => props.theme,
+  (newV) => {
+    term.options.theme = getTheme(newV)
+  }
+)
+
+// 连接
+watch(
+  () => props.taskId,
+  (newV) => {
+    if (newV) {
+      // 连接终端
+      connect()
+    }
+  },
+  { immediate: true }
+)
 </script>
 
 <template>
-  <div id="terminal" :style="{ height, width, backgroundColor: theme.background }"></div>
+  <div id="task-debug-terminal" :style="{ height, width, backgroundColor: theme.background }"></div>
 </template>
