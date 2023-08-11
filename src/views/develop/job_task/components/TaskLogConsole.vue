@@ -15,6 +15,9 @@ const props = defineProps({
   theme: { type: String, default: 'Solarized_Darcula' }
 })
 
+// 声明事件
+const emit = defineEmits(['changed'])
+
 // 计算属性
 const getTheme = (theme) => {
   switch (theme) {
@@ -34,12 +37,14 @@ var term = new Terminal({
 })
 
 const connect = () => {
+  emit('changed', '连接中')
+
   let socket = new WebSocket(
     `ws://127.0.0.1:8090/mpaas/api/v1/job_tasks/${props.taskId}/log?mcenter_access_token=${app.value.token.access_token}`
   )
 
-  socket.onopen = function (e) {
-    console.log(e)
+  socket.onopen = function () {
+    emit('changed', '已连接')
     socket.send(JSON.stringify({ task_id: props.taskId, container_name: props.containerName }))
   }
   socket.onmessage = function (event) {
@@ -56,6 +61,7 @@ const connect = () => {
     }
   }
   socket.onclose = function (event) {
+    emit('changed', '已关闭')
     if (event.wasClean) {
       term.write(`[close] Connection closed cleanly, code=${event.code} reason=${event.reason}`)
     } else {

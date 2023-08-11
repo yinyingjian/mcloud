@@ -70,9 +70,8 @@ onMounted(() => {
             <template #cell="{ record }">
               <ShowTime
                 v-if="record.end_at"
-                :timestamp="record.end_at"
-                relative
-                :from="record.start_at"
+                :timestamp="record.end_at - record.start_at"
+                isDuration
               ></ShowTime>
               <span v-else>-</span>
             </template>

@@ -12,8 +12,13 @@ const props = defineProps({
   height: { type: String, default: '750px' },
   width: { type: String, default: '100%' },
   // 'GitHub' Solarized_Darcula
-  theme: { type: String, default: 'Solarized_Darcula' }
+  theme: { type: String, default: 'Solarized_Darcula' },
+  // 是否重连，0表示不重连
+  reconect: { type: Number, default: 0 }
 })
+
+// 声明事件
+const emit = defineEmits(['changed'])
 
 // 计算属性
 const getTheme = (theme) => {
@@ -34,7 +39,21 @@ var term = new Terminal({
 })
 
 var socket = undefined
+// 调整窗口
+const fitSize = () => {
+  var geometry = GetTermSize(term)
+  term.resize(geometry.cols, geometry.rows)
+  if (socket && socket.readyState === 1) {
+    socket.send(
+      JSON.stringify({ command: 'resize', params: { width: geometry.cols, heigh: geometry.rows } })
+    )
+  }
+}
+
+// 连接socket
 const connect = () => {
+  emit('changed', '连接中')
+
   socket = new WebSocket(
     `ws://127.0.0.1:8090/mpaas/api/v1/job_tasks/${props.taskId}/debug?mcenter_access_token=${app.value.token.access_token}`
   )
@@ -55,9 +74,11 @@ const connect = () => {
     }
   }
 
-  socket.onopen = function (e) {
-    console.log(e)
+  socket.onopen = function () {
+    emit('changed', '已连接')
     socket.send(JSON.stringify({ task_id: props.taskId, container_name: props.containerName }))
+    // 调整窗口大小
+    fitSize()
   }
   socket.onmessage = function (event) {
     //如果获取到消息，心跳检测重置, 拿到任何消息都说明当前连接是正常的
@@ -76,6 +97,7 @@ const connect = () => {
     }
   }
   socket.onclose = function (event) {
+    emit('changed', '已关闭')
     heartCheck.reset()
     if (event.wasClean) {
       term.write(`[close] Connection closed cleanly, code=${event.code} reason=${event.reason}`)
@@ -87,25 +109,6 @@ const connect = () => {
   }
   socket.onerror = function () {
     term.write(`error, `)
-  }
-
-  // 终端设置
-  term.onData((send) => {
-    // 数据都使用bytes
-    const encoder = new TextEncoder()
-    const arrayBuffer = encoder.encode(send).buffer
-    socket.send(arrayBuffer)
-  })
-}
-
-// 调整窗口
-const fitSize = () => {
-  var geometry = GetTermSize(term)
-  term.resize(geometry.cols, geometry.rows)
-  if (socket && socket.readyState === 1) {
-    socket.send(
-      JSON.stringify({ command: 'resize', params: { width: geometry.cols, heigh: geometry.rows } })
-    )
   }
 }
 
@@ -120,8 +123,16 @@ const init = () => {
 }
 
 onMounted(() => {
-  // 初始化终端
+  // 初始化socket
   init()
+
+  // 终端设置
+  term.onData((send) => {
+    // 数据都使用bytes
+    const encoder = new TextEncoder()
+    const arrayBuffer = encoder.encode(send).buffer
+    socket.send(arrayBuffer)
+  })
 })
 
 // 终端修改
@@ -142,6 +153,23 @@ watch(
     }
   },
   { immediate: true }
+)
+
+// 重新连接
+watch(
+  () => props.reconect,
+  (newV) => {
+    if (newV) {
+      // 关闭之前的socket
+      if (socket) {
+        socket.close(1000, 'reconect')
+      }
+      // 清除屏幕
+      term.clear()
+      // 连接终端
+      connect()
+    }
+  }
 )
 </script>
 
