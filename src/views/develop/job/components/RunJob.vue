@@ -24,6 +24,14 @@ watch(
   { immediate: true }
 )
 
+const showHelp = (text, example) => {
+  let v = text
+  if (example) {
+    v += ', 例如 ' + example
+  }
+  return v
+}
+
 const runJobForm = ref('runJobForm')
 const submitLoading = ref(false)
 // 表单取消
@@ -54,7 +62,7 @@ const handleSubmit = async () => {
         :key="param.name"
         :field="param.name"
         :label="param.name"
-        :help="param.name_desc"
+        :help="showHelp(param.name_desc, param.example)"
         :required="param.required"
       >
         <a-input v-model="form[param.name]" :disabled="param.read_only" />
