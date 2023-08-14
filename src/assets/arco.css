@@ -65,7 +65,12 @@
   justify-content: center;
 }
 
-.arco-drawer-header .arco-drawer-title {
+.arco-drawer-title {
+  width: 100%;
   display: flex;
   justify-content: center;
+}
+
+.arco-drawer-footer {
+  padding: 0px 8px 8px 8px;
 }
