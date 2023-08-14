@@ -69,14 +69,20 @@ const handleSubmit = async (data) => {
       Message.error(`登录失败: ${error}`)
     }
 
-    let to = app.value.system
-    // 获取当前url的query参数, 可以通过获取当前路由 /login?to=TagList
+    // 获取当前url的query参数, 可以通过获取当前路由 /login?name=TagList
     // useRoute vue-router 来提供获取当前页面的路由对象, Route对象
-    // {to: 'TagList'}
-    if (route.query.to) {
-      to = route.query.to
+    // {name: 'TagList'}
+    let redirect = { name: app.value.system, params: {}, query: {} }
+    if (route.query.name) {
+      redirect.name = route.query.name
     }
-    router.push({ name: to })
+    if (route.query.params) {
+      redirect.params = JSON.parse(route.query.params)
+    }
+    if (route.query.query) {
+      redirect.query = JSON.parse(route.query.query)
+    }
+    router.push(redirect)
   }
 }
 </script>

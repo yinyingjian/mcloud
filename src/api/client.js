@@ -39,7 +39,7 @@ instance.interceptors.response.use(
               window.location.reload()
             }
           })
-          break
+          return
         // 异地登录
         case 50010:
           Modal.error({
@@ -51,7 +51,7 @@ instance.interceptors.response.use(
               window.location.reload()
             }
           })
-          break
+          return
       }
     }
     return Promise.reject(new Error(message))
