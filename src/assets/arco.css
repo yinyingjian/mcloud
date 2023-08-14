@@ -59,3 +59,13 @@
 .arco-switch-loading {
   background-color: var(--color-fill-4);
 }
+
+.arco-drawer-footer {
+  display: flex;
+  justify-content: center;
+}
+
+.arco-drawer-header .arco-drawer-title {
+  display: flex;
+  justify-content: center;
+}

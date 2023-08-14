@@ -10,8 +10,7 @@ export var beforeEachHanler = function (to, from, next) {
       // 需要获取router对象? 这么不能不用useRoute
       // 直接跳转到LoginPage去登录
       // 记录下用户需要 去往的目标页面
-      // /login?to=TagList
-      console.log(to)
+      // /login?name=TagList
       next({
         name: 'LoginPage',
         query: {
