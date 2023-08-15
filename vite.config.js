@@ -27,10 +27,10 @@ export default defineConfig({
   server: {
     proxy: {
       '/mcenter/api/v1': {
-        target: 'http://localhost:8010'
+        target: 'http://127.0.0.1:8010'
       },
       '/mpaas/api/v1': {
-        target: 'http://localhost:8090'
+        target: 'http://127.0.0.1:8090'
       }
     }
   }
