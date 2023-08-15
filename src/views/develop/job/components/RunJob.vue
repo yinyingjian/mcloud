@@ -1,17 +1,26 @@
 <script setup>
 import { ref, watch } from 'vue'
-
+import { RUN_JOB_TASK } from '@/api/mpaas/task'
+import { useRouter } from 'vue-router'
 // job对象
 const props = defineProps({
   visible: { type: Boolean, default: false },
-  job: { type: Object }
+  job: {
+    type: Object,
+    default: () => {
+      return { id: '' }
+    }
+  }
 })
 
 // 定义事件 v-models
 const emit = defineEmits(['update:visible'])
 
+const router = useRouter()
+
 // 表单
 const form = ref({})
+const runJobReq = {}
 watch(
   () => props.job,
   (newV) => {
@@ -19,6 +28,8 @@ watch(
       newV.run_param.params.forEach((item) => {
         form.value[item.name] = item.value
       })
+      runJobReq.job_name = `#${newV.id}`
+      runJobReq.run_params = newV.run_param
     }
   },
   { immediate: true }
@@ -43,10 +54,22 @@ const handleSubmit = async () => {
   const errs = await runJobForm.value.validate()
   if (!errs) {
     // 提交
+    runJobReq.run_params.params.forEach((item) => {
+      item.value = form.value[item.name]
+    })
+    try {
+      submitLoading.value = true
+      let resp = await RUN_JOB_TASK(runJobReq)
+      router.push({name: 'JobTaskConsole', params:{id: resp.task_id}})
 
-    // 状态处理
-    runJobForm.value.resetFields()
-    emit('update:visible', false)
+      // 状态处理
+      runJobForm.value.resetFields()
+      emit('update:visible', false)
+    } catch (error) {
+      Notification.error(`运行失败: ${error}`)
+    } finally {
+      submitLoading.value = false
+    }
   }
 }
 </script>
