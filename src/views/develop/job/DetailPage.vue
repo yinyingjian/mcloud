@@ -18,7 +18,7 @@ const ChangeTab = (v) => {
   <div>
     <!-- 页头 -->
     <a-page-header
-      title="Job详情"
+      title="详情"
       class="detail-header"
       @back="router.push({ name: 'DomainJobList' })"
     >

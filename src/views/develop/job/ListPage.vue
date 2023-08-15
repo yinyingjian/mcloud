@@ -4,6 +4,7 @@ import { LIST_JOB } from '@/api/mpaas/job'
 import { Notification } from '@arco-design/web-vue'
 import { onMounted, reactive, ref } from 'vue'
 import { useRouter } from 'vue-router'
+import RunJob from './components/RunJob.vue'
 
 const router = useRouter()
 
@@ -41,6 +42,14 @@ const QueryData = async () => {
 onMounted(() => {
   QueryData()
 })
+
+// 当前运行的Job对象
+const currentRunJob = ref(null)
+const showRunJob = ref(false)
+const showRunJobHandler = (v) => {
+  showRunJob.value = true
+  currentRunJob.value = v
+}
 </script>
 
 <template>
@@ -86,11 +95,7 @@ onMounted(() => {
                 编辑
               </a-button>
               <a-divider direction="vertical" />
-              <a-button
-                type="text"
-                :size="app.size"
-                @click="router.push({ name: 'JobTaskConsole', query: { id: record.id } })"
-              >
+              <a-button type="text" :size="app.size" @click="showRunJobHandler(record)">
                 运行
               </a-button>
               <a-divider direction="vertical" />
@@ -105,6 +110,8 @@ onMounted(() => {
         </template>
       </a-table>
     </a-card>
+
+    <RunJob :job="currentRunJob" v-model:visible="showRunJob"></RunJob>
   </div>
 </template>
 
