@@ -11,7 +11,7 @@ const props = defineProps({
   containerName: { type: String, default: '', required: true },
   height: { type: String, default: '750px' },
   width: { type: String, default: '100%' },
-  // 'GitHub' Solarized_Darcula
+  // GitHub Solarized_Darcula
   theme: { type: String, default: 'Solarized_Darcula' }
 })
 
@@ -78,19 +78,15 @@ const fitSize = () => {
   var geometry = GetTermSize(term)
   term.resize(geometry.cols, geometry.rows)
 }
-// 初始化终端
-const init = () => {
+
+onMounted(() => {
+  // 初始化终端
   term.open(document.getElementById('task-log-terminal'))
 
   // 及时适配窗口
   fitSize()
   // 监听窗口变化
   window.onresize = fitSize
-}
-
-onMounted(() => {
-  // 初始化终端
-  init()
 })
 
 // 终端修改

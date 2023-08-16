@@ -112,19 +112,14 @@ const connect = () => {
   }
 }
 
-// 初始化终端
-const init = () => {
+onMounted(() => {
+  // 初始化终端
   term.open(document.getElementById('task-debug-terminal'))
 
   // 及时适配窗口
   fitSize()
   // 监听窗口变化
   window.onresize = fitSize
-}
-
-onMounted(() => {
-  // 初始化socket
-  init()
 
   // 终端设置
   term.onData((send) => {

@@ -60,7 +60,7 @@ const handleSubmit = async () => {
     try {
       submitLoading.value = true
       let resp = await RUN_JOB_TASK(runJobReq)
-      router.push({name: 'JobTaskConsole', params:{id: resp.task_id}})
+      router.push({ name: 'JobTaskConsole', params: { id: resp.task_id } })
 
       // 状态处理
       runJobForm.value.resetFields()

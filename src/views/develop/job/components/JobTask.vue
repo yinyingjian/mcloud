@@ -56,21 +56,21 @@ onMounted(() => {
         <template #columns>
           <a-table-column title="开始时间">
             <template #cell="{ record }">
-              <ShowTime :timestamp="record.start_at"></ShowTime>
+              <ShowTime :timestamp="record.status.start_at"></ShowTime>
             </template>
           </a-table-column>
           <a-table-column title="模式" data-index="run_mode"></a-table-column>
           <a-table-column title="调试模式" data-index="dry_run"></a-table-column>
           <a-table-column title="状态">
             <template #cell="{ record }">
-              <span>{{ record.stage }}</span>
+              <span>{{ record.status.stage }}</span>
             </template>
           </a-table-column>
           <a-table-column title="耗时">
             <template #cell="{ record }">
               <ShowTime
-                v-if="record.end_at"
-                :timestamp="record.end_at - record.start_at"
+                v-if="record.status.end_at"
+                :timestamp="record.status.end_at - record.status.start_at"
                 isDuration
               ></ShowTime>
               <span v-else>-</span>

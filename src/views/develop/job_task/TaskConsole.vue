@@ -150,7 +150,7 @@ onBeforeMount(async () => {
       :collapsed-width="0"
       :collapsed="collapsed"
     >
-      <JobTaskDetail></JobTaskDetail>
+      <JobTaskDetail :task="task"></JobTaskDetail>
     </a-layout-sider>
   </a-layout>
 </template>
