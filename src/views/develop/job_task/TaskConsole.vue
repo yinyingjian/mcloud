@@ -146,7 +146,7 @@ onBeforeMount(async () => {
       default-collapsed
       reverse-arrow
       hide-trigger
-      :width="280"
+      :width="320"
       :collapsed-width="0"
       :collapsed="collapsed"
     >

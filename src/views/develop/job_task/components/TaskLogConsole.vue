@@ -33,7 +33,7 @@ var term = new Terminal({
   theme: getTheme(props.theme),
   fontSize: 13,
   convertEol: true,
-  disableStdin: false
+  disableStdin: true
 })
 
 const connect = () => {
@@ -101,6 +101,7 @@ watch(
 watch(
   () => props.taskId,
   (newV) => {
+    console.log(newV)
     if (newV) {
       // 连接终端
       connect()
