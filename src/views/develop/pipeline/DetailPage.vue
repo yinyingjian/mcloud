@@ -1,0 +1,127 @@
+<script setup>
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
+</script>
+
+<template>
+  <!-- 页头 -->
+  <a-page-header title="Pipeline详情" @back="router.push({ name: 'DomainPipelineList' })">
+  </a-page-header>
+  <div class="page">
+    <div class="stage">
+      <a-card class="stage-card" title="构建">
+        <template #extra>
+          <a-link>窜行</a-link>
+        </template>
+        <div class="stage-step">
+          <a-button-group style="margin-top: 12px">
+            <a-button style="width: 40px; background-color: rgb(var(--green-5))">
+              <template #icon>
+                <icon-check-circle style="font-size: 20px" />
+              </template>
+            </a-button>
+            <a-button style="width: 220px">代码安全扫描</a-button>
+          </a-button-group>
+          <a-button-group style="margin-top: 12px">
+            <a-button style="width: 40px; background-color: rgb(var(--green-5))">
+              <template #icon>
+                <icon-check-circle style="font-size: 20px" />
+              </template>
+            </a-button>
+            <a-button style="width: 220px">单元测试覆盖率</a-button>
+          </a-button-group>
+          <a-button-group style="margin-top: 12px">
+            <a-button style="width: 40px; background-color: rgb(var(--green-5))">
+              <template #icon>
+                <icon-check-circle style="font-size: 20px" />
+              </template>
+            </a-button>
+            <a-button style="width: 220px">容器镜像构建</a-button>
+          </a-button-group>
+          <div style="margin-top: 12px">
+            <a-button type="outline" style="width: 260px">添加</a-button>
+          </div>
+        </div>
+      </a-card>
+
+      <a-card class="stage-card" title="部署">
+        <template #extra>
+          <a-link>并行</a-link>
+        </template>
+        <div class="stage-step">
+          <a-button-group style="margin-top: 12px">
+            <a-button style="width: 40px; background-color: rgb(var(--green-5))">
+              <template #icon>
+                <icon-check-circle style="font-size: 20px" />
+              </template>
+            </a-button>
+            <a-button style="width: 220px">容器镜像部署</a-button>
+          </a-button-group>
+          <a-button-group style="margin-top: 12px">
+            <a-button style="width: 40px; background-color: rgb(var(--green-5))">
+              <template #icon>
+                <icon-check-circle style="font-size: 20px" />
+              </template>
+            </a-button>
+            <a-button style="width: 220px">容器镜像部署</a-button>
+          </a-button-group>
+          <div style="margin-top: 12px">
+            <a-button type="outline" style="width: 260px">添加</a-button>
+          </div>
+        </div>
+      </a-card>
+
+      <a-card class="stage-card" title="代码合并">
+        <template #extra>
+          <a-link>窜行</a-link>
+        </template>
+        <div class="stage-step">
+          <div>
+            <a-button-group style="margin-top: 12px">
+              <a-button style="width: 40px; background-color: rgb(var(--green-5))">
+                <template #icon>
+                  <icon-check-circle style="font-size: 20px" />
+                </template>
+              </a-button>
+              <a-button style="width: 220px">代码Merge会Dev分支</a-button>
+            </a-button-group>
+          </div>
+          <div style="margin-top: 12px">
+            <a-button type="outline" style="width: 260px">添加</a-button>
+          </div>
+        </div>
+      </a-card>
+    </div>
+  </div>
+</template>
+
+<style scoped>
+.stage {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  overflow: scroll;
+  height: 800px;
+}
+
+.stage-card {
+  flex-basis: 360px;
+  flex-shrink: 0;
+  width: 360px;
+  height: 780px;
+  margin-left: 12px;
+  transition-property: all;
+}
+
+.stage-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* 补充固定 */
+/* .stage-card:hover {
+  transform: translateY(-4px);
+} */
+</style>

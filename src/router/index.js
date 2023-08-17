@@ -259,6 +259,12 @@ const router = createRouter({
               meta: { label: 'Pipeline模版' }
             },
             {
+              path: 'pipeline/detail/:id',
+              name: 'DomainPipelineDetail',
+              component: () => import('@/views/develop/pipeline/DetailPage.vue'),
+              meta: { label: 'Pipeline详情' }
+            },
+            {
               path: 'job/list',
               name: 'DomainJobList',
               component: () => import('@/views/develop/job/ListPage.vue'),

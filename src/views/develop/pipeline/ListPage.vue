@@ -3,6 +3,9 @@ import { app } from '@/stores/localstorage'
 import { LIST_PIPELINE } from '@/api/mpaas/pipeline'
 import { Message } from '@arco-design/web-vue'
 import { onMounted, reactive, ref } from 'vue'
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
 
 // 分页参数
 const pagination = reactive(app.value.pagination)
@@ -56,7 +59,14 @@ onMounted(() => {
         @page-size-change="pageSizeChange"
       >
         <template #columns>
-          <a-table-column title="名称" data-index="name"></a-table-column>
+          <a-table-column title="名称">
+            <template #cell="{ record }">
+              <a-link
+                @click="router.push({ name: 'DomainPipelineDetail', params: { id: record.id } })"
+                >{{ record.name }}</a-link
+              >
+            </template>
+          </a-table-column>
           <a-table-column title="描述" data-index="description"></a-table-column>
           <a-table-column title="来源" data-index="visiable_mode"></a-table-column>
           <a-table-column title="创建时间" data-index="create_at"></a-table-column>
