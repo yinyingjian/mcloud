@@ -77,8 +77,19 @@ const showRunJobHandler = (v) => {
               >
             </template>
           </a-table-column>
+
+          <a-table-column title="状态">
+            <template #cell="{ record }">
+              <span>{{ record.status.stage }}</span>
+            </template>
+          </a-table-column>
+          <a-table-column title="版本">
+            <template #cell="{ record }">
+              <span v-if="record.status.version">{{ record.status.version }}</span>
+              <span v-else>无</span>
+            </template>
+          </a-table-column>
           <a-table-column title="执行方式" data-index="runner_type"></a-table-column>
-          <a-table-column title="状态" data-index="stage"></a-table-column>
           <a-table-column title="创建人" data-index="create_by"></a-table-column>
           <a-table-column title="创建时间">
             <template #cell="{ record }">
