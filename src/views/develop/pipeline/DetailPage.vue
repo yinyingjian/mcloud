@@ -12,11 +12,11 @@ const router = useRouter()
     <div class="stage">
       <a-card class="stage-card" title="构建">
         <template #extra>
-          <a-link>窜行</a-link>
+          <a-link>串行</a-link>
         </template>
         <div class="stage-step">
           <a-button-group style="margin-top: 12px">
-            <a-button style="width: 40px; background-color: rgb(var(--green-5))">
+            <a-button style="width: 40px; background-color: rgb(var(--green-3))">
               <template #icon>
                 <icon-check-circle style="font-size: 20px" />
               </template>
@@ -24,7 +24,7 @@ const router = useRouter()
             <a-button style="width: 220px">代码安全扫描</a-button>
           </a-button-group>
           <a-button-group style="margin-top: 12px">
-            <a-button style="width: 40px; background-color: rgb(var(--green-5))">
+            <a-button style="width: 40px; background-color: rgb(var(--green-3))">
               <template #icon>
                 <icon-check-circle style="font-size: 20px" />
               </template>
@@ -32,7 +32,7 @@ const router = useRouter()
             <a-button style="width: 220px">单元测试覆盖率</a-button>
           </a-button-group>
           <a-button-group style="margin-top: 12px">
-            <a-button style="width: 40px; background-color: rgb(var(--green-5))">
+            <a-button style="width: 40px; background-color: rgb(var(--green-3))">
               <template #icon>
                 <icon-check-circle style="font-size: 20px" />
               </template>
@@ -40,7 +40,7 @@ const router = useRouter()
             <a-button style="width: 220px">容器镜像构建</a-button>
           </a-button-group>
           <div style="margin-top: 12px">
-            <a-button type="outline" style="width: 260px">添加</a-button>
+            <a-button type="outline" style="width: 260px">添加任务</a-button>
           </div>
         </div>
       </a-card>
@@ -51,7 +51,7 @@ const router = useRouter()
         </template>
         <div class="stage-step">
           <a-button-group style="margin-top: 12px">
-            <a-button style="width: 40px; background-color: rgb(var(--green-5))">
+            <a-button style="width: 40px; background-color: rgb(var(--green-3))">
               <template #icon>
                 <icon-check-circle style="font-size: 20px" />
               </template>
@@ -59,7 +59,7 @@ const router = useRouter()
             <a-button style="width: 220px">容器镜像部署</a-button>
           </a-button-group>
           <a-button-group style="margin-top: 12px">
-            <a-button style="width: 40px; background-color: rgb(var(--green-5))">
+            <a-button style="width: 40px; background-color: rgb(var(--green-3))">
               <template #icon>
                 <icon-check-circle style="font-size: 20px" />
               </template>
@@ -67,19 +67,19 @@ const router = useRouter()
             <a-button style="width: 220px">容器镜像部署</a-button>
           </a-button-group>
           <div style="margin-top: 12px">
-            <a-button type="outline" style="width: 260px">添加</a-button>
+            <a-button type="outline" style="width: 260px">添加任务</a-button>
           </div>
         </div>
       </a-card>
 
       <a-card class="stage-card" title="代码合并">
         <template #extra>
-          <a-link>窜行</a-link>
+          <a-link>串行</a-link>
         </template>
         <div class="stage-step">
           <div>
             <a-button-group style="margin-top: 12px">
-              <a-button style="width: 40px; background-color: rgb(var(--green-5))">
+              <a-button style="width: 40px; background-color: rgb(var(--green-3))">
                 <template #icon>
                   <icon-check-circle style="font-size: 20px" />
                 </template>
@@ -88,10 +88,17 @@ const router = useRouter()
             </a-button-group>
           </div>
           <div style="margin-top: 12px">
-            <a-button type="outline" style="width: 260px">添加</a-button>
+            <a-button class="add-step-botton" type="outline" style="width: 260px"
+              >添加任务</a-button
+            >
           </div>
         </div>
       </a-card>
+
+      <div class="add-stage">
+        <icon-plus />
+        <span>添加阶段</span>
+      </div>
     </div>
   </div>
 </template>
@@ -114,14 +121,29 @@ const router = useRouter()
   transition-property: all;
 }
 
+.add-stage {
+  flex-basis: 200px;
+  flex-shrink: 0;
+  margin-left: 12px;
+  height: 200px;
+  width: 200px;
+  color: rgb(var(--primary-6));
+  background-color: var(--color-bg-2);
+  border: 1px dashed rgb(var(--primary-6));
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .stage-step {
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
-/* 补充固定 */
-/* .stage-card:hover {
-  transform: translateY(-4px);
-} */
+.arco-btn-outline,
+.arco-btn-outline[type='button'] :deep(.add-step-botton) {
+  border: 1px dashed rgb(var(--primary-6));
+}
 </style>
