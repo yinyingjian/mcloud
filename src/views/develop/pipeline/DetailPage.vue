@@ -3,6 +3,8 @@ import { GET_PIPELINE } from '@/api/mpaas/pipeline'
 import { Notification } from '@arco-design/web-vue'
 import { onBeforeMount, ref } from 'vue'
 import { useRouter } from 'vue-router'
+import AddStage from './components/AddStage.vue'
+import AddStep from './components/AddStep.vue'
 
 const router = useRouter()
 const id = router.currentRoute.value.params.id
@@ -30,6 +32,10 @@ const stepItemValueStyle = {
   height: '40px',
   width: '220px'
 }
+
+// 弹窗变量
+const showAddStage = ref(false)
+const showAddStep = ref(false)
 </script>
 
 <template>
@@ -80,14 +86,21 @@ const stepItemValueStyle = {
               <a-button :style="stepItemValueStyle">{{ job.task_name }}</a-button>
             </a-button-group>
             <div style="margin-top: 12px">
-              <a-button type="outline" style="width: 260px">添加任务</a-button>
+              <a-button type="outline" class="add-step-btn" @click="showAddStep = true">
+                <template #icon>
+                  <icon-plus />
+                </template>
+                添加步骤
+              </a-button>
+              <AddStep v-model:visible="showAddStep"></AddStep>
             </div>
           </div>
         </a-card>
-        <div class="add-stage">
+        <div class="add-stage" @click="showAddStage = true">
           <icon-plus />
-          <span>添加阶段</span>
+          <span style="margin-left: 8px">添加阶段</span>
         </div>
+        <AddStage v-model:visible="showAddStage" :pipeline="pipeline"></AddStage>
       </div>
     </a-card>
   </div>
@@ -131,6 +144,10 @@ const stepItemValueStyle = {
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+.add-step-btn {
+  width: 260px;
 }
 
 .stage-step-item {
