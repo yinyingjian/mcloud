@@ -48,10 +48,13 @@ onMounted(() => {
   <div class="page">
     <BreadcrumbMenu />
     <div class="table-op">
-      <a-button type="primary" 
-      :size="app.size" 
-      @click="router.push({ name: 'DomainPipelineCreate' })"
-    > 创建模版 </a-button>
+      <a-button
+        type="primary"
+        :size="app.size"
+        @click="router.push({ name: 'DomainPipelineCreate' })"
+      >
+        创建模版
+      </a-button>
     </div>
     <a-card class="table-data">
       <a-table

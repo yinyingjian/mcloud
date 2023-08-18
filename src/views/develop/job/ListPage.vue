@@ -80,12 +80,12 @@ const showRunJobHandler = (v) => {
 
           <a-table-column title="状态">
             <template #cell="{ record }">
-              <span>{{ record.status.stage }}</span>
+              <span v-if="record.status">{{ record.status.stage }}</span>
             </template>
           </a-table-column>
           <a-table-column title="版本">
             <template #cell="{ record }">
-              <span v-if="record.status.version">{{ record.status.version }}</span>
+              <span v-if="record.status">{{ record.status.version }}</span>
               <span v-else>无</span>
             </template>
           </a-table-column>
