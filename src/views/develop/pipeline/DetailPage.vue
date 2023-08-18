@@ -1,7 +1,35 @@
 <script setup>
+import { GET_PIPELINE } from '@/api/mpaas/pipeline'
+import { Notification } from '@arco-design/web-vue'
+import { onBeforeMount, ref } from 'vue'
 import { useRouter } from 'vue-router'
 
 const router = useRouter()
+const id = router.currentRoute.value.params.id
+const pipeline = ref({})
+const GetPipeline = async () => {
+  try {
+    let resp = await GET_PIPELINE(id)
+    pipeline.value = resp
+  } catch (error) {
+    Notification.error(`查询Pipeline详情失败: ${error}`)
+  }
+}
+
+onBeforeMount(async () => {
+  await GetPipeline()
+})
+
+// 变量
+const stepItemKeyStyle = {
+  width: '40px',
+  height: '40px',
+  fontSize: '12px'
+}
+const stepItemValueStyle = {
+  height: '40px',
+  width: '220px'
+}
 </script>
 
 <template>
@@ -9,101 +37,53 @@ const router = useRouter()
   <a-page-header title="Pipeline详情" @back="router.push({ name: 'DomainPipelineList' })">
   </a-page-header>
   <div class="page">
-    <a-card
-      title="Pipeline名称"
-      :header-style="{ height: '36px' }"
-      :body-style="{ padding: '0px 8px 8px 8px' }"
-    >
+    <a-card :header-style="{ height: '36px' }" :body-style="{ padding: '0px 8px 8px 8px' }">
+      <template #title>
+        <span>【{{ pipeline.name }}】</span>
+        <span>{{ pipeline.create_by }}</span>
+        <span>创建于</span><ShowTime :timestamp="pipeline.create_at"></ShowTime>
+      </template>
       <template #extra>
-        <a-link>变量</a-link>
+        <a-button size="mini" type="text">Web Hooks</a-button>
+        <a-button size="mini" type="text">关注人</a-button>
+        <a-button size="mini" type="text">变量</a-button>
       </template>
       <div class="stage">
-        <a-card class="stage-card" title="构建">
-          <template #extra>
-            <a-link>串行</a-link>
+        <a-card
+          v-for="(stage, index) in pipeline.stages"
+          :key="'stage_' + index"
+          class="stage-card"
+        >
+          <template #title>
+            <span>{{ stage.name }}</span>
           </template>
-
+          <template #extra>
+            <span class="f12" v-if="stage.is_parallel">并行</span>
+            <span class="f12" v-else>串行</span>
+            <a-button size="mini" type="text">变量</a-button>
+          </template>
           <div class="stage-step">
-            <a-button-group style="margin-top: 12px">
-              <a-button style="width: 40px; background-color: rgb(var(--green-3))">
+            <a-button-group
+              v-for="(job, index) in stage.jobs"
+              :key="'job_' + index"
+              class="stage-step-item"
+            >
+              <a-button :style="stepItemKeyStyle" @click="router.push({ name: '' })">
                 <template #icon>
-                  <icon-check-circle style="font-size: 20px" />
+                  <SvgIcon
+                    v-if="job.extension && job.extension.job_icon"
+                    :svgCode="job.extension.job_icon"
+                  ></SvgIcon>
+                  <span v-else>{{ job.job_name.slice(0, 3) }}</span>
                 </template>
               </a-button>
-              <a-button style="width: 220px">代码安全扫描</a-button>
-            </a-button-group>
-            <a-button-group style="margin-top: 12px">
-              <a-button style="width: 40px; background-color: rgb(var(--green-3))">
-                <template #icon>
-                  <icon-check-circle style="font-size: 20px" />
-                </template>
-              </a-button>
-              <a-button style="width: 220px">单元测试覆盖率</a-button>
-            </a-button-group>
-            <a-button-group style="margin-top: 12px">
-              <a-button style="width: 40px; background-color: rgb(var(--green-3))">
-                <template #icon>
-                  <icon-check-circle style="font-size: 20px" />
-                </template>
-              </a-button>
-              <a-button style="width: 220px">容器镜像构建</a-button>
+              <a-button :style="stepItemValueStyle">{{ job.task_name }}</a-button>
             </a-button-group>
             <div style="margin-top: 12px">
               <a-button type="outline" style="width: 260px">添加任务</a-button>
             </div>
           </div>
         </a-card>
-
-        <a-card class="stage-card" title="部署">
-          <template #extra>
-            <a-link>并行</a-link>
-          </template>
-          <div class="stage-step">
-            <a-button-group style="margin-top: 12px">
-              <a-button style="width: 40px; background-color: rgb(var(--green-3))">
-                <template #icon>
-                  <icon-check-circle style="font-size: 20px" />
-                </template>
-              </a-button>
-              <a-button style="width: 220px">容器镜像部署</a-button>
-            </a-button-group>
-            <a-button-group style="margin-top: 12px">
-              <a-button style="width: 40px; background-color: rgb(var(--green-3))">
-                <template #icon>
-                  <icon-check-circle style="font-size: 20px" />
-                </template>
-              </a-button>
-              <a-button style="width: 220px">容器镜像部署</a-button>
-            </a-button-group>
-            <div style="margin-top: 12px">
-              <a-button type="outline" style="width: 260px">添加任务</a-button>
-            </div>
-          </div>
-        </a-card>
-
-        <a-card class="stage-card" title="代码合并">
-          <template #extra>
-            <a-link>串行</a-link>
-          </template>
-          <div class="stage-step">
-            <div>
-              <a-button-group style="margin-top: 12px">
-                <a-button style="width: 40px; background-color: rgb(var(--green-3))">
-                  <template #icon>
-                    <icon-check-circle style="font-size: 20px" />
-                  </template>
-                </a-button>
-                <a-button style="width: 220px">代码Merge会Dev分支</a-button>
-              </a-button-group>
-            </div>
-            <div style="margin-top: 12px">
-              <a-button class="add-step-botton" type="outline" style="width: 260px"
-                >添加任务</a-button
-              >
-            </div>
-          </div>
-        </a-card>
-
         <div class="add-stage">
           <icon-plus />
           <span>添加阶段</span>
@@ -151,6 +131,10 @@ const router = useRouter()
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+.stage-step-item {
+  margin-top: 12px;
 }
 
 .arco-btn-outline,

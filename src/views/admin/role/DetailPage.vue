@@ -1,7 +1,7 @@
 <script setup>
 import { app } from '@/stores/localstorage'
 import { GET_ROLE } from '@/api/mcenter/role'
-import { Message } from '@arco-design/web-vue'
+import { Notification } from '@arco-design/web-vue'
 import { onBeforeMount, ref } from 'vue'
 import { useRouter } from 'vue-router'
 
@@ -33,7 +33,7 @@ const GetRole = async () => {
     })
     roleAttr.value = attr
   } catch (error) {
-    Message.error(`查询角色详情失败: ${error}`)
+    Notification.error(`查询角色详情失败: ${error}`)
   }
 }
 
