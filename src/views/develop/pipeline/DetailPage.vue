@@ -100,7 +100,11 @@ const showAddStep = ref(false)
           <icon-plus />
           <span style="margin-left: 8px">添加阶段</span>
         </div>
-        <AddStage v-model:visible="showAddStage" :pipeline="pipeline"></AddStage>
+        <AddStage
+          @change="GetPipeline"
+          v-model:visible="showAddStage"
+          :pipeline="pipeline"
+        ></AddStage>
       </div>
     </a-card>
   </div>

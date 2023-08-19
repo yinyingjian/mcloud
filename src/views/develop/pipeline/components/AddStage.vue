@@ -1,10 +1,11 @@
 <script setup>
 import { ref } from 'vue'
 import { UPDATE_PIPELINE } from '@/api/mpaas/pipeline'
+import { Notification } from '@arco-design/web-vue'
 
 // 定义v-model:visible
-defineProps(['visible', 'pipeline'])
-const emit = defineEmits(['update:visible', 'changed'])
+const props = defineProps(['visible', 'pipeline'])
+const emit = defineEmits(['update:visible', 'change'])
 
 const handleCancel = () => {
   emit('update:visible', false)
@@ -29,8 +30,14 @@ const handleSubmit = async () => {
 
   try {
     submitLoading.value = true
-    await UPDATE_PIPELINE(form)
+    let req = JSON.parse(JSON.stringify(props.pipeline))
+    req.stages.push(form.value)
+    await UPDATE_PIPELINE(props.pipeline.id, req)
     Notification.success(`保存成功`)
+    // 清理
+    fromRef.value.resetFields()
+    emit('change', true)
+    // 关闭
     emit('update:visible', false)
   } catch (error) {
     Notification.error(`保存失败: ${error}`)
@@ -61,7 +68,7 @@ const handleSubmit = async () => {
           label="并行执行"
           help="并行执行时, 该阶段的所有任务同时执行, 但是需要等待所有任务完成后才会继续执行后面阶段"
         >
-          <a-switch type="round" v-model="is_parallel">
+          <a-switch type="round" v-model="form.is_parallel">
             <template #checked> ON </template>
             <template #unchecked> OFF </template>
           </a-switch>
