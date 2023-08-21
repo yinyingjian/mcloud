@@ -1,10 +1,10 @@
 <script setup>
-import { GET_PIPELINE } from '@/api/mpaas/pipeline'
+import { GET_PIPELINE, UPDATE_PIPELINE } from '@/api/mpaas/pipeline'
 import { Notification } from '@arco-design/web-vue'
 import { onBeforeMount, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import AddStage from './components/AddStage.vue'
-import AddStep from './components/AddStep.vue'
+import ChoiceJob from '../job/components/ChoiceJob.vue'
 
 const router = useRouter()
 const id = router.currentRoute.value.params.id
@@ -36,6 +36,43 @@ const stepItemValueStyle = {
 // 弹窗变量
 const showAddStage = ref(false)
 const showAddStep = ref(false)
+const choicedStage = ref()
+
+const clickAddStep = (stageIndex) => {
+  showAddStep.value = true
+  choicedStage.value = stageIndex
+}
+
+const AddStep = async (job, stageIndex) => {
+  let req = JSON.parse(JSON.stringify(pipeline.value))
+  for (let i = 0; i < req.stages.length; i++) {
+    if (i === stageIndex) {
+      req.stages[i].jobs.push({
+        job_name: job.name,
+        task_name: job.name,
+        extension: { job_icon: job.icon }
+      })
+      await updatePipeline(req)
+    }
+  }
+}
+
+// 更新Pipeline
+const updatePipelineLoading = ref(false)
+const updatePipeline = async (req) => {
+  try {
+    updatePipelineLoading.value = true
+    await UPDATE_PIPELINE(pipeline.value.id, req)
+    Notification.success(`更新成功`)
+
+    // 更新页面数据
+    await GetPipeline()
+  } catch (error) {
+    Notification.error(`更新失败: ${error}`)
+  } finally {
+    updatePipelineLoading.value = false
+  }
+}
 </script>
 
 <template>
@@ -56,9 +93,10 @@ const showAddStep = ref(false)
       </template>
       <div class="stage">
         <a-card
-          v-for="(stage, index) in pipeline.stages"
-          :key="'stage_' + index"
+          v-for="(stage, stageIndex) in pipeline.stages"
+          :key="'stage_' + stageIndex"
           class="stage-card"
+          :loading="updatePipelineLoading && choicedStage === stageIndex"
         >
           <template #title>
             <span>{{ stage.name }}</span>
@@ -70,8 +108,8 @@ const showAddStep = ref(false)
           </template>
           <div class="stage-step">
             <a-button-group
-              v-for="(job, index) in stage.jobs"
-              :key="'job_' + index"
+              v-for="(job, jobIndex) in stage.jobs"
+              :key="'job_' + jobIndex"
               class="stage-step-item"
             >
               <a-button :style="stepItemKeyStyle" @click="router.push({ name: '' })">
@@ -86,13 +124,14 @@ const showAddStep = ref(false)
               <a-button :style="stepItemValueStyle">{{ job.task_name }}</a-button>
             </a-button-group>
             <div style="margin-top: 12px">
-              <a-button type="outline" class="add-step-btn" @click="showAddStep = true">
+              <a-button type="outline" class="add-step-btn" @click="clickAddStep(stageIndex)">
                 <template #icon>
                   <icon-plus />
                 </template>
                 添加步骤
               </a-button>
-              <AddStep v-model:visible="showAddStep"></AddStep>
+              <ChoiceJob @change="AddStep($event, choicedStage)" v-model:visible="showAddStep">
+              </ChoiceJob>
             </div>
           </div>
         </a-card>
