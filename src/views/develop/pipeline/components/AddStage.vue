@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 import { UPDATE_PIPELINE } from '@/api/mpaas/pipeline'
 import { Notification } from '@arco-design/web-vue'
 
@@ -14,12 +14,23 @@ const handleCancel = () => {
 // Stage表单
 const fromRef = ref(undefined)
 const form = ref({
-  number: props.pipeline.stages.length + 1,
+  number: 1,
   name: '',
   is_parallel: false,
   with: [],
   jobs: []
 })
+
+const maxCount = ref(100)
+watch(
+  () => props.pipeline,
+  (newV) => {
+    if (newV) {
+      maxCount.value = props.pipeline.stages.length + 1
+      form.value.number = maxCount.value
+    }
+  }
+)
 
 // 提交处理
 const submitLoading = ref(false)
@@ -67,7 +78,7 @@ const handleSubmit = async () => {
           required
           help="阶段编号, 默认新增的阶段放到尾部, 如果你想调整到第一个,请修改为1"
         >
-          <a-input-number v-model="form.number" :min="1" :max="props.pipeline.stages.length + 1" />
+          <a-input-number v-model="form.number" :min="1" :max="maxCount" />
         </a-form-item>
         <a-form-item field="name" label="描述" required help="阶段描述信息">
           <a-input v-model="form.name" />
