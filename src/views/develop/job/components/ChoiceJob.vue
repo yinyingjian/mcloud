@@ -80,6 +80,7 @@ const jumpToDetail = (e) => {
           </a-radio-group>
           <div style="margin-left: auto; margin-right: 12px">
             <a-pagination
+              :size="app.size"
               :total="pagination.total"
               @change="pageChange"
               @page-size-change="pageSizeChange"

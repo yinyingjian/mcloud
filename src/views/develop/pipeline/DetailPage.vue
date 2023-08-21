@@ -59,6 +59,10 @@ const AddStep = async (job, stageIndex) => {
   }
 }
 
+// Step顺序交换采用Vue.Draggable, 具体请参考 https://blog.csdn.net/m0_46627407/article/details/125624211
+// Step 交换
+// Stage 交换
+
 // 更新Pipeline
 const updatePipelineLoading = ref(false)
 const updatePipeline = async (req) => {
@@ -75,6 +79,7 @@ const updatePipeline = async (req) => {
     updatePipelineLoading.value = false
   }
 }
+
 </script>
 
 <template>
@@ -89,9 +94,11 @@ const updatePipeline = async (req) => {
         <span>创建于</span><ShowTime :timestamp="pipeline.create_at"></ShowTime>
       </template>
       <template #extra>
-        <a-button size="mini" type="text">Web Hooks</a-button>
-        <a-button size="mini" type="text">关注人</a-button>
-        <a-button size="mini" type="text">变量</a-button>
+        <a-button size="mini" type="text">
+               <template #icon>
+                <icon-settings style="font-size: 14px;" />
+               </template>
+            </a-button>
       </template>
       <div class="stage">
         <a-card
@@ -102,13 +109,19 @@ const updatePipeline = async (req) => {
         >
           <!-- 阶段标题 -->
           <template #title>
-            <span>{{ stage.name }}</span>
+            <div class="job-title">
+              <span >{{ stage.name }}</span>
+              <span v-if="stage.is_parallel">【并行执行】</span>
+              <span v-else>【串行执行】</span>
+            </div>
           </template>
           <!-- 阶段设置 -->
           <template #extra>
-            <span class="f12" v-if="stage.is_parallel">并行</span>
-            <span class="f12" v-else>串行</span>
-            <a-button size="mini" type="text">变量</a-button>
+            <a-button size="mini" type="text">
+               <template #icon>
+                <icon-settings style="font-size: 14px;" />
+               </template>
+            </a-button>
           </template>
 
           <!-- 步骤列表显示 -->
@@ -209,5 +222,10 @@ const updatePipeline = async (req) => {
 .arco-btn-outline,
 .arco-btn-outline[type='button'] :deep(.add-step-botton) {
   border: 1px dashed rgb(var(--primary-6));
+}
+
+.job-title {
+  display: flex;
+  font-size: 12px;
 }
 </style>
