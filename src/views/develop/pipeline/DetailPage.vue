@@ -38,11 +38,13 @@ const showAddStage = ref(false)
 const showAddStep = ref(false)
 const choicedStage = ref()
 
+// Step弹窗
 const clickAddStep = (stageIndex) => {
   showAddStep.value = true
   choicedStage.value = stageIndex
 }
 
+// Step添加
 const AddStep = async (job, stageIndex) => {
   let req = JSON.parse(JSON.stringify(pipeline.value))
   for (let i = 0; i < req.stages.length; i++) {
@@ -98,20 +100,25 @@ const updatePipeline = async (req) => {
           class="stage-card"
           :loading="updatePipelineLoading && choicedStage === stageIndex"
         >
+          <!-- 阶段标题 -->
           <template #title>
             <span>{{ stage.name }}</span>
           </template>
+          <!-- 阶段设置 -->
           <template #extra>
             <span class="f12" v-if="stage.is_parallel">并行</span>
             <span class="f12" v-else>串行</span>
             <a-button size="mini" type="text">变量</a-button>
           </template>
+
+          <!-- 步骤列表显示 -->
           <div class="stage-step">
             <a-button-group
               v-for="(job, jobIndex) in stage.jobs"
               :key="'job_' + jobIndex"
               class="stage-step-item"
             >
+              <!-- 步骤图标 -->
               <a-button :style="stepItemKeyStyle" @click="router.push({ name: '' })">
                 <template #icon>
                   <SvgIcon
@@ -121,8 +128,10 @@ const updatePipeline = async (req) => {
                   <span v-else>{{ job.job_name.slice(0, 3) }}</span>
                 </template>
               </a-button>
+              <!-- 步骤名称 -->
               <a-button :style="stepItemValueStyle">{{ job.task_name }}</a-button>
             </a-button-group>
+            <!-- 步骤添加按钮 -->
             <div style="margin-top: 12px">
               <a-button type="outline" class="add-step-btn" @click="clickAddStep(stageIndex)">
                 <template #icon>

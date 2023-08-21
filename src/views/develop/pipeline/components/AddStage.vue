@@ -14,6 +14,7 @@ const handleCancel = () => {
 // Stage表单
 const fromRef = ref(undefined)
 const form = ref({
+  number: props.pipeline.stages.length + 1,
   name: '',
   is_parallel: false,
   with: [],
@@ -31,7 +32,7 @@ const handleSubmit = async () => {
   try {
     submitLoading.value = true
     let req = JSON.parse(JSON.stringify(props.pipeline))
-    req.stages.push(form.value)
+    req.stages.splice(form.value.number - 1, 0, form.value)
     await UPDATE_PIPELINE(props.pipeline.id, req)
     Notification.success(`保存成功`)
     // 清理
@@ -60,8 +61,16 @@ const handleSubmit = async () => {
     >
       <template #title> 添加阶段 </template>
       <a-form ref="fromRef" :model="form" @submit="handleSubmit" auto-label-width>
-        <a-form-item field="name" label="描述" required>
-          <a-input v-model="form.name" placeholder="请输入阶段描述" />
+        <a-form-item
+          field="number"
+          label="编号"
+          required
+          help="阶段编号, 默认新增的阶段放到尾部, 如果你想调整到第一个,请修改为1"
+        >
+          <a-input-number v-model="form.number" :min="1" :max="props.pipeline.stages.length + 1" />
+        </a-form-item>
+        <a-form-item field="name" label="描述" required help="阶段描述信息">
+          <a-input v-model="form.name" />
         </a-form-item>
         <a-form-item
           field="is_parallel"
