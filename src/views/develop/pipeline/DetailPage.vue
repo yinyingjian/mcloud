@@ -4,6 +4,7 @@ import { Notification } from '@arco-design/web-vue'
 import { onBeforeMount, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import AddStage from './components/AddStage.vue'
+import UpdateStep from './components/UpdateStep.vue'
 import ChoiceJob from '../job/components/ChoiceJob.vue'
 
 const router = useRouter()
@@ -18,6 +19,7 @@ const GetPipeline = async () => {
   }
 }
 
+// 清理状态
 onBeforeMount(async () => {
   await GetPipeline()
 })
@@ -50,13 +52,26 @@ const AddStep = async (job, stageIndex) => {
   for (let i = 0; i < req.stages.length; i++) {
     if (i === stageIndex) {
       req.stages[i].jobs.push({
-        job_name: job.name,
+        job_name: job.extension.uniq_name,
         task_name: job.name,
         extension: { job_icon: job.icon }
       })
       await updatePipeline(req)
     }
   }
+}
+
+// Step更新
+const showUpdateStep = ref(false)
+const currentUpdateStep = ref(null)
+const currentStepMaxNumber = ref(0)
+const handleUpdateStep = (step, maxNumber) => {
+  showUpdateStep.value = true
+  currentUpdateStep.value = step
+  currentStepMaxNumber.value = maxNumber
+}
+const updateStep = (v) => {
+  console.log(v)
 }
 
 // Step顺序交换采用Vue.Draggable, 具体请参考 https://blog.csdn.net/m0_46627407/article/details/125624211
@@ -79,7 +94,6 @@ const updatePipeline = async (req) => {
     updatePipelineLoading.value = false
   }
 }
-
 </script>
 
 <template>
@@ -94,11 +108,9 @@ const updatePipeline = async (req) => {
         <span>创建于</span><ShowTime :timestamp="pipeline.create_at"></ShowTime>
       </template>
       <template #extra>
-        <a-button size="mini" type="text">
-               <template #icon>
-                <icon-settings style="font-size: 14px;" />
-               </template>
-            </a-button>
+        <a-button size="mini" type="text">Web Hooks</a-button>
+        <a-button size="mini" type="text">关注人</a-button>
+        <a-button size="mini" type="text">变量</a-button>
       </template>
       <div class="stage">
         <a-card
@@ -110,18 +122,14 @@ const updatePipeline = async (req) => {
           <!-- 阶段标题 -->
           <template #title>
             <div class="job-title">
-              <span >{{ stage.name }}</span>
+              <span>{{ stage.name }}</span>
               <span v-if="stage.is_parallel">【并行执行】</span>
               <span v-else>【串行执行】</span>
             </div>
           </template>
           <!-- 阶段设置 -->
           <template #extra>
-            <a-button size="mini" type="text">
-               <template #icon>
-                <icon-settings style="font-size: 14px;" />
-               </template>
-            </a-button>
+            <a-button size="mini" type="text">变量</a-button>
           </template>
 
           <!-- 步骤列表显示 -->
@@ -142,7 +150,11 @@ const updatePipeline = async (req) => {
                 </template>
               </a-button>
               <!-- 步骤名称 -->
-              <a-button :style="stepItemValueStyle">{{ job.task_name }}</a-button>
+              <a-button
+                :style="stepItemValueStyle"
+                @click="handleUpdateStep(job, stage.jobs.length + 1)"
+                >{{ job.task_name }}</a-button
+              >
             </a-button-group>
             <!-- 步骤添加按钮 -->
             <div style="margin-top: 12px">
@@ -166,6 +178,13 @@ const updatePipeline = async (req) => {
           v-model:visible="showAddStage"
           :pipeline="pipeline"
         ></AddStage>
+        <UpdateStep
+          v-model:visible="showUpdateStep"
+          :step="currentUpdateStep"
+          :maxNumber="currentStepMaxNumber"
+          @change="updateStep"
+        >
+        </UpdateStep>
       </div>
     </a-card>
   </div>
