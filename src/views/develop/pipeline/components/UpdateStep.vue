@@ -1,6 +1,7 @@
 <script setup>
 import { ref, watch } from 'vue'
 import { GET_JOB } from '@/api/mpaas/job'
+import JobParam from '@/components/JobParam.vue'
 
 // 定义v-model:visible
 const props = defineProps(['visible', 'step', 'maxNumber'])
@@ -20,7 +21,6 @@ const handleOk = () => {
 const cleanForm = () => {
   updateStepForm.value.resetFields()
   job.value.run_param.params = []
-  GetJobError.value = ''
 }
 
 // form
@@ -28,12 +28,11 @@ const updateStepForm = ref()
 const form = ref({})
 
 watch(
-  () => props.step,
+  () => props.visible,
   async (newV) => {
     if (newV) {
-      form.value =  JSON.parse(JSON.stringify(props.step)) 
-      form.value.params_map = {}
-      await GetJob(newV.job_name)
+      form.value = JSON.parse(JSON.stringify(props.step))
+      await GetJob(props.step.job_name)
     }
   }
 )
@@ -44,54 +43,70 @@ const job = ref({ run_param: { params: [] } })
 const GetJob = async (jobName) => {
   try {
     job.value = await GET_JOB(jobName)
+    GetJobError.value = ''
   } catch (error) {
     GetJobError.value = `查询Job失败: ${error}`
   }
 }
-const showHelp = (text, example) => {
-  let v = text
-  if (example) {
-    v += ', 例如 ' + example
-  }
-  return v
+const updateJobParams = (params) => {
+  console.log(params)
 }
 </script>
 
 <template>
   <div>
-    <a-drawer :width="680" :visible="visible" @ok="handleOk" @cancel="handleCancel" unmountOnClose>
-      <template #title> 编辑步骤 </template>
+    <a-drawer
+      :width="'80%'"
+      :visible="visible"
+      @ok="handleOk"
+      @cancel="handleCancel"
+      :header="false"
+      :footer="false"
+      unmountOnClose
+    >
       <a-form ref="updateStepForm" :model="form" auto-label-width>
-        <a-form-item
-          field="number"
-          label="编号"
-          required
-          :help="`步骤编号, 如果阶段是串行执行, 通过步骤编号可以调整步骤执行的先后顺序, 最大值${maxNumber}`"
-        >
-          <a-input-number v-model="form.number" :min="1" :max="maxNumber" />
-        </a-form-item>
-        <a-form-item field="task_name" label="名称" required help="步骤名称或者描述">
-          <a-input v-model="form.task_name" />
-        </a-form-item>
-        <a-divider orientation="center" type="dotted">任务参数</a-divider>
-        <a-form-item field="job_name" label="关联任务" required help="任务的名称">
-          <a-input disabled v-model="form.job_name" />
-        </a-form-item>
-        <div v-if="job.run_param">
-          <a-form-item v-if="GetJobError">
-            <a-alert type="error">{{ GetJobError }}</a-alert>
-          </a-form-item>
-          <a-form-item
-            v-for="param in job.run_param.params"
-            :key="param.name"
-            :field="param.name"
-            :label="param.name"
-            :help="showHelp(param.name_desc, param.example)"
-            :required="param.required"
-          >
-            <a-input v-model="form.params_map[param.name]" :disabled="param.read_only" />
-          </a-form-item>
-        </div>
+        <a-tabs default-active-key="base">
+          <template #extra>
+            <a-button size="mini" type="text" status="danger">
+              <template #icon>
+                <icon-delete />
+              </template>
+              删除
+            </a-button>
+          </template>
+          <a-tab-pane key="base" title="基本信息">
+            <div class="page">
+              <a-form-item
+                field="number"
+                label="编号"
+                required
+                :help="`步骤编号, 如果阶段是串行执行, 通过步骤编号可以调整步骤执行的先后顺序, 最大值${maxNumber}`"
+              >
+                <a-input-number v-model="form.number" :min="1" :max="maxNumber" />
+              </a-form-item>
+              <a-form-item field="task_name" label="名称" required help="步骤名称或者描述">
+                <a-input v-model="form.task_name" />
+              </a-form-item>
+              <a-form-item field="job_name" label="关联任务" required help="任务的名称">
+                <a-input disabled v-model="form.job_name" />
+              </a-form-item>
+            </div>
+          </a-tab-pane>
+          <a-tab-pane key="params" title="任务参数">
+            <div class="page">
+              <a-alert v-if="GetJobError" type="error">{{ GetJobError }}</a-alert>
+              <JobParam v-else :params="job.run_param.params" @change="updateJobParams"></JobParam>
+            </div>
+          </a-tab-pane>
+          <a-tab-pane key="user">
+            <template #title>关注人</template>
+            Content of Tab Panel 3
+          </a-tab-pane>
+          <a-tab-pane key="hooks">
+            <template #title>Web Hooks</template>
+            Content of Tab Panel 3
+          </a-tab-pane>
+        </a-tabs>
       </a-form>
     </a-drawer>
   </div>
