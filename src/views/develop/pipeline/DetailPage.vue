@@ -74,6 +74,11 @@ const updateStep = (v) => {
   console.log(v)
 }
 
+// Step删除
+const deleteStep = (v) => {
+  console.log(v)
+}
+
 // Step顺序交换采用Vue.Draggable, 具体请参考 https://blog.csdn.net/m0_46627407/article/details/125624211
 // Step 交换
 // Stage 交换
@@ -183,6 +188,7 @@ const updatePipeline = async (req) => {
           :step="currentUpdateStep"
           :maxNumber="currentStepMaxNumber"
           @change="updateStep"
+          @delete="deleteStep"
         >
         </UpdateStep>
       </div>

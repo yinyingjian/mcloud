@@ -5,7 +5,7 @@ import JobParam from '@/components/JobParam.vue'
 
 // 定义v-model:visible
 const props = defineProps(['visible', 'step', 'maxNumber'])
-const emit = defineEmits(['update:visible', 'change'])
+const emit = defineEmits(['update:visible', 'change', 'delete'])
 
 const handleCancel = () => {
   emit('update:visible', false)
@@ -51,6 +51,11 @@ const GetJob = async (jobName) => {
 const updateJobParams = (params) => {
   console.log(params)
 }
+
+// 通知外层删除
+const deleteStep = () => {
+  emit('delete', props.step)
+}
 </script>
 
 <template>
@@ -67,7 +72,7 @@ const updateJobParams = (params) => {
       <a-form ref="updateStepForm" :model="form" auto-label-width>
         <a-tabs default-active-key="base">
           <template #extra>
-            <a-button size="mini" type="text" status="danger">
+            <a-button size="mini" type="text" status="danger" @click="deleteStep">
               <template #icon>
                 <icon-delete />
               </template>

@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 
 // 定义v-model
 const props = defineProps(['params', 'validate'])
@@ -20,6 +20,21 @@ const showHelp = (text, example, desc) => {
 
 // 修改后的值
 const form = ref({})
+
+// 填充默认值
+watch(
+  () => props.params,
+  (newV) => {
+    if (newV) {
+      newV.forEach((item) => {
+        form.value[item.name] = item.value
+      })
+    }
+  },
+  { immediate: true }
+)
+
+// 提交修改后的结果
 const handleSubmit = async (data) => {
   // 判断是否需要校验
   if (props.validate && !data.errors) {
