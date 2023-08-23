@@ -1,6 +1,6 @@
 <script setup>
 import { ref, watch } from 'vue'
-import { RUN_JOB_TASK } from '@/api/mpaas/task'
+import { RUN_JOB_TASK } from '@/api/mflow/task'
 import { useRouter } from 'vue-router'
 // job对象
 const props = defineProps({

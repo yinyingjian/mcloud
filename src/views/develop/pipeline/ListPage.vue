@@ -1,6 +1,6 @@
 <script setup>
 import { app } from '@/stores/localstorage'
-import { LIST_PIPELINE } from '@/api/mpaas/pipeline'
+import { LIST_PIPELINE } from '@/api/mflow/pipeline'
 import { Message } from '@arco-design/web-vue'
 import { onMounted, reactive, ref } from 'vue'
 import { useRouter } from 'vue-router'

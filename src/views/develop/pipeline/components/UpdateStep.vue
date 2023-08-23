@@ -1,6 +1,6 @@
 <script setup>
 import { ref, watch } from 'vue'
-import { GET_JOB } from '@/api/mpaas/job'
+import { GET_JOB } from '@/api/mflow/job'
 import JobParam from '@/components/JobParam.vue'
 
 // 定义v-model:visible

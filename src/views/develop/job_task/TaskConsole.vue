@@ -6,7 +6,7 @@ import JobTaskDetail from './components/TaskDetail.vue'
 import { Notification } from '@arco-design/web-vue'
 import { onBeforeMount, reactive, ref } from 'vue'
 import { useRouter } from 'vue-router'
-import { GET_JOB_TASK } from '@/api/mpaas/task'
+import { GET_JOB_TASK } from '@/api/mflow/task'
 
 const router = useRouter()
 const collapsed = ref(true)

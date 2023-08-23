@@ -1,6 +1,6 @@
 <script setup>
 import { app } from '@/stores/localstorage'
-import { LIST_JOB } from '@/api/mpaas/job'
+import { LIST_JOB } from '@/api/mflow/job'
 import { Notification } from '@arco-design/web-vue'
 import { onMounted, reactive, ref } from 'vue'
 import { useRouter } from 'vue-router'

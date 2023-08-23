@@ -1,6 +1,6 @@
 <script setup>
 import { app } from '@/stores/localstorage'
-import { LIST_APPROVAL } from '@/api/mpaas/approval'
+import { LIST_APPROVAL } from '@/api/mflow/approval'
 import { Message } from '@arco-design/web-vue'
 import { onMounted, reactive, ref } from 'vue'
 

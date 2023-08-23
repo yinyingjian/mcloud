@@ -1,6 +1,6 @@
 <script setup>
 import { ref, watch } from 'vue'
-import { UPDATE_PIPELINE } from '@/api/mpaas/pipeline'
+import { UPDATE_PIPELINE } from '@/api/mflow/pipeline'
 import { Notification } from '@arco-design/web-vue'
 
 // 定义v-model:visible

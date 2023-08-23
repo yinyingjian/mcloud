@@ -1,5 +1,5 @@
 <script setup>
-import { GET_PIPELINE, UPDATE_PIPELINE } from '@/api/mpaas/pipeline'
+import { GET_PIPELINE, UPDATE_PIPELINE } from '@/api/mflow/pipeline'
 import { Notification } from '@arco-design/web-vue'
 import { onBeforeMount, ref } from 'vue'
 import { useRouter } from 'vue-router'

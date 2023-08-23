@@ -2,7 +2,7 @@
 import { app } from '@/stores/localstorage'
 import { onBeforeMount, ref } from 'vue'
 import { useRouter } from 'vue-router'
-import { GET_JOB, CREATE_JOB } from '@/api/mpaas/job'
+import { GET_JOB, CREATE_JOB } from '@/api/mflow/job'
 import { Notification } from '@arco-design/web-vue'
 
 const router = useRouter()
