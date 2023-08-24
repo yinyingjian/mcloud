@@ -44,6 +44,9 @@ const GetJob = async (jobName) => {
       let isExist = false
       form.value.run_params.params.forEach(item => {
         if (item.name === param.name) {
+          item.name_desc = param.name_desc
+          item.value_desc = param.value_desc
+          item.example = param.example
           isExist = true
         }
       })
