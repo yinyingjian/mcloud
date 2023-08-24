@@ -20,13 +20,11 @@ const handleOk = () => {
 
 const cleanForm = () => {
   updateStepForm.value.resetFields()
-  job.value.run_param.params = []
 }
 
 // form
 const updateStepForm = ref()
 const form = ref({})
-
 watch(
   () => props.visible,
   async (newV) => {
@@ -39,17 +37,29 @@ watch(
 
 // 查询Job详情
 const GetJobError = ref('')
-const job = ref({ run_param: { params: [] } })
 const GetJob = async (jobName) => {
   try {
-    job.value = await GET_JOB(jobName)
+    const resp = await GET_JOB(jobName)
+    resp.run_params.params.forEach(param => {
+      let isExist = false
+      form.value.run_params.params.forEach(item => {
+        if (item.name === param.name) {
+          isExist = true
+        }
+      })
+      if (!isExist) {
+        form.value.run_params.params.push(param)
+      }
+    })
     GetJobError.value = ''
   } catch (error) {
     GetJobError.value = `查询Job失败: ${error}`
   }
 }
+
 const updateJobParams = (params) => {
-  console.log(params)
+  form.value.run_params = {params: params}
+  console.log(form.value)
 }
 
 // 通知外层删除
@@ -101,7 +111,7 @@ const deleteStep = () => {
           <a-tab-pane key="params" title="任务参数">
             <div class="page">
               <a-alert v-if="GetJobError" type="error">{{ GetJobError }}</a-alert>
-              <JobParam v-else :params="job.run_param.params" @change="updateJobParams"></JobParam>
+              <JobParam v-else :params="form.run_params.params" @change="updateJobParams"></JobParam>
             </div>
           </a-tab-pane>
           <a-tab-pane key="user">

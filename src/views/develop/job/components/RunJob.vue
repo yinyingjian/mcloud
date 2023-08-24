@@ -25,11 +25,11 @@ watch(
   () => props.job,
   (newV) => {
     if (newV) {
-      newV.run_param.params.forEach((item) => {
+      newV.run_params.params.forEach((item) => {
         form.value[item.name] = item.value
       })
       runJobReq.job_name = `#${newV.id}`
-      runJobReq.run_params = newV.run_param
+      runJobReq.run_params = newV.run_params
     }
   },
   { immediate: true }
@@ -81,7 +81,7 @@ const handleSubmit = async () => {
     </template>
     <a-form ref="runJobForm" :model="form" auto-label-width>
       <a-form-item
-        v-for="param in job.run_param.params"
+        v-for="param in job.run_params.params"
         :key="param.name"
         :field="param.name"
         :label="param.name"
