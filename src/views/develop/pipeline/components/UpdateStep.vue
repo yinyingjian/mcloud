@@ -1,5 +1,5 @@
 <script setup>
-import { ref, watch } from 'vue'
+import { onMounted, ref, watch } from 'vue'
 import { GET_JOB } from '@/api/mflow/job'
 import JobParam from '@/components/JobParam.vue'
 
@@ -22,15 +22,21 @@ const cleanForm = () => {
   updateStepForm.value.resetFields()
 }
 
+onMounted(async () => {
+  if (props.step) {
+    GetJob(props.step.job_name)
+  }
+})
+
 // form
 const updateStepForm = ref()
-const form = ref({})
+const form = ref({ run_params: { params: [] } })
 watch(
   () => props.visible,
-  async (newV) => {
+  (newV) => {
     if (newV) {
       form.value = JSON.parse(JSON.stringify(props.step))
-      await GetJob(props.step.job_name)
+      GetJob(props.step.job_name)
     }
   }
 )
@@ -40,9 +46,9 @@ const GetJobError = ref('')
 const GetJob = async (jobName) => {
   try {
     const resp = await GET_JOB(jobName)
-    resp.run_params.params.forEach(param => {
+    resp.run_params.params.forEach((param) => {
       let isExist = false
-      form.value.run_params.params.forEach(item => {
+      form.value.run_params.params.forEach((item) => {
         if (item.name === param.name) {
           item.name_desc = param.name_desc
           item.value_desc = param.value_desc
@@ -61,8 +67,9 @@ const GetJob = async (jobName) => {
 }
 
 const updateJobParams = (params) => {
-  form.value.run_params = {params: params}
-  console.log(form.value)
+  form.value.run_params = { params: params }
+  emit('change', form.value)
+  emit('update:visible', false)
 }
 
 // 通知外层删除
@@ -93,7 +100,7 @@ const deleteStep = () => {
               删除
             </a-button>
           </template>
-          <a-tab-pane key="base" title="基本信息">
+          <a-tab-pane key="base" title="基本信息" lazy-load>
             <div class="page">
               <a-form-item
                 field="number"
@@ -114,7 +121,12 @@ const deleteStep = () => {
           <a-tab-pane key="params" title="任务参数">
             <div class="page">
               <a-alert v-if="GetJobError" type="error">{{ GetJobError }}</a-alert>
-              <JobParam v-else :params="form.run_params.params" @change="updateJobParams"></JobParam>
+              <JobParam
+                v-else
+                :params="form.run_params.params"
+                @change="updateJobParams"
+                @cancel="handleCancel"
+              ></JobParam>
             </div>
           </a-tab-pane>
           <a-tab-pane key="user">

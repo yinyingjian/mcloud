@@ -100,8 +100,18 @@ const handleUpdateStep = (step, maxNumber) => {
   currentUpdateStep.value = step
   currentStepMaxNumber.value = maxNumber
 }
-const updateStep = (v) => {
+const updateStep = async (v) => {
   console.log(v)
+  let req = JSON.parse(JSON.stringify(pipeline.value))
+  // 找到当前被更新的ste, 然后更新
+  req.stages.forEach((stage) => {
+    if (stage.name === v.stage_name) {
+      stage.jobs[v.number - 1] = v
+    }
+  })
+
+  // 更新Pipeline
+  await updatePipeline(req)
 }
 
 // Step删除

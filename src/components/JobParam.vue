@@ -3,7 +3,7 @@ import { ref, watch } from 'vue'
 
 // 定义v-model
 const props = defineProps(['params', 'validate'])
-const emit = defineEmits(['change'])
+const emit = defineEmits(['change', 'cancel'])
 
 // 查询Job详情
 const showHelp = (text, example, desc) => {
@@ -25,6 +25,7 @@ const form = ref({})
 watch(
   () => props.params,
   (newV) => {
+    console.log(newV)
     if (newV) {
       newV.forEach((item) => {
         form.value[item.name] = item.value
@@ -35,23 +36,24 @@ watch(
 )
 
 // 提交修改后的结果
-const handleSubmit = async (data) => {
+const updateStepForm = ref()
+const handleSubmit = async () => {
   // 判断是否需要校验
-  if (props.validate && !data.errors) {
+  if (props.validate && !updateStepForm.value.validate()) {
     return
   }
-
   // 返回修改后param数据
   const params = JSON.parse(JSON.stringify(props.params))
   params.forEach((param) => {
     param.value = form[param.name]
   })
+  console.log(params)
   emit('change', params)
 }
 </script>
 
 <template>
-  <a-form v-if="params" ref="updateStepForm" :model="form" @submit="handleSubmit" auto-label-width>
+  <a-form v-if="params" ref="updateStepForm" :model="form" auto-label-width>
     <a-form-item
       v-for="param in params"
       :key="param.name"
@@ -64,8 +66,8 @@ const handleSubmit = async (data) => {
     </a-form-item>
     <div class="form-submit">
       <a-space>
-        <a-button>取消</a-button>
-        <a-button type="primary" html-type="submit">保存</a-button>
+        <a-button @click="$emit('cancel', true)">取消</a-button>
+        <a-button type="primary" @click="handleSubmit">保存</a-button>
       </a-space>
     </div>
   </a-form>
