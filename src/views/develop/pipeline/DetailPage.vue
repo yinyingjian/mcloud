@@ -5,6 +5,7 @@ import { onBeforeMount, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import AddStage from './components/AddStage.vue'
 import UpdateStep from './components/UpdateStep.vue'
+import UpdateStage from './components/UpdateStage.vue'
 import ChoiceJob from '../job/components/ChoiceJob.vue'
 
 const router = useRouter()
@@ -39,6 +40,35 @@ const stepItemValueStyle = {
 const showAddStage = ref(false)
 const showAddStep = ref(false)
 const choicedStage = ref()
+
+// Stage更新
+const showUpdateStage = ref(false)
+const currentUpdateStage = ref(null)
+const currentStageMaxNumber = ref(0)
+const handleUpdateStage = (stage, maxNumber) => {
+  showUpdateStage.value = true
+  currentUpdateStage.value = stage
+  currentStageMaxNumber.value = maxNumber
+}
+const updateStage = (v) => {
+  console.log(v)
+}
+
+// Step删除
+const deleteStage = async (v) => {
+  let req = JSON.parse(JSON.stringify(pipeline.value))
+  // 从列表中清除需要删除的stage
+  let stages = []
+  for (let element of req.stages) {
+    if (element.name != v.name) {
+      stages.push(element)
+      req.stages = stages
+    }
+  }
+
+  // 更新Pipeline
+  await updatePipeline(req)
+}
 
 // Step弹窗
 const clickAddStep = (stageIndex) => {
@@ -75,13 +105,24 @@ const updateStep = (v) => {
 }
 
 // Step删除
-const deleteStep = (v) => {
-  console.log(v)
-}
+const deleteStep = async (v) => {
+  let req = JSON.parse(JSON.stringify(pipeline.value))
+  // 从列表中清除
+  for (let element of req.stages) {
+    if (element.name == v.stage_name) {
+      let jobs = []
+      for (let job of element.jobs) {
+        if (job.number != v.number) {
+          jobs.push(job)
+        }
+      }
+      element.jobs = jobs
+    }
+  }
 
-// Step顺序交换采用Vue.Draggable, 具体请参考 https://blog.csdn.net/m0_46627407/article/details/125624211
-// Step 交换
-// Stage 交换
+  // 更新Pipeline
+  await updatePipeline(req)
+}
 
 // 更新Pipeline
 const updatePipelineLoading = ref(false)
@@ -106,7 +147,11 @@ const updatePipeline = async (req) => {
   <a-page-header title="Pipeline详情" @back="router.push({ name: 'DomainPipelineList' })">
   </a-page-header>
   <div class="page">
-    <a-card :header-style="{ height: '36px' }" :body-style="{ padding: '0px 8px 8px 8px' }">
+    <a-card
+      :header-style="{ height: '36px' }"
+      :body-style="{ padding: '0px 8px 8px 8px' }"
+      :loading="updatePipelineLoading"
+    >
       <template #title>
         <span>【{{ pipeline.name }}】</span>
         <span>{{ pipeline.create_by }}</span>
@@ -134,7 +179,12 @@ const updatePipeline = async (req) => {
           </template>
           <!-- 阶段设置 -->
           <template #extra>
-            <a-button size="mini" type="text">变量</a-button>
+            <a-button
+              size="mini"
+              type="text"
+              @click="handleUpdateStage(stage, pipeline.stages.length + 1)"
+              >配置</a-button
+            >
           </template>
 
           <!-- 步骤列表显示 -->
@@ -169,8 +219,6 @@ const updatePipeline = async (req) => {
                 </template>
                 添加步骤
               </a-button>
-              <ChoiceJob @change="AddStep($event, choicedStage)" v-model:visible="showAddStep">
-              </ChoiceJob>
             </div>
           </div>
         </a-card>
@@ -178,6 +226,7 @@ const updatePipeline = async (req) => {
           <icon-plus />
           <span style="margin-left: 8px">添加阶段</span>
         </div>
+        <!-- stage修改 -->
         <AddStage
           @change="GetPipeline"
           v-model:visible="showAddStage"
@@ -191,6 +240,17 @@ const updatePipeline = async (req) => {
           @delete="deleteStep"
         >
         </UpdateStep>
+        <!-- step修改 -->
+        <ChoiceJob @change="AddStep($event, choicedStage)" v-model:visible="showAddStep">
+        </ChoiceJob>
+        <UpdateStage
+          v-model:visible="showUpdateStage"
+          :stage="currentUpdateStage"
+          :maxNumber="currentStageMaxNumber"
+          @change="updateStage"
+          @delete="deleteStage"
+        >
+        </UpdateStage>
       </div>
     </a-card>
   </div>

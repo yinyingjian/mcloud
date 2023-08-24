@@ -55,6 +55,7 @@ const updateJobParams = (params) => {
 // 通知外层删除
 const deleteStep = () => {
   emit('delete', props.step)
+  emit('update:visible', false)
 }
 </script>
 
