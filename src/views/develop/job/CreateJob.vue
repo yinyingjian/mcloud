@@ -13,7 +13,7 @@ const form = ref({
   description: '',
   runner_type: 'K8S_JOB',
   runner_spec: '',
-  run_param: []
+  run_params: []
 })
 
 // 提交处理
@@ -78,7 +78,7 @@ onBeforeMount(async () => {
         <a-form-item label="定义" required>
           <a-radio-group v-model="runner_attr" type="button">
             <a-radio value="runner_spec">Job定义</a-radio>
-            <a-radio value="run_param">Job参数</a-radio>
+            <a-radio value="run_params">Job参数</a-radio>
           </a-radio-group>
         </a-form-item>
         <a-form-item
@@ -90,14 +90,14 @@ onBeforeMount(async () => {
           <CodeEditor v-model="form.runner_spec" language="yaml"></CodeEditor>
         </a-form-item>
         <a-form-item
-          v-show="runner_attr === 'run_param'"
-          field="run_param"
+          v-show="runner_attr === 'run_params'"
+          field="run_params"
           label="Job参数"
           required
         >
           <a-space direction="vertical" fill style="width: 100%">
             <a-list :size="app.size" style="width: 100%">
-              <a-list-item v-for="item in form.run_param.params" :key="item.name">
+              <a-list-item v-for="item in form.run_params.params" :key="item.name">
                 <a-row class="grid-demo" :gutter="{ md: 8, lg: 24, xl: 32 }">
                   <a-col :span="4">
                     <div style="display: flex">

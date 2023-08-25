@@ -37,6 +37,7 @@ watch(
     if (newV) {
       form.value = JSON.parse(JSON.stringify(props.step))
       GetJob(props.step.job_name)
+      console.log(form.value.run_params.params)
     }
   }
 )
@@ -53,6 +54,9 @@ const GetJob = async (jobName) => {
           item.name_desc = param.name_desc
           item.value_desc = param.value_desc
           item.example = param.example
+          if (item.value === '') {
+            item.value = param.value
+          }
           isExist = true
         }
       })
