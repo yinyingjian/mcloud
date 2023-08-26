@@ -11,7 +11,7 @@ import EditorWorker from 'monaco-editor/esm/vs/editor/editor.worker?worker'
 const props = defineProps({
   theme: { type: String, default: 'vs' },
   width: { type: String, default: '100%' },
-  height: { type: String, default: 'calc(100vh - 46px)' },
+  height: { type: String, default: 'calc(100vh - 46px - 40px)' },
   language: { type: String, default: 'json' },
   readOnly: { type: Boolean, default: false },
   modelValue: { type: String, default: '{}' }

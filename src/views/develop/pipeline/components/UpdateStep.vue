@@ -46,7 +46,7 @@ watch(
 const GetJobError = ref('')
 const GetJob = async (jobName) => {
   try {
-    const resp = await GET_JOB(jobName)
+    const resp = await GET_JOB(jobName, { describe_by: 'JOB_UNIQ_NAME' })
     resp.run_params.params.forEach((param) => {
       let isExist = false
       form.value.run_params.params.forEach((item) => {

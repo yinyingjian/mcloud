@@ -6,8 +6,8 @@ export var LIST_JOB = (params) => {
 }
 
 // 查询Job详情
-export var GET_JOB = (id) => {
-  return instance.get(`/mflow/api/v1/jobs/${id}`)
+export var GET_JOB = (id, params) => {
+  return instance.get(`/mflow/api/v1/jobs/${id}`, { params })
 }
 
 // 创建Job
